@@ -3,6 +3,19 @@ const app = express();
 const cors = require("cors");
 const path = require("path");
 const port = 5000;
+const mongoose = require("mongoose");
+
+mongoose.set("strictQuery", false);
+if (!process.env.MONGODB_URL) {
+	throw new Error("No database url under the environment variable MONGODB_URL");
+}
+
+const mongoDB = process.env.MONGODB_URL;
+async function mongooseConnect() {
+	await mongoose.connect(mongoDB);
+}
+
+mongooseConnect().catch((err) => console.log(err));
 
 if (process.env.NODE_ENV === "development") {
 	app.use(cors({ origin: true }));
@@ -10,8 +23,11 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.static(path.join(__dirname, "/dist")));
 
-app.get("/api/test", (req, res) => {
-	res.json({ message: "Request received" });
+app.get("/api/test", async (req, res) => {
+	const userModel = require("./models/usersModel");
+	const user = await userModel.findOne().exec();
+	if (user) res.json(user);
+	else console.log("not found");
 });
 
 app.get("/", (req, res) => {
