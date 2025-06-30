@@ -22,6 +22,7 @@ if (process.env.NODE_ENV === "development") {
 }
 
 app.use(express.static(path.join(__dirname, "/dist")));
+app.use(express.json());
 
 app.get("/api/test", async (req, res) => {
 	const userModel = require("./models/usersModel");
@@ -33,6 +34,9 @@ app.get("/api/test", async (req, res) => {
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
 });
+
+const registerRouter = require("./api/register.js");
+app.use("/api", registerRouter);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}`);
