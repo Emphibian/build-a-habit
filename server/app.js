@@ -40,6 +40,10 @@ const loginRouter = require("./api/login.js");
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
 
+app.get("*", (req, res) => {
+	res.sendFile(path.join(__dirname + "/client/build/index.html"));
+});
+
 app.listen(port, () => {
 	console.log(`Listening on ${port}`);
 });
