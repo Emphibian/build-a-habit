@@ -36,7 +36,9 @@ app.get("/", (req, res) => {
 });
 
 const registerRouter = require("./api/register.js");
+const loginRouter = require("./api/login.js");
 app.use("/api", registerRouter);
+app.use("/api", loginRouter);
 
 app.listen(port, () => {
 	console.log(`Listening on ${port}`);

@@ -7,6 +7,9 @@ export function Landing() {
 			<p>
 				Proceed to <Link to="/register">Register</Link>
 			</p>
+			<p>
+				Proceed to <Link to="/login">Login</Link>
+			</p>
 		</>
 	);
 }
