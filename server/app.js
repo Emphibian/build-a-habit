@@ -2,8 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const path = require("path");
-const port = 5000;
 const mongoose = require("mongoose");
+const session = require("express-session");
 
 mongoose.set("strictQuery", false);
 if (!process.env.MONGODB_URL) {
@@ -17,12 +17,20 @@ async function mongooseConnect() {
 
 mongooseConnect().catch((err) => console.log(err));
 
+// only use cors in development
 if (process.env.NODE_ENV === "development") {
 	app.use(cors({ origin: true }));
 }
 
 app.use(express.static(path.join(__dirname, "/dist")));
 app.use(express.json());
+app.use(
+	session({
+		secret: "Temp Secret",
+		saveUninitialized: false,
+		cookie: { secure: false }, // set this to true if deployed in https
+	}),
+);
 
 app.get("/api/test", async (req, res) => {
 	const userModel = require("./models/usersModel");
@@ -44,6 +52,7 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
+const port = 5000;
 app.listen(port, () => {
 	console.log(`Listening on ${port}`);
 });
