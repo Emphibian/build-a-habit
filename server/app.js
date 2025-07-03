@@ -19,7 +19,7 @@ mongooseConnect().catch((err) => console.log(err));
 
 // only use cors in development
 if (process.env.NODE_ENV === "development") {
-	app.use(cors({ origin: true }));
+	app.use(cors({ origin: true, credentials: true }));
 }
 
 app.use(express.static(path.join(__dirname, "/dist")));
@@ -28,7 +28,7 @@ app.use(
 	session({
 		secret: "Temp Secret",
 		saveUninitialized: false,
-		cookie: { secure: false }, // set this to true if deployed in https
+		cookie: { secure: false, sameSite: "Lax" }, // set this to true if deployed in https
 	}),
 );
 
@@ -45,11 +45,13 @@ app.get("/", (req, res) => {
 
 const registerRouter = require("./api/register.js");
 const loginRouter = require("./api/login.js");
+const userRouter = require("./api/user.js");
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
+app.use("/api", userRouter);
 
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname + "/client/build/index.html"));
+app.get("/*splat", (req, res) => {
+	res.sendFile(path.join(__dirname, "/dist/index.html"));
 });
 
 const port = 5000;

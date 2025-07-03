@@ -14,6 +14,7 @@ export function Login() {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify({ username, passwordHash: password }),
+			credentials: "include",
 		});
 
 		const data = await response.json();
