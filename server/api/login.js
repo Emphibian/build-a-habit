@@ -7,7 +7,6 @@ const User = require("../models/usersModel.js");
 router.post("/login", async (req, res) => {
 	try {
 		const { username, passwordHash } = req.body;
-		console.log({ username, passwordHash });
 		const storedUser = await User.findOne({ username }).exec();
 
 		if (storedUser === null) {

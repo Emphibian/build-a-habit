@@ -46,9 +46,11 @@ app.get("/", (req, res) => {
 const registerRouter = require("./api/register.js");
 const loginRouter = require("./api/login.js");
 const userRouter = require("./api/user.js");
+const habitsRouter = require("./api/habits.js");
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
 app.use("/api", userRouter);
+app.use("/api", habitsRouter);
 
 app.get("/*splat", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
