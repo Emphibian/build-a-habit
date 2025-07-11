@@ -35,6 +35,8 @@ router.patch("/habit/completed/:id", async (req, res) => {
 		} else {
 			habitInstance.status = "Completed";
 		}
+
+		await habitInstance.save();
 		res.json(habitInstance);
 	} catch (error) {
 		res.status(500).json({ message: "Internal Server Error" });

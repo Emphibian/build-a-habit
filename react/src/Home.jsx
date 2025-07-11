@@ -2,6 +2,16 @@ import { useState, useEffect } from "react";
 import { Dashboard } from "./home/Dashboard";
 import { CreateHabitButton } from "./home/CreateHabitButton";
 
+function Habit({ name, status, handleComplete }) {
+	return (
+		<div className="habit">
+			<p>{name}</p>
+			<p>{status}</p>
+			<button onClick={handleComplete}>Done</button>
+		</div>
+	);
+}
+
 function Habits() {
 	const [habits, setHabits] = useState([]);
 	useEffect(() => {
@@ -21,7 +31,32 @@ function Habits() {
 		getHabits();
 	}, []);
 
-	return <ul>{habits.map((habit) => <li key={habit._id}>{habit.name}</li>)}</ul>;
+	const handleComplete = async function (id) {
+		const requestURL =
+			import.meta.env.VITE_SERVER + "/api/habit/completed/" + id;
+		const response = await fetch(requestURL, {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+		});
+		const updatedHabit = await response.json();
+		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+	};
+
+	return (
+		<div className="habits-container">
+			{habits.map((habit) => {
+				return (
+					<Habit
+						key={habit._id}
+						name={habit.name}
+						status={habit.status}
+						handleComplete={() => handleComplete(habit._id)}
+					/>
+				);
+			})}
+		</div>
+	);
 }
 
 export function Home() {
