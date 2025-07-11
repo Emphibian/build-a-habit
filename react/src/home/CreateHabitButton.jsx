@@ -20,7 +20,7 @@ function CreateHabitModal({ isOpen, setOpen }) {
 			credentials: "include",
 		});
 
-		const data = response.json();
+		const data = await response.json();
 		console.log(data);
 	};
 

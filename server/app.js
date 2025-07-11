@@ -17,7 +17,7 @@ async function mongooseConnect() {
 
 mongooseConnect().catch((err) => console.log(err));
 
-// only use cors in development
+// use cors only in development
 if (process.env.NODE_ENV === "development") {
 	app.use(cors({ origin: true, credentials: true }));
 }
@@ -32,13 +32,6 @@ app.use(
 	}),
 );
 
-app.get("/api/test", async (req, res) => {
-	const userModel = require("./models/usersModel");
-	const user = await userModel.findOne().exec();
-	if (user) res.json(user);
-	else console.log("not found");
-});
-
 app.get("/", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
 });
@@ -47,10 +40,13 @@ const registerRouter = require("./api/register.js");
 const loginRouter = require("./api/login.js");
 const userRouter = require("./api/user.js");
 const habitsRouter = require("./api/habits.js");
+const createHabitRouter = require("./api/createHabit.js");
+
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
 app.use("/api", userRouter);
 app.use("/api", habitsRouter);
+app.use("/api", createHabitRouter);
 
 app.get("/*splat", (req, res) => {
 	res.sendFile(path.join(__dirname, "/dist/index.html"));
