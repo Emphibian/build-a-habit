@@ -5,7 +5,7 @@ import { CreateHabitButton } from "./home/CreateHabitButton";
 function Habit({ name, status, handleComplete }) {
 	return (
 		<div className="habit">
-			<p>{name}</p>
+			<p className="habit-name">{name}</p>
 			<p>{status}</p>
 			<button onClick={handleComplete}>Done</button>
 		</div>

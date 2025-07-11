@@ -1,0 +1,17 @@
+.habits-container {
+	padding: 1rem;
+}
+
+.habit {
+	display: flex;
+	flex-direction: row;
+	width: 800px;
+	gap: 1rem;
+	background-color: var(--habit-bg);
+	color: var(--habit-fg);
+	padding: 0.5rem;
+}
+
+.habit-name {
+	flex-grow: 1;
+}
