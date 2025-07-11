@@ -45,7 +45,7 @@ export function Login() {
 						required
 					/>
 				</label>
-				<button type="submit">Register</button>
+				<button type="submit">Login</button>
 				{responseMessage && <p>{responseMessage}</p>}
 			</form>
 		</>

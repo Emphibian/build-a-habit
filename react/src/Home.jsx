@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import {Dashboard} from "./home/Dashboard";
+import { Dashboard } from "./home/Dashboard";
+import { CreateHabitButton } from "./home/CreateHabitButton";
 
 function Habits() {
 	const [habits, setHabits] = useState([]);
@@ -25,9 +26,10 @@ function Habits() {
 
 export function Home() {
 	return (
-		<>
-		<Dashboard />
-		<Habits />
-		</>
+		<div className="home">
+			<Dashboard />
+			<Habits />
+			<CreateHabitButton />
+		</div>
 	);
 }
