@@ -6,6 +6,7 @@ const HabitSchema = new Schema({
 	name: String,
 	frequency: String,
 	createdAt: Date,
+	frequencyInfo: String,
 });
 
 module.exports = mongoose.model("Habit", HabitSchema);

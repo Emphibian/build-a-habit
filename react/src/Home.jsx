@@ -65,6 +65,15 @@ export function Home() {
 			<Dashboard />
 			<Habits />
 			<CreateHabitButton />
+			<button
+				onClick={async () =>
+					await fetch(import.meta.env.VITE_SERVER + "/api/generateInstances", {
+						credentials: "include",
+					})
+				}
+			>
+				Generate
+			</button>
 		</div>
 	);
 }
