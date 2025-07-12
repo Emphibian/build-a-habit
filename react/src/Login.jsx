@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Link } from "react-router";
+import { Dashboard } from "./home/Dashboard.jsx";
 
 export function Login() {
 	const [username, setUsername] = useState("");
@@ -23,6 +25,7 @@ export function Login() {
 
 	return (
 		<>
+			<Dashboard />
 			<h1>Login</h1>
 			<form onSubmit={handleLogin}>
 				<label>
@@ -46,8 +49,13 @@ export function Login() {
 					/>
 				</label>
 				<button type="submit">Login</button>
-				{responseMessage && <p>{responseMessage}</p>}
 			</form>
+			{responseMessage && <p>Logged in successfully</p>}
+			{responseMessage && (
+				<p>
+					Proceed to <Link to="/home">Home</Link>
+				</p>
+			)}
 		</>
 	);
 }

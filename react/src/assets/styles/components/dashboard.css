@@ -1,4 +1,18 @@
 .dashboard {
 	background-color: var(--dashboard);
 	padding: 0.8rem 1.1rem;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.header-name a {
+	text-decoration: none;
+	font-size: 25px;
+}
+
+nav {
+	display: flex;
+	gap: 1rem;
 }

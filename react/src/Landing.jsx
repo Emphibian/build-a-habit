@@ -1,9 +1,11 @@
 import { Link } from "react-router";
+import { Dashboard } from "./home/Dashboard.jsx";
 
 export function Landing() {
 	return (
 		<>
-			<h1>Habit Tracker App</h1>
+			<Dashboard />
+			<h1>buildAhabit App</h1>
 			<p>
 				Proceed to <Link to="/register">Register</Link>
 			</p>

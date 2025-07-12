@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router";
 
 export function Dashboard() {
 	const [user, setUser] = useState("");
@@ -17,5 +18,30 @@ export function Dashboard() {
 		getUser();
 	}, []);
 
-	return <div className="dashboard">{user}</div>;
+	if (user) {
+		return (
+			<div className="dashboard">
+				<div className="header-name">
+					<Link to="/home">buildAhabit</Link>
+				</div>
+				<nav>
+					<Link to="/home">Home</Link>
+					{user}
+					<p>Logout</p>
+				</nav>
+			</div>
+		);
+	}
+
+	return (
+		<div className="dashboard sign-in">
+			<div className="header-name">
+				<Link to="/">buildAhabit</Link>
+			</div>
+			<nav>
+				<Link to="/register">Register</Link>
+				<Link to="/login">Login</Link>
+			</nav>
+		</div>
+	);
 }

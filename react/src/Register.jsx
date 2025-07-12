@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Dashboard } from "./home/Dashboard.jsx";
 
 export function Register() {
 	const [username, setUsername] = useState("");
@@ -22,6 +23,7 @@ export function Register() {
 
 	return (
 		<>
+			<Dashboard />
 			<h1>Register</h1>
 			<form onSubmit={handleRegister}>
 				<label>
@@ -46,7 +48,6 @@ export function Register() {
 				</label>
 				<button type="submit">Register</button>
 			</form>
-			<button onClick={handleRegister}>asdfasdf</button>
 			{responseMessage && <p>{responseMessage}</p>}
 		</>
 	);
