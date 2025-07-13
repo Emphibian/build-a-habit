@@ -2,4 +2,6 @@
 	--dashboard: #e3e3e3;
 	--habit-bg: #303446;
 	--habit-fg: #e6e6e6;
+	--habit-bg-completed: #b8bac1;
+	--habit-done-hover: #40455d;
 }

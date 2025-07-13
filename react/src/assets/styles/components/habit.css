@@ -1,17 +1,40 @@
-.habits-container {
+.todo-habits,
+.done-habits {
 	padding: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: 0.1rem;
+	align-items: center;
 }
 
 .habit {
 	display: flex;
 	flex-direction: row;
+	align-items: center;
 	width: 800px;
 	gap: 1rem;
 	background-color: var(--habit-bg);
 	color: var(--habit-fg);
-	padding: 0.5rem;
+	padding: 0.2rem;
+	border-radius: 3px;
 }
 
 .habit-name {
 	flex-grow: 1;
+	padding-left: 1rem;
+}
+
+.habit button {
+	width: 2rem;
+	background: inherit;
+	border: none;
+	margin-right: 1rem;
+}
+
+.habit button:hover {
+	background-color: var(--habit-done-hover);
+}
+
+.done-habits .habit {
+	background-color: var(--habit-bg-completed);
 }
