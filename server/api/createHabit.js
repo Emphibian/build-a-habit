@@ -18,12 +18,15 @@ router.post("/createHabit", async (req, res) => {
 			return;
 		}
 
-		const { habitName, habitFreq } = req.body;
+		const { habitName, habitFreq, habitFreqInfo, goalType, target } = req.body;
 		const createdAt = new Date();
 		const habit = new Habit({
 			userId,
 			name: habitName,
 			frequency: habitFreq,
+			frequencyInfo: habitFreqInfo,
+			goalType,
+			goalTarget: target,
 			createdAt,
 		});
 

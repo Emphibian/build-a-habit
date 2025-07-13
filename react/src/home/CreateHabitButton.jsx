@@ -3,6 +3,9 @@ import { useState } from "react";
 function CreateHabitModal({ isOpen, setOpen }) {
 	const [habitName, setHabitName] = useState("");
 	const [habitFreq, setHabitFreq] = useState("");
+	const [habitFreqInfo, setHabitFreqInfo] = useState("");
+	const [goalType, setGoalType] = useState("");
+	const [target, setTarget] = useState("");
 
 	if (!isOpen) return null;
 
@@ -16,7 +19,13 @@ function CreateHabitModal({ isOpen, setOpen }) {
 			headers: {
 				"Content-Type": "application/json",
 			},
-			body: JSON.stringify({ habitName, habitFreq }),
+			body: JSON.stringify({
+				habitName,
+				habitFreq,
+				habitFreqInfo,
+				goalType,
+				target,
+			}),
 			credentials: "include",
 		});
 
@@ -49,6 +58,36 @@ function CreateHabitModal({ isOpen, setOpen }) {
 							value={habitFreq}
 							onChange={(event) => setHabitFreq(event.target.value)}
 							placeholder="Habit Frequency"
+							required
+						/>
+					</label>
+					<label>
+						Habit Frequency Info:
+						<input
+							type="text"
+							value={habitFreqInfo}
+							onChange={(event) => setHabitFreqInfo(event.target.value)}
+							placeholder="Habit Frequency Info"
+							required
+						/>
+					</label>
+					<label>
+						Goal Type:
+						<input
+							type="text"
+							value={goalType}
+							onChange={(event) => setGoalType(event.target.value)}
+							placeholder="Goal Type"
+							required
+						/>
+					</label>
+					<label>
+						Target:
+						<input
+							type="text"
+							value={target}
+							onChange={(event) => setTarget(event.target.value)}
+							placeholder="Target"
 							required
 						/>
 					</label>
