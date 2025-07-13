@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Checkmark from "../assets/svgs/checkmark.svg?react";
 
 function Habit({ name, status, handleComplete }) {
-	const fill = "#e6e6e6";
+	const fill = "#3B4554";
 	return (
 		<div className="habit">
 			<p className="habit-name">{name}</p>

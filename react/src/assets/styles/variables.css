@@ -1,7 +1,8 @@
 :root {
-	--dashboard: #e3e3e3;
-	--habit-bg: #303446;
-	--habit-fg: #e6e6e6;
+	--dashboard: #f4f7fa;
+	--habit-bg: #ffffff;
+	--habit-fg: #28303a;
 	--habit-bg-completed: #b8bac1;
 	--habit-done-hover: #40455d;
+	--body-bg: #f4f7fa;
 }
