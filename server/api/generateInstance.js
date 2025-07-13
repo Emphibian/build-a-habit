@@ -38,6 +38,8 @@ async function generateInstance(habit, userId) {
 		name: habit.name,
 		date: currentDay,
 		status: "Not Completed",
+		goalType: habit.goalType,
+		goalTarget: habit.goalTarget,
 	});
 
 	await instance.save();

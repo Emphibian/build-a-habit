@@ -7,6 +7,8 @@ const InstanceSchema = new Schema({
 	name: String,
 	date: Date,
 	status: String,
+	goalType: String,
+	goalTarget: String,
 });
 
 module.exports = mongoose.model("Instance", InstanceSchema);
