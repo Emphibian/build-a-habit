@@ -65,6 +65,16 @@ router.get("/generateInstances", async (req, res) => {
 			async (habit) => !(await checkIfInstanceExists(habit)),
 		);
 
+		const promises = filteredHabits.map(async (habit) => {
+			const exists = await checkIfInstanceExists(habit);
+			return { habit, exists };
+		});
+
+		const results = await Promise.all(promises);
+		filteredHabits = results
+			.filter((result) => !result.exists)
+			.map((result) => result.habit);
+
 		// if not generate it
 		filteredHabits.forEach(
 			async (habit) => await generateInstance(habit, req.session.user.id),
