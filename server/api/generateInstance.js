@@ -40,6 +40,7 @@ async function generateInstance(habit, userId) {
 		status: "Not Completed",
 		goalType: habit.goalType,
 		goalTarget: habit.goalTarget,
+		goalValue: "",
 	});
 
 	await instance.save();

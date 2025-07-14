@@ -9,6 +9,7 @@ const InstanceSchema = new Schema({
 	status: String,
 	goalType: String,
 	goalTarget: String,
+	goalValue: String,
 });
 
 module.exports = mongoose.model("Instance", InstanceSchema);

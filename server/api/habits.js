@@ -30,15 +30,20 @@ router.patch("/habit/completed/:id", async (req, res) => {
 
 		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
-		if (habitInstance.status === "Completed") {
+
+		console.log({ target: habitInstance.goalTarget, value: req.body.value });
+
+		if (parseInt(habitInstance.goalTarget) > parseInt(req.body.value)) {
 			habitInstance.status = "Not Completed";
 		} else {
 			habitInstance.status = "Completed";
 		}
 
+		habitInstance.goalValue = req.body.value;
 		await habitInstance.save();
 		res.json(habitInstance);
 	} catch (error) {
+		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
