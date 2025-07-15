@@ -57,7 +57,7 @@ async function generateInstances(userId) {
 
 	const results = await Promise.all(promises);
 	results
-		.filter((result) => !results.exists)
+		.filter((result) => !result.exists)
 		.map((result) => result.habit)
 		.forEach(async (habit) => await generateInstance(habit, userId));
 }
