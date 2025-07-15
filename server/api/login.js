@@ -15,6 +15,10 @@ router.post("/login", async (req, res) => {
 
 		if (storedUser.passwordHash == passwordHash) {
 			req.session.user = { id: storedUser._id };
+			const currentDay = new Date();
+			currentDay.setHours(0, 0, 0, 0);
+			storedUser.lastLogin = currentDay;
+			await storedUser.save();
 			res.status(201).json({ message: "Logged In" });
 		} else {
 			res.status(401).json({ message: "Password didn't match" });
