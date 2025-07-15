@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import Checkmark from "../assets/svgs/checkmark.svg?react";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
@@ -100,8 +100,12 @@ export function Habits() {
 	};
 
 	const updateValue = function (id, value, target, type) {
+		if (type === "yes/no") {
+			handleComplete(id, value, target, type);
+			return;
+		}
+
 		setDoneModalUpdate(() => (value) => {
-			console.log({ value });
 			handleComplete(id, value, target, type);
 		});
 		setDoneModalOpen(true);

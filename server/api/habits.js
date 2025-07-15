@@ -11,7 +11,12 @@ router.get("/habitsInstances", async (req, res) => {
 		}
 
 		const userId = req.session.user.id;
-		const habitInstances = await Instance.find({ userId }).exec();
+		const currentDay = new Date();
+		currentDay.setHours(0, 0, 0, 0);
+		const habitInstances = await Instance.find({
+			userId,
+			date: currentDay,
+		}).exec();
 
 		console.log(habitInstances);
 		res.json({ habits: habitInstances });
@@ -32,14 +37,18 @@ router.patch("/habit/completed/:id", async (req, res) => {
 		const habitInstance = await Instance.findById(req.params.id).exec();
 
 		console.log({ target: habitInstance.goalTarget, value: req.body.value });
-
-		if (parseInt(habitInstance.goalTarget) > parseInt(req.body.value)) {
+		if (habitInstance.goalType === "yes/no") {
+			habitInstance.status =
+				habitInstance.status === "Completed" ? "Not Completed" : "Completed";
+			habitInstance.goalValue = "";
+		} else if (parseInt(habitInstance.goalTarget) > parseInt(req.body.value)) {
 			habitInstance.status = "Not Completed";
+			habitInstance.goalValue = req.body.value;
 		} else {
 			habitInstance.status = "Completed";
+			habitInstance.goalValue = req.body.value;
 		}
 
-		habitInstance.goalValue = req.body.value;
 		await habitInstance.save();
 		res.json(habitInstance);
 	} catch (error) {
