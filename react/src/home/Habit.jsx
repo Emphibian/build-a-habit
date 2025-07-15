@@ -160,15 +160,6 @@ export function Habits() {
 				setOpen={setDoneModalOpen}
 				handleHabitUpdate={doneModalUpdate}
 			/>
-			<button
-				onClick={async () =>
-					await fetch(import.meta.env.VITE_SERVER + "/api/generateInstances", {
-						credentials: "include",
-					})
-				}
-			>
-				Generate
-			</button>
 		</div>
 	);
 }
