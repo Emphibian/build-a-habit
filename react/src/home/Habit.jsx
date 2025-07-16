@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import Checkmark from "../assets/svgs/checkmark.svg?react";
 
+import { Timer } from "./Timer";
+
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
@@ -37,7 +39,7 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	);
 }
 
-function Habit({ name, status, handleUpdate }) {
+function Habit({ name, status, handleUpdate, handleTimer }) {
 	const fill = "#3B4554";
 	return (
 		<div className="habit">
@@ -46,6 +48,7 @@ function Habit({ name, status, handleUpdate }) {
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
+			<button onClick={handleTimer}>Timer</button>
 		</div>
 	);
 }
@@ -54,6 +57,8 @@ export function Habits() {
 	const [habits, setHabits] = useState([]);
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
+	const [timerOn, setTimerOn] = useState(false);
+	const [timerHabit, setTimerHabit] = useState("");
 
 	useEffect(() => {
 		async function getHabits() {
@@ -129,6 +134,10 @@ export function Habits() {
 										habit.goalType,
 									)
 								}
+								handleTimer={() => {
+									setTimerHabit(habit.name);
+									setTimerOn(true);
+								}}
 							/>
 						);
 					}
@@ -160,6 +169,7 @@ export function Habits() {
 				setOpen={setDoneModalOpen}
 				handleHabitUpdate={doneModalUpdate}
 			/>
+			<Timer timerOn={timerOn} setTimerOn={setTimerOn} habitName={timerHabit} />
 		</div>
 	);
 }

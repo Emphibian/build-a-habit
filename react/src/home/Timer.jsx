@@ -1,0 +1,57 @@
+import { useState, useEffect } from "react";
+
+export function Timer({ timerOn, setTimerOn, habitName }) {
+	const [duration, setDuration] = useState(0);
+	const [pause, setPause] = useState(false);
+	const [counter, setCounter] = useState();
+
+	const oneMinute = 2000;
+	const durationUpdate = function () {
+		setDuration((prevDuration) => prevDuration + 1);
+	};
+
+	useEffect(() => {
+		if (timerOn) setCounter(setInterval(durationUpdate, oneMinute));
+
+		return () => {
+			clearInterval(counter);
+		};
+	}, [timerOn]);
+
+	if (!timerOn) return;
+
+	const PauseButton = function () {
+		return (
+			<button
+				onClick={() => {
+					clearInterval(counter);
+					setPause(true);
+				}}
+			>
+				Pause
+			</button>
+		);
+	};
+
+	const PlayButton = function () {
+		return (
+			<button
+				onClick={() => {
+					setDuration(0);
+					setCounter(setInterval(durationUpdate, oneMinute));
+					setPause(false);
+				}}
+			>
+				Play
+			</button>
+		);
+	};
+
+	return (
+		<div className="timer">
+			<p>{duration}m</p>
+			{pause ? <PlayButton /> : <PauseButton />}
+			<p>{habitName}</p>
+		</div>
+	);
+}
