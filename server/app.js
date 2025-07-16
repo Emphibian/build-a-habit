@@ -29,6 +29,7 @@ app.use(
 		secret: "Temp Secret",
 		saveUninitialized: false,
 		cookie: { secure: false, sameSite: "Lax" }, // set this to true if deployed in https
+		resave: false,
 	}),
 );
 
