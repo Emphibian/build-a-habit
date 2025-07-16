@@ -59,6 +59,7 @@ export function Habits() {
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [timerOn, setTimerOn] = useState(false);
 	const [timerHabit, setTimerHabit] = useState("");
+	const [addDuration, setAddDuration] = useState(() => () => {});
 
 	useEffect(() => {
 		async function getHabits() {
@@ -116,6 +117,31 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
+	const habitTimerStart = function (id, name) {
+		setTimerHabit(name);
+		setTimerOn(true);
+		setAddDuration(() => (value) => {
+			updateHabitDuration(id, value);
+		});
+	};
+
+	const updateHabitDuration = async function (id, value) {
+		const requestURL =
+			import.meta.env.VITE_SERVER + "/api/habit/addDuration/" + id;
+
+		const response = await fetch(requestURL, {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				value,
+			}),
+			credentials: "include",
+		});
+
+		const updatedHabit = await response.json();
+		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+	};
+
 	return (
 		<div className="habits-container">
 			<div className="todo-habits">
@@ -135,8 +161,7 @@ export function Habits() {
 									)
 								}
 								handleTimer={() => {
-									setTimerHabit(habit.name);
-									setTimerOn(true);
+									habitTimerStart(habit._id, habit.name);
 								}}
 							/>
 						);
@@ -169,7 +194,12 @@ export function Habits() {
 				setOpen={setDoneModalOpen}
 				handleHabitUpdate={doneModalUpdate}
 			/>
-			<Timer timerOn={timerOn} setTimerOn={setTimerOn} habitName={timerHabit} />
+			<Timer
+				timerOn={timerOn}
+				setTimerOn={setTimerOn}
+				habitName={timerHabit}
+				addDuration={addDuration}
+			/>
 		</div>
 	);
 }

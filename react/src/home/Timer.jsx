@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-export function Timer({ timerOn, setTimerOn, habitName }) {
+export function Timer({ timerOn, habitName, addDuration }) {
 	const [duration, setDuration] = useState(0);
 	const [pause, setPause] = useState(false);
 	const [counter, setCounter] = useState();
@@ -26,6 +26,7 @@ export function Timer({ timerOn, setTimerOn, habitName }) {
 				onClick={() => {
 					clearInterval(counter);
 					setPause(true);
+					addDuration(duration);
 				}}
 			>
 				Pause
