@@ -41,6 +41,7 @@ async function generateInstance(habit, userId) {
 		goalType: habit.goalType,
 		goalTarget: habit.goalTarget,
 		goalValue: "",
+		workDuration: 0,
 	});
 
 	await instance.save();

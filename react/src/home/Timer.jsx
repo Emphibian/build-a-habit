@@ -5,7 +5,7 @@ export function Timer({ timerOn, habitName, addDuration }) {
 	const [pause, setPause] = useState(false);
 	const [counter, setCounter] = useState();
 
-	const oneMinute = 2000;
+	const oneMinute = 60000;
 	const durationUpdate = function () {
 		setDuration((prevDuration) => prevDuration + 1);
 	};
