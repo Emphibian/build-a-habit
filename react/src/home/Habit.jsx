@@ -117,7 +117,6 @@ export function Habits() {
 		});
 		const updatedHabit = await response.json();
 		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
-		console.log(habits);
 	};
 
 	const updateValue = function (id, value, target, type) {
@@ -236,6 +235,19 @@ export function Habits() {
 										habit.goalType,
 									)
 								}
+							/>
+						);
+					}
+				})}
+				{tasks.map((task) => {
+					if (task.completed) {
+						return (
+							<Habit
+								key={task._id}
+								name={task.name}
+								handleUpdate={() => {
+									updateTask(task._id);
+								}}
 							/>
 						);
 					}
