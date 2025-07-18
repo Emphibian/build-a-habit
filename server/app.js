@@ -42,12 +42,14 @@ const userRouter = require("./api/user.js");
 const habitsRouter = require("./api/habits.js");
 const createHabitRouter = require("./api/createHabit.js");
 const createTaskRouter = require("./api/createTask.js");
+const tasksRouter = require("./api/tasks.js");
 const generateInstanceRouter = require("./api/generateInstance.js");
 
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
 app.use("/api", userRouter);
 app.use("/api", habitsRouter);
+app.use("/api", tasksRouter);
 app.use("/api", createHabitRouter);
 app.use("/api", createTaskRouter);
 app.use("/api", generateInstanceRouter);

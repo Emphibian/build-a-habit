@@ -6,6 +6,7 @@ const TaskSchema = new Schema({
 	name: String,
 	workDuration: Number,
 	completed: Boolean,
+	completedOn: Date,
 });
 
 module.exports = mongoose.model("Task", TaskSchema);

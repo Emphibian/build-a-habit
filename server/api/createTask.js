@@ -24,6 +24,7 @@ router.post("/createTask", async (req, res) => {
 			name: taskName,
 			workDuration: 0,
 			completed: false,
+			completedOn: null,
 		});
 
 		await task.save();
