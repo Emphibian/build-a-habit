@@ -39,12 +39,11 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	);
 }
 
-function Habit({ name, status, handleUpdate, handleTimer }) {
+function Habit({ name, handleUpdate, handleTimer }) {
 	const fill = "#3B4554";
 	return (
 		<div className="habit">
 			<p className="habit-name">{name}</p>
-			<p>{status}</p>
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
@@ -55,6 +54,7 @@ function Habit({ name, status, handleUpdate, handleTimer }) {
 
 export function Habits() {
 	const [habits, setHabits] = useState([]);
+	const [tasks, setTasks] = useState([]);
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [timerOn, setTimerOn] = useState(false);
@@ -75,7 +75,21 @@ export function Habits() {
 			setHabits(data.habits);
 		}
 
+		async function getTasks() {
+			const requestURL = import.meta.env.VITE_SERVER + "/api/tasks";
+			const response = await fetch(requestURL, { credentials: "include" });
+
+			if (!response.ok) {
+				setTasks(null);
+				return;
+			}
+
+			const data = await response.json();
+			setTasks(data.tasks);
+		}
+
 		getHabits();
+		getTasks();
 	}, []);
 
 	const checkIfComplete = async function (value, target, type) {
@@ -103,6 +117,7 @@ export function Habits() {
 		});
 		const updatedHabit = await response.json();
 		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+		console.log(habits);
 	};
 
 	const updateValue = function (id, value, target, type) {
@@ -117,17 +132,32 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const habitTimerStart = function (id, name) {
+	const habitTimerStart = function (id, name, isHabit) {
 		setTimerHabit(name);
 		setTimerOn(true);
 		setAddDuration(() => (value) => {
-			updateHabitDuration(id, value);
+			updateHabitDuration(id, value, isHabit);
 		});
 	};
 
-	const updateHabitDuration = async function (id, value) {
+	const updateTask = async function (id) {
 		const requestURL =
-			import.meta.env.VITE_SERVER + "/api/habit/addDuration/" + id;
+			import.meta.env.VITE_SERVER + "/api/task/completed/" + id;
+		const response = await fetch(requestURL, {
+			method: "PATCH",
+			headers: { "Content-Type": "application/json" },
+			credentials: "include",
+		});
+
+		const updatedTask = await response.json();
+		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
+	};
+
+	const updateHabitDuration = async function (id, value, isHabit) {
+		const requestURL =
+			import.meta.env.VITE_SERVER +
+			`/api/${isHabit ? "habit" : "task"}/addDuration/` +
+			id;
 
 		const response = await fetch(requestURL, {
 			method: "PATCH",
@@ -139,7 +169,13 @@ export function Habits() {
 		});
 
 		const updatedHabit = await response.json();
-		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+		if (isHabit) {
+			setHabits(
+				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
+			);
+		} else {
+			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
+		}
 	};
 
 	return (
@@ -161,7 +197,23 @@ export function Habits() {
 									)
 								}
 								handleTimer={() => {
-									habitTimerStart(habit._id, habit.name);
+									habitTimerStart(habit._id, habit.name, true);
+								}}
+							/>
+						);
+					}
+				})}
+				{tasks.map((task) => {
+					if (!task.completed) {
+						return (
+							<Habit
+								key={task._id}
+								name={task.name}
+								handleUpdate={() => {
+									updateTask(task._id);
+								}}
+								handleTimer={() => {
+									habitTimerStart(task._id, task.name, false);
 								}}
 							/>
 						);
