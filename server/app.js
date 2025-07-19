@@ -38,6 +38,7 @@ app.get("/", (req, res) => {
 
 const registerRouter = require("./api/register.js");
 const loginRouter = require("./api/login.js");
+const logoutRouter = require("./api/logout.js");
 const userRouter = require("./api/user.js");
 const habitsRouter = require("./api/habits.js");
 const createHabitRouter = require("./api/createHabit.js");
@@ -47,6 +48,7 @@ const generateInstanceRouter = require("./api/generateInstance.js");
 
 app.use("/api", registerRouter);
 app.use("/api", loginRouter);
+app.use("/api", logoutRouter);
 app.use("/api", userRouter);
 app.use("/api", habitsRouter);
 app.use("/api", tasksRouter);
