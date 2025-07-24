@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Dashboard } from "./home/Dashboard.jsx";
 
 export function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
 	const [responseMessage, setResponseMessage] = useState("");
+	const navigate = useNavigate();
 
 	const handleLogin = async function (event) {
 		event.preventDefault();
@@ -21,6 +22,9 @@ export function Login() {
 
 		const data = await response.json();
 		setResponseMessage(data.message);
+		if (response.ok) {
+			navigate("/home", { replace: true });
+		}
 	};
 
 	return (

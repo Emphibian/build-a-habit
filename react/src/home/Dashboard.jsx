@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 
 export function Dashboard() {
 	const [user, setUser] = useState("");
+	const navigate = useNavigate();
+
 	useEffect(() => {
 		async function getUser() {
 			const requestURL = import.meta.env.VITE_SERVER + "/api/user";
@@ -18,6 +20,18 @@ export function Dashboard() {
 		getUser();
 	}, []);
 
+	const logout = async function () {
+		const requestURL = import.meta.env.VITE_SERVER + "/api/logout";
+		const response = await fetch(requestURL, { credentials: "include" });
+
+		if (!response.ok) {
+			const message = await response.text();
+			console.log(message);
+		} else {
+			navigate("/login");
+		}
+	};
+
 	if (user) {
 		return (
 			<div className="dashboard">
@@ -27,7 +41,7 @@ export function Dashboard() {
 				<nav>
 					<Link to="/home">Home</Link>
 					{user}
-					<p>Logout</p>
+					<button onClick={() => logout()}>Logout</button>
 				</nav>
 			</div>
 		);

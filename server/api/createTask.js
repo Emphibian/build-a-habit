@@ -2,10 +2,9 @@ const express = require("express");
 const router = express.Router();
 
 const User = require("../models/usersModel.js");
-const Habit = require("../models/habitModel.js");
-const generateInstances = require("../utils/generateInstances.js");
+const Task = require("../models/taskModel.js");
 
-router.post("/createHabit", async (req, res) => {
+router.post("/createTask", async (req, res) => {
 	try {
 		if (!req.session.user) {
 			res.status(401).json({ message: "Not Logged In" });
@@ -19,22 +18,17 @@ router.post("/createHabit", async (req, res) => {
 			return;
 		}
 
-		const { habitName, habitFreq, habitFreqInfo, goalType, target } = req.body;
-		const createdAt = new Date();
-		const habit = new Habit({
+		const { taskName } = req.body;
+		const task = new Task({
 			userId,
-			name: habitName,
-			frequency: habitFreq,
-			frequencyInfo: habitFreqInfo,
-			goalType,
-			goalTarget: target,
-			createdAt,
+			name: taskName,
+			workDuration: 0,
+			completed: false,
+			completedOn: null,
 		});
 
-		await habit.save();
-
-		generateInstances(userId);
-		res.status(201).json({ message: "Habit successfully added" });
+		await task.save();
+		res.status(201).json({ message: "Task successfully added" });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });

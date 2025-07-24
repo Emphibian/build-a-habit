@@ -108,7 +108,7 @@ export function CreateHabitButton() {
 	return (
 		<>
 			<button className="create-habit" onClick={handleClick}>
-				Add
+				Add Habit
 			</button>
 			<CreateHabitModal isOpen={modalOpen} setOpen={setModalOpen} />
 		</>
