@@ -14,6 +14,7 @@ router.get("/habitsInstances", async (req, res) => {
 
 		const userId = req.session.user.id;
 		const lastAccess = new Date(req.session.user.lastAccess);
+		lastAccess.setHours(0, 0, 0, 0);
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);
 
