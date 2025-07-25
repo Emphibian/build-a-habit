@@ -2,6 +2,7 @@ import { useState } from "react";
 
 function CreateTaskModal({ isOpen, setOpen }) {
 	const [taskName, setTaskName] = useState("");
+	const [date, setDate] = useState("");
 
 	if (!isOpen) return null;
 
@@ -17,6 +18,7 @@ function CreateTaskModal({ isOpen, setOpen }) {
 			},
 			body: JSON.stringify({
 				taskName,
+				scheduledOnString: date,
 			}),
 			credentials: "include",
 		});
@@ -41,6 +43,16 @@ function CreateTaskModal({ isOpen, setOpen }) {
 							onChange={(event) => setTaskName(event.target.value)}
 							placeholder="Task Name"
 							required
+						/>
+					</label>
+					<label>
+						Schedule on:
+						<input
+							type="date"
+							value={date}
+							onChange={(event) => {
+								setDate(event.target.value);
+							}}
 						/>
 					</label>
 					<button type="submit">Create</button>

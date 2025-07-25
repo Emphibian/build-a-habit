@@ -1,6 +1,4 @@
 import { useState, useEffect } from "react";
-import Checkmark from "../assets/svgs/checkmark.svg?react";
-
 import { Timer } from "./Timer";
 import { Habit } from "./Habit";
 
@@ -197,6 +195,7 @@ export function Habits() {
 							<Habit
 								key={task._id}
 								name={task.name}
+								workDuration={task.workDuration}
 								handleUpdate={() => {
 									updateTask(task._id);
 								}}
@@ -216,6 +215,7 @@ export function Habits() {
 							<Habit
 								key={habit._id}
 								name={habit.name}
+								workDuration={habit.workDuration}
 								handleUpdate={() =>
 									updateValue(
 										habit._id,
@@ -234,6 +234,7 @@ export function Habits() {
 							<Habit
 								key={task._id}
 								name={task.name}
+								workDuration={task.workDuration}
 								handleUpdate={() => {
 									updateTask(task._id);
 								}}
