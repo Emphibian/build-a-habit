@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import { Dashboard } from "./home/Dashboard";
 import { CreateHabitButton } from "./home/CreateHabitButton";
 import { CreateTaskButton } from "./home/CreateTaskButton";
-import { Habits } from "./home/Habit";
+import { Habits } from "./home/HabitsContainer";
 
 export function Home() {
 	const navigate = useNavigate();
