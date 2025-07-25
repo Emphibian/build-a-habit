@@ -16,6 +16,8 @@ router.get("/tasks", async (req, res) => {
 
 		const userId = req.session.user.id;
 		const tasks = await Task.find({ userId, completed: false }).exec();
+		tasks.filter((task) => task.scheduledOn.getTime() <= currentDay.getTime());
+
 		const taskCompletedToday = await Task.find({
 			userId,
 			completedOn: currentDay,

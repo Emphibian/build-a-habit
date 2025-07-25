@@ -18,13 +18,17 @@ router.post("/createTask", async (req, res) => {
 			return;
 		}
 
-		const { taskName } = req.body;
+		const { taskName, scheduledOnString } = req.body;
+		const scheduledOnDate = new Date(scheduledOnString);
+		scheduledOnDate.setHours(0, 0, 0, 0);
+
 		const task = new Task({
 			userId,
 			name: taskName,
 			workDuration: 0,
 			completed: false,
 			completedOn: null,
+			scheduledOn: scheduledOnDate,
 		});
 
 		await task.save();
