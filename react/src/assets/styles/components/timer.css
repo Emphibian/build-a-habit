@@ -1,0 +1,22 @@
+div.timer {
+	position: absolute;
+	display: flex;
+	bottom: 1rem;
+	left: 50%;
+	transform: translateX(-50%);
+	align-items: center;
+	gap: 1.7rem;
+	background: var(--habit-bg);
+	border: var(--timer-bg) solid 2px;
+	padding: 0 1rem;
+	border-radius: 20px;
+}
+
+div.timer button {
+	border: none;
+	border-radius: 50%;
+	background: var(--timer-bg);
+	width: 2rem;
+	height: 2rem;
+	transform: scale(1.4);
+}
