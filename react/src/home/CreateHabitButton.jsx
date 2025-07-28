@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CreateHabitModal({ isOpen, setOpen }) {
+function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [habitName, setHabitName] = useState("");
 	const [habitFreq, setHabitFreq] = useState("");
 	const [habitFreqInfo, setHabitFreqInfo] = useState("");
@@ -35,6 +35,7 @@ function CreateHabitModal({ isOpen, setOpen }) {
 
 	const closeModal = function () {
 		setOpen(false);
+		setButtonDisplay(false);
 	};
 
 	return (
@@ -98,7 +99,7 @@ function CreateHabitModal({ isOpen, setOpen }) {
 	);
 }
 
-export function CreateHabitButton() {
+export function CreateHabitButton({ setButtonDisplay }) {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	function handleClick() {
@@ -110,7 +111,11 @@ export function CreateHabitButton() {
 			<button className="create-habit" onClick={handleClick}>
 				Add Habit
 			</button>
-			<CreateHabitModal isOpen={modalOpen} setOpen={setModalOpen} />
+			<CreateHabitModal
+				isOpen={modalOpen}
+				setOpen={setModalOpen}
+				setButtonDisplay={setButtonDisplay}
+			/>
 		</>
 	);
 }

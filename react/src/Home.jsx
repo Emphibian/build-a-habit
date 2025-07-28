@@ -1,8 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { Dashboard } from "./home/Dashboard";
-import { CreateHabitButton } from "./home/CreateHabitButton";
-import { CreateTaskButton } from "./home/CreateTaskButton";
+import { CreateButton } from "./home/CreateButton.jsx";
 import { Habits } from "./home/HabitsContainer";
 
 export function Home() {
@@ -30,8 +29,7 @@ export function Home() {
 		<div className="home">
 			<Dashboard />
 			<Habits />
-			<CreateHabitButton />
-			<CreateTaskButton />
+			<CreateButton />
 		</div>
 	);
 }

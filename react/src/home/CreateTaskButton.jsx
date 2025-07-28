@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function CreateTaskModal({ isOpen, setOpen }) {
+function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [taskName, setTaskName] = useState("");
 	const [date, setDate] = useState("");
 
@@ -29,6 +29,7 @@ function CreateTaskModal({ isOpen, setOpen }) {
 
 	const closeModal = function () {
 		setOpen(false);
+		setButtonDisplay(false);
 	};
 
 	return (
@@ -62,7 +63,7 @@ function CreateTaskModal({ isOpen, setOpen }) {
 	);
 }
 
-export function CreateTaskButton() {
+export function CreateTaskButton({ setButtonDisplay }) {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	function handleClick() {
@@ -74,7 +75,11 @@ export function CreateTaskButton() {
 			<button className="create-habit" onClick={handleClick}>
 				Add Task
 			</button>
-			<CreateTaskModal isOpen={modalOpen} setOpen={setModalOpen} />
+			<CreateTaskModal
+				isOpen={modalOpen}
+				setOpen={setModalOpen}
+				setButtonDisplay={setButtonDisplay}
+			/>
 		</>
 	);
 }
