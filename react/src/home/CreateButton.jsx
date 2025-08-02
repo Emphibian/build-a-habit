@@ -20,8 +20,8 @@ export function CreateButton() {
 
 	return (
 		<>
-			{buttonDiv}
 			<div className="create-habit-div">
+				{buttonDiv}
 				<button className="create-habit" onClick={handleClick}>
 					Add
 				</button>
