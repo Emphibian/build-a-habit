@@ -1,8 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { Landing } from "./Landing";
-import { Register } from "./Register";
-import { Login } from "./Login";
-import { Home } from "./Home";
+import { Landing } from "./pages/Landing";
+import { Register } from "./pages/Register";
+import { Login } from "./pages/Login";
+import { Home } from "./pages/Home";
 
 export default function App() {
 	return (

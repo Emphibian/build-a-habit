@@ -19,4 +19,16 @@
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 1);
 	border-radius: 10px;
+	align-items: center;
+}
+
+.habit-overlay label {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	width: 100%;
+}
+
+.habit-overlay form button {
+	width: 50px;
 }

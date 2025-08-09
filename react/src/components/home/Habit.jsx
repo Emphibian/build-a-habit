@@ -1,4 +1,4 @@
-import Checkmark from "../assets/svgs/checkmark.svg?react";
+import Checkmark from "../../assets/svgs/checkmark.svg?react";
 
 export function Habit({ name, workDuration, handleUpdate, handleTimer }) {
 	const prettyPrintDuration = function (workDuration) {

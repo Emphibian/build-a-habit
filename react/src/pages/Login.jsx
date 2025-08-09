@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
-import { Dashboard } from "./home/Dashboard.jsx";
+import { Dashboard } from "../components/home/Dashboard.jsx";
 
 export function Login() {
 	const [username, setUsername] = useState("");

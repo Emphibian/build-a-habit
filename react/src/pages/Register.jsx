@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Dashboard } from "./home/Dashboard.jsx";
+import { Dashboard } from "../components/home/Dashboard.jsx";
 
 export function Register() {
 	const [username, setUsername] = useState("");

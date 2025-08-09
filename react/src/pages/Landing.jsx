@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import { Dashboard } from "./home/Dashboard.jsx";
+import { Dashboard } from "../components/home/Dashboard.jsx";
 
 export function Landing() {
 	return (

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router";
-import { Dashboard } from "./home/Dashboard";
-import { CreateButton } from "./home/CreateButton.jsx";
-import { Habits } from "./home/HabitsContainer";
+import { Dashboard } from "../components/home/Dashboard";
+import { CreateButton } from "../components/home/CreateButton.jsx";
+import { Habits } from "../components/home/HabitsContainer";
 
 export function Home() {
 	const navigate = useNavigate();
