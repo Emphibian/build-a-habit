@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Dashboard } from "../components/home/Dashboard.jsx";
+import userAPI from "../api/userAPI.js";
 
 export function Register() {
 	const [username, setUsername] = useState("");
@@ -8,15 +9,7 @@ export function Register() {
 
 	const handleRegister = async function (event) {
 		event.preventDefault();
-		const requestURL = import.meta.env.VITE_SERVER + "/api/register";
-		const response = await fetch(requestURL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ username, passwordHash: password }),
-		});
-
+		const response = await userAPI.register(username, password);
 		const data = await response.json();
 		setResponseMessage(data.message);
 	};

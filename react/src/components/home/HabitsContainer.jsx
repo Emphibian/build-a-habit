@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Timer } from "./Timer";
 import { Habit } from "./Habit";
+import habitAPI from "../../api/habitAPI.js";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
@@ -48,34 +49,12 @@ export function Habits() {
 	const [addDuration, setAddDuration] = useState(() => () => {});
 
 	useEffect(() => {
-		async function getHabits() {
-			const requestURL = import.meta.env.VITE_SERVER + "/api/habitsInstances";
-			const response = await fetch(requestURL, { credentials: "include" });
-
-			if (!response.ok) {
-				setHabits(null);
-				return;
-			}
-
-			const data = await response.json();
-			setHabits(data.habits);
+		async function getHabitsAndTasks() {
+			setHabits(await habitAPI.getHabits());
+			setTasks(await habitAPI.getTasks());
 		}
 
-		async function getTasks() {
-			const requestURL = import.meta.env.VITE_SERVER + "/api/tasks";
-			const response = await fetch(requestURL, { credentials: "include" });
-
-			if (!response.ok) {
-				setTasks(null);
-				return;
-			}
-
-			const data = await response.json();
-			setTasks(data.tasks);
-		}
-
-		getHabits();
-		getTasks();
+		getHabitsAndTasks();
 	}, []);
 
 	const checkIfComplete = async function (value, target, type) {
@@ -91,17 +70,7 @@ export function Habits() {
 	const handleComplete = async function (id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 
-		const requestURL =
-			import.meta.env.VITE_SERVER + "/api/habit/completed/" + id;
-		const response = await fetch(requestURL, {
-			method: "PATCH",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				value,
-			}),
-			credentials: "include",
-		});
-		const updatedHabit = await response.json();
+		const updatedHabit = await habitAPI.markComplete(id, value);
 		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
 	};
 
@@ -126,34 +95,12 @@ export function Habits() {
 	};
 
 	const updateTask = async function (id) {
-		const requestURL =
-			import.meta.env.VITE_SERVER + "/api/task/completed/" + id;
-		const response = await fetch(requestURL, {
-			method: "PATCH",
-			headers: { "Content-Type": "application/json" },
-			credentials: "include",
-		});
-
-		const updatedTask = await response.json();
+		const updatedTask = await habitAPI.updateTask(id);
 		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
 	const updateHabitDuration = async function (id, value, isHabit) {
-		const requestURL =
-			import.meta.env.VITE_SERVER +
-			`/api/${isHabit ? "habit" : "task"}/addDuration/` +
-			id;
-
-		const response = await fetch(requestURL, {
-			method: "PATCH",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				value,
-			}),
-			credentials: "include",
-		});
-
-		const updatedHabit = await response.json();
+		const updatedHabit = await habitAPI.updateHabitDuration();
 		if (isHabit) {
 			setHabits(
 				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),

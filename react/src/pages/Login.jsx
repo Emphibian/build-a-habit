@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router";
 import { Dashboard } from "../components/home/Dashboard.jsx";
+import userAPI from "../api/userAPI.js";
 
 export function Login() {
 	const [username, setUsername] = useState("");
@@ -10,16 +11,7 @@ export function Login() {
 
 	const handleLogin = async function (event) {
 		event.preventDefault();
-		const requestURL = import.meta.env.VITE_SERVER + "/api/login";
-		const response = await fetch(requestURL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({ username, passwordHash: password }),
-			credentials: "include",
-		});
-
+		const response = await userAPI.logIn(username, password);
 		const data = await response.json();
 		setResponseMessage(data.message);
 		if (response.ok) {

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import habitAPI from "../../api/habitAPI.js";
 
 function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [habitName, setHabitName] = useState("");
@@ -11,26 +12,9 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 
 	const handleCreation = async function (event) {
 		event.preventDefault();
-
 		closeModal();
-		const requestURL = import.meta.env.VITE_SERVER + "/api/createHabit";
-		const response = await fetch(requestURL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				habitName,
-				habitFreq,
-				habitFreqInfo,
-				goalType,
-				target,
-			}),
-			credentials: "include",
-		});
 
-		const data = await response.json();
-		console.log(data);
+		habitAPI.createHabit(habitName, habitFreq, habitFreqInfo, goalType, target);
 	};
 
 	const closeModal = function () {

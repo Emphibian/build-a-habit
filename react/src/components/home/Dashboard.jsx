@@ -1,29 +1,28 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
+import userAPI from "../../api/userAPI.js";
 
 export function Dashboard() {
 	const [user, setUser] = useState("");
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		async function getUser() {
-			const requestURL = import.meta.env.VITE_SERVER + "/api/user";
-			const response = await fetch(requestURL, { credentials: "include" });
+		const fetchUser = async function () {
+			const response = await userAPI.getUser();
 			if (response.ok) {
 				const data = await response.json();
-				setUser(data.user);
+				const userData = data.user;
+				setUser(userData);
 			} else {
 				setUser(null);
 			}
-		}
+		};
 
-		getUser();
+		fetchUser();
 	}, []);
 
 	const logout = async function () {
-		const requestURL = import.meta.env.VITE_SERVER + "/api/logout";
-		const response = await fetch(requestURL, { credentials: "include" });
-
+		const response = await userAPI.logOut();
 		if (!response.ok) {
 			const message = await response.text();
 			console.log(message);

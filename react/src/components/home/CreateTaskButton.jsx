@@ -1,4 +1,5 @@
 import { useState } from "react";
+import habitAPI from "../../api/habitAPI.js";
 
 function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [taskName, setTaskName] = useState("");
@@ -10,21 +11,7 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 		event.preventDefault();
 		closeModal();
 
-		const requestURL = import.meta.env.VITE_SERVER + "/api/createTask";
-		const response = await fetch(requestURL, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify({
-				taskName,
-				scheduledOnString: date,
-			}),
-			credentials: "include",
-		});
-
-		const data = await response.json();
-		console.log(data);
+		habitAPI.createTask(taskName, date);
 	};
 
 	const closeModal = function () {
