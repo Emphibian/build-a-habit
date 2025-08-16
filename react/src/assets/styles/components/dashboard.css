@@ -4,7 +4,6 @@
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
-	align-items: center;
 }
 
 .header-name a {
@@ -12,7 +11,22 @@
 	font-size: 25px;
 }
 
-nav {
+.dashboard nav {
 	display: flex;
 	gap: 1rem;
+	align-items: center;
+}
+
+.dashboard nav button {
+	width: 1.4rem;
+	border: none;
+	background: inherit;
+}
+
+.dashboard .account {
+	display: flex;
+}
+
+.dashboard .account svg {
+	width: 1.4rem;
 }

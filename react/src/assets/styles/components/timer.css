@@ -16,7 +16,14 @@ div.timer button {
 	border: none;
 	border-radius: 50%;
 	background: var(--timer-bg);
-	width: 2rem;
-	height: 2rem;
+	width: 1.6rem;
+	height: 1.6rem;
 	transform: scale(1.4);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+div.timer svg {
+	width: 1rem;
 }

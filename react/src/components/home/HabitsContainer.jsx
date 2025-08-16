@@ -113,7 +113,6 @@ export function Habits() {
 	return (
 		<div className="habits-container">
 			<div className="todo-habits">
-				<h2>To do</h2>
 				{habits.map((habit) => {
 					if (habit.status === "Not Completed") {
 						return (

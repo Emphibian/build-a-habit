@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router";
 import userAPI from "../../api/userAPI.js";
+import Logout from "../../assets/svgs/logout.svg?react";
+import AccountSvg from "../../assets/svgs/account.svg?react";
 
 export function Dashboard() {
 	const [user, setUser] = useState("");
@@ -38,9 +40,15 @@ export function Dashboard() {
 					<Link to="/home">buildAhabit</Link>
 				</div>
 				<nav>
-					<Link to="/home">Home</Link>
-					{user}
-					<button onClick={() => logout()}>Logout</button>
+					<div class="account">
+						<AccountSvg />
+						{user}
+					</div>
+					<button onClick={() => logout()}>
+						<Logout>
+							<title>Logout</title>
+						</Logout>
+					</button>
 				</nav>
 			</div>
 		);

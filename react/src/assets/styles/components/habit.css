@@ -7,33 +7,33 @@
 	align-items: center;
 }
 
-.todo-habits h2,
 .done-habits h2 {
-	margin-bottom: 2rem;
+	font-size: 1.2rem;
+	margin-bottom: 1rem;
+	font-weight: 1rem;
 }
 
 .habit {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	width: 800px;
-	gap: 1rem;
+	width: 700px;
+	gap: 0.8rem;
 	background-color: var(--habit-bg);
 	color: var(--habit-fg);
-	padding: 0.3rem;
+	padding: 0.3rem 1rem;
 	box-shadow: 0 1px 20px 0 rgb(69, 90, 100, 0.08);
+	border-radius: 4px;
 }
 
 .habit-name {
 	flex-grow: 1;
-	padding-left: 1rem;
 }
 
 .habit button {
 	width: 1.7rem;
 	background: inherit;
 	border: none;
-	margin-right: 1rem;
 	transition: transform 0.25s ease-in-out;
 }
 
@@ -43,5 +43,10 @@
 }
 
 .done-habits .habit {
-	background-color: var(--habit-bg-completed);
+	color: var(--habit-fg-completed);
+}
+
+.habit span {
+	font-style: italic;
+	color: var(--gray);
 }

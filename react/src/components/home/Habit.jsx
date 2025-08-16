@@ -1,4 +1,5 @@
 import Checkmark from "../../assets/svgs/checkmark.svg?react";
+import Play from "../../assets/svgs/play.svg?react";
 
 export function Habit({ name, workDuration, handleUpdate, handleTimer }) {
 	const prettyPrintDuration = function (workDuration) {
@@ -13,11 +14,13 @@ export function Habit({ name, workDuration, handleUpdate, handleTimer }) {
 	return (
 		<div className="habit">
 			<p className="habit-name">{name}</p>
+			<button onClick={handleTimer}>
+				<Play fill={fill} />
+			</button>
 			<span>{prettyPrintDuration(workDuration)}</span>
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
-			<button onClick={handleTimer}>Timer</button>
 		</div>
 	);
 }

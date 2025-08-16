@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import Play from "../../assets/svgs/play.svg?react";
+import Pause from "../../assets/svgs/pause.svg?react";
 
 export function Timer({ timerOn, habitName, addDuration }) {
 	const [duration, setDuration] = useState(0);
@@ -29,7 +31,7 @@ export function Timer({ timerOn, habitName, addDuration }) {
 					addDuration(duration);
 				}}
 			>
-				Pause
+				<Pause />
 			</button>
 		);
 	};
@@ -43,7 +45,7 @@ export function Timer({ timerOn, habitName, addDuration }) {
 					setPause(false);
 				}}
 			>
-				Play
+				<Play />
 			</button>
 		);
 	};
