@@ -100,7 +100,7 @@ export function Habits() {
 	};
 
 	const updateHabitDuration = async function (id, value, isHabit) {
-		const updatedHabit = await habitAPI.updateHabitDuration();
+		const updatedHabit = await habitAPI.updateHabitDuration(id, value, isHabit);
 		if (isHabit) {
 			setHabits(
 				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
