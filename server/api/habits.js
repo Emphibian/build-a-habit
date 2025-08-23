@@ -19,7 +19,7 @@ router.get("/habitsInstances", async (req, res) => {
 		currentDay.setHours(0, 0, 0, 0);
 
 		if (lastAccess.getTime() !== currentDay.getTime()) {
-			generateInstances(userId);
+			await generateInstances(userId);
 		}
 
 		const habitInstances = await Instance.find({
@@ -78,6 +78,29 @@ router.patch("/habit/addDuration/:id", async (req, res) => {
 		habitInstance.workDuration = habitInstance.workDuration + value;
 		await habitInstance.save();
 		res.json(habitInstance);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
+router.delete("/habitInstances/delete/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const userId = req.session.user.id;
+		const habitInstance = await Instance.findById(req.params.id).exec();
+		if (habitInstance) {
+			const result = await habitInstance.deleteOne().exec();
+			if (result.deletedCount === 1) {
+				res.status(201).json({ message: "Instance successfully deleted" });
+			}
+		} else {
+			res.status(404).json({ message: "Couldn't find the instance" });
+		}
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });
