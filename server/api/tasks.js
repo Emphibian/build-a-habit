@@ -77,4 +77,26 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 	}
 });
 
+router.delete("/task/delete/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const userId = req.session.user.id;
+		const task = await Task.findById(req.params.id).exec();
+		if (task) {
+			const result = await task.deleteOne().exec();
+			if (result.deletedCount === 1) {
+				res.status(201).json({ message: "Task successfully deleted" });
+			}
+		} else {
+			res.status(404).json({ message: "Couldn't find the task" });
+		}
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
 module.exports = router;
