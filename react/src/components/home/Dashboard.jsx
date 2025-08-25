@@ -40,7 +40,7 @@ export function Dashboard() {
 					<Link to="/home">buildAhabit</Link>
 				</div>
 				<nav>
-					<div class="account">
+					<div className="account">
 						<AccountSvg />
 						{user}
 					</div>

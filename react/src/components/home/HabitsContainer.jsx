@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react";
 import { Timer } from "./Timer";
 import { Habit } from "./Habit";
+import { HabitSidebar } from "./HabitSidebar.jsx";
 import habitAPI from "../../api/habitAPI.js";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
-
 	const closeModal = function () {
 		setOpen(false);
 	};
@@ -47,6 +47,8 @@ export function Habits() {
 	const [timerOn, setTimerOn] = useState(false);
 	const [timerHabit, setTimerHabit] = useState("");
 	const [addDuration, setAddDuration] = useState(() => () => {});
+	const [sidebarHabit, setSidebarHabit] = useState(null);
+	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	useEffect(() => {
 		async function getHabitsAndTasks() {
@@ -110,6 +112,11 @@ export function Habits() {
 		}
 	};
 
+	const handleDelete = async function (id) {
+		setHabits(habits.filter((habit) => id !== habit._id));
+		setTasks(tasks.filter((task) => id !== task._id));
+	};
+
 	return (
 		<div className="habits-container">
 			<div className="todo-habits">
@@ -131,6 +138,10 @@ export function Habits() {
 								handleTimer={() => {
 									habitTimerStart(habit._id, habit.name, true);
 								}}
+								openSidebar={() => {
+									setSidebarHabit({ id: habit._id, isHabit: true });
+									setSidebarOpen(true);
+								}}
 							/>
 						);
 					}
@@ -147,6 +158,10 @@ export function Habits() {
 								}}
 								handleTimer={() => {
 									habitTimerStart(task._id, task.name, false);
+								}}
+								openSidebar={() => {
+									setSidebarHabit({ id: task._id, isHabit: false });
+									setSidebarOpen(true);
 								}}
 							/>
 						);
@@ -199,6 +214,14 @@ export function Habits() {
 				setTimerOn={setTimerOn}
 				habitName={timerHabit}
 				addDuration={addDuration}
+			/>
+			<HabitSidebar
+				instance={sidebarHabit}
+				open={sidebarOpen}
+				close={() => {
+					setSidebarOpen(false);
+				}}
+				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>
 	);

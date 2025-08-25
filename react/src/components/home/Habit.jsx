@@ -1,7 +1,13 @@
 import Checkmark from "../../assets/svgs/checkmark.svg?react";
 import Play from "../../assets/svgs/play.svg?react";
 
-export function Habit({ name, workDuration, handleUpdate, handleTimer }) {
+export function Habit({
+	name,
+	workDuration,
+	handleUpdate,
+	handleTimer,
+	openSidebar,
+}) {
 	const prettyPrintDuration = function (workDuration) {
 		if (workDuration < 60) return `${workDuration}m`;
 		const hours = Math.floor(workDuration / 60);
@@ -21,6 +27,7 @@ export function Habit({ name, workDuration, handleUpdate, handleTimer }) {
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
+			<button onClick={openSidebar}>Sidebar</button>
 		</div>
 	);
 }
