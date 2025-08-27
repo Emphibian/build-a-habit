@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Timer } from "./Timer";
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
 import habitAPI from "../../api/habitAPI.js";
+import { HabitsContext } from "../../contexts/HabitContext.jsx";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
@@ -40,8 +41,6 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 }
 
 export function Habits() {
-	const [habits, setHabits] = useState([]);
-	const [tasks, setTasks] = useState([]);
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [timerOn, setTimerOn] = useState(false);
@@ -49,6 +48,8 @@ export function Habits() {
 	const [addDuration, setAddDuration] = useState(() => () => {});
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
+
+	const { habits, setHabits, tasks, setTasks } = useContext(HabitsContext);
 
 	useEffect(() => {
 		async function getHabitsAndTasks() {

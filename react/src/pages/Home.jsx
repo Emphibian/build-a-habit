@@ -4,6 +4,7 @@ import { Dashboard } from "../components/home/Dashboard";
 import { CreateButton } from "../components/home/CreateButton.jsx";
 import { Habits } from "../components/home/HabitsContainer";
 import userAPI from "../api/userAPI.js";
+import { HabitsProvider } from "../contexts/HabitContext.jsx";
 
 export function Home() {
 	const navigate = useNavigate();
@@ -25,8 +26,10 @@ export function Home() {
 	return (
 		<div className="home">
 			<Dashboard />
-			<Habits />
-			<CreateButton />
+			<HabitsProvider>
+				<Habits />
+				<CreateButton />
+			</HabitsProvider>
 		</div>
 	);
 }
