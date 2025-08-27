@@ -4,14 +4,7 @@ const mongoose = require("mongoose");
 
 const User = require("../models/usersModel.js");
 const generateInstances = require("../utils/generateInstances.js");
-
-function generateDayString(date) {
-	const day = String(date.getDate()).padStart(2, "0");
-	const month = String(date.getMonth() + 1).padStart(2, "0");
-	const year = date.getFullYear();
-
-	return `${year}-${month}-${day}`;
-}
+const generateDayString = require("../utils/generateDayString.js");
 
 router.post("/login", async (req, res) => {
 	try {
@@ -30,7 +23,7 @@ router.post("/login", async (req, res) => {
 				lastAccess: generateDayString(currentDay),
 			};
 
-			if (storedUser.lastLogin !== currentDay) {
+			if (storedUser.lastLogin.getTime() !== currentDay.getTime()) {
 				storedUser.lastLogin = currentDay;
 				await storedUser.save();
 				generateInstances(storedUser._id);

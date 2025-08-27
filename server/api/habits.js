@@ -3,6 +3,7 @@ const router = express.Router();
 const mongoose = require("mongoose");
 
 const generateInstances = require("../utils/generateInstances.js");
+const generateDayString = require("../utils/generateDayString.js");
 const Instance = require("../models/habitInstanceModel.js");
 
 router.get("/habitsInstances", async (req, res) => {
@@ -19,6 +20,7 @@ router.get("/habitsInstances", async (req, res) => {
 		currentDay.setHours(0, 0, 0, 0);
 
 		if (lastAccess.getTime() !== currentDay.getTime()) {
+			req.session.user.lastAccess = generateDayString(currentDay);
 			await generateInstances(userId);
 		}
 
