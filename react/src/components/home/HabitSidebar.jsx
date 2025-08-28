@@ -13,6 +13,7 @@ export function HabitSidebar({ instance, open, close, handleDelete }) {
 							id={instance.id}
 							updateUI={handleDelete}
 							isHabit={instance.isHabit}
+							closeSidebar={close}
 						/>
 					</li>
 					<li>
