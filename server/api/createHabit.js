@@ -3,7 +3,7 @@ const router = express.Router();
 
 const User = require("../models/usersModel.js");
 const Habit = require("../models/habitModel.js");
-const generateInstances = require("../utils/generateInstances.js");
+const generateSingleInstance = require("../utils/generateSingleInstance.js");
 
 router.post("/createHabit", async (req, res) => {
 	try {
@@ -33,8 +33,8 @@ router.post("/createHabit", async (req, res) => {
 
 		await habit.save();
 
-		generateInstances(userId);
-		res.status(201).json({ message: "Habit successfully added" });
+		const instance = await generateSingleInstance(habit, userId);
+		res.status(201).json({ instance });
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });

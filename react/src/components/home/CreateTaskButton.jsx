@@ -1,17 +1,17 @@
-import { useState } from "react";
-import habitAPI from "../../api/habitAPI.js";
+import { useState, useContext } from "react";
+import { HabitsContext } from "../../contexts/HabitContext.jsx";
 
 function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [taskName, setTaskName] = useState("");
 	const [date, setDate] = useState("");
+	const { createTask } = useContext(HabitsContext);
 
 	if (!isOpen) return null;
 
 	const handleCreation = async function (event) {
 		event.preventDefault();
+		createTask({ taskName, date });
 		closeModal();
-
-		habitAPI.createTask(taskName, date);
 	};
 
 	const closeModal = function () {

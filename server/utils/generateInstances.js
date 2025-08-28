@@ -1,5 +1,6 @@
 const Habit = require("../models/habitModel.js");
 const Instance = require("../models/habitInstanceModel.js");
+const generateSingleInstance = require("./generateSingleInstance.js");
 
 // check if the instance should be generated for the current day
 function checkIfInstanceRequired(habit) {
@@ -27,26 +28,6 @@ async function checkIfInstanceExists(habit) {
 	return instance.length !== 0;
 }
 
-// function to generate instance
-async function generateInstance(habit, userId) {
-	const currentDay = new Date();
-	currentDay.setHours(0, 0, 0, 0);
-
-	const instance = new Instance({
-		habitId: habit._id,
-		userId,
-		name: habit.name,
-		date: currentDay,
-		status: "Not Completed",
-		goalType: habit.goalType,
-		goalTarget: habit.goalTarget,
-		goalValue: "",
-		workDuration: 0,
-	});
-
-	await instance.save();
-}
-
 async function generateInstances(userId) {
 	const habits = await Habit.find({ userId }).exec();
 	const promises = habits
@@ -60,7 +41,7 @@ async function generateInstances(userId) {
 	results
 		.filter((result) => !result.exists)
 		.map((result) => result.habit)
-		.forEach(async (habit) => await generateInstance(habit, userId));
+		.forEach(async (habit) => await generateSingleInstance(habit, userId));
 }
 
 module.exports = generateInstances;

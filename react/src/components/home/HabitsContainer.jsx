@@ -51,15 +51,6 @@ export function Habits() {
 
 	const { habits, setHabits, tasks, setTasks } = useContext(HabitsContext);
 
-	useEffect(() => {
-		async function getHabitsAndTasks() {
-			setHabits(await habitAPI.getHabits());
-			setTasks(await habitAPI.getTasks());
-		}
-
-		getHabitsAndTasks();
-	}, []);
-
 	const checkIfComplete = async function (value, target, type) {
 		if (type === "duration") {
 			return parseInt(value) > parseInt(target);

@@ -1,5 +1,5 @@
-import { useState } from "react";
-import habitAPI from "../../api/habitAPI.js";
+import { useState, useContext } from "react";
+import { HabitsContext } from "./../../contexts/HabitContext.jsx";
 
 function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [habitName, setHabitName] = useState("");
@@ -8,13 +8,14 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [goalType, setGoalType] = useState("");
 	const [target, setTarget] = useState("");
 
+	const { createHabit } = useContext(HabitsContext);
+
 	if (!isOpen) return null;
 
 	const handleCreation = async function (event) {
 		event.preventDefault();
+		createHabit({ habitName, habitFreq, habitFreqInfo, goalType, target });
 		closeModal();
-
-		habitAPI.createHabit(habitName, habitFreq, habitFreqInfo, goalType, target);
 	};
 
 	const closeModal = function () {

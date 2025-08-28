@@ -9,10 +9,8 @@ export function HabitsProvider({ children }) {
 
 	useEffect(() => {
 		async function loadHabitsAndTasks() {
-			const [habits, tasks] = Promise.all([
-				habitAPI.getHabits(),
-				habitAPI.getTasks(),
-			]);
+			const habits = await habitAPI.getHabits();
+			const tasks = await habitAPI.getTasks();
 
 			setHabits(habits);
 			setTasks(tasks);
@@ -33,8 +31,15 @@ export function HabitsProvider({ children }) {
 		setHabits((habits) => [newInstance, ...habits]);
 	};
 
+	const createTask = async function (taskObj) {
+		const task = await habitAPI.createTask(taskObj.taskName, taskObj.date);
+		setTasks((tasks) => [task, ...tasks]);
+	};
+
 	return (
-		<HabitsContext value={{ habits, setHabits, tasks, setTasks, createHabit }}>
+		<HabitsContext
+			value={{ habits, setHabits, tasks, setTasks, createHabit, createTask }}
+		>
 			{children}
 		</HabitsContext>
 	);

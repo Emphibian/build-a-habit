@@ -14,6 +14,7 @@ async function createTask(taskName, date) {
 
 	const data = await response.json();
 	console.log(data);
+	return data.task;
 }
 
 async function createHabit(
@@ -41,6 +42,7 @@ async function createHabit(
 
 	const data = await response.json();
 	console.log(data);
+	return data.instance;
 }
 
 async function getHabits() {
@@ -113,7 +115,7 @@ async function updateHabitDuration(id, value, isHabit) {
 async function deleteInstance(id, isHabit) {
 	const type = isHabit ? "habitInstances" : "task";
 	const requestURL = import.meta.env.VITE_SERVER + `/api/${type}/delete/${id}`;
-	
+
 	const response = await fetch(requestURL, {
 		method: "DELETE",
 		headers: { "Content-Type": "application/json" },
@@ -124,7 +126,6 @@ async function deleteInstance(id, isHabit) {
 
 	return await response.json();
 }
-
 
 export default {
 	getHabits,
