@@ -25,6 +25,10 @@ async function checkIfInstanceExists(habit) {
 		date: currentDay,
 	}).exec();
 
+	if (instance.length === 0) {
+		console.log(`${currentDay} doesn't have ${habit.name}`);
+	}
+
 	return instance.length !== 0;
 }
 
