@@ -1,19 +1,12 @@
-.todo-habits,
-.done-habits {
-	padding: 1rem;
+.entries-container {
 	display: flex;
+	padding: 1rem;
 	flex-direction: column;
 	gap: 0.2rem;
 	align-items: center;
 }
 
-.done-habits h2 {
-	font-size: 1.2rem;
-	margin-bottom: 1rem;
-	font-weight: 1rem;
-}
-
-.habit {
+.entry {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -26,31 +19,18 @@
 	border-radius: 4px;
 }
 
-.habit-name {
+.entry-name {
 	flex-grow: 1;
 }
 
-.habit button {
+.entry button {
 	width: 1.7rem;
 	background: inherit;
 	border: none;
 	transition: transform 0.25s ease-in-out;
 }
 
-.habit button:hover {
+.entry button:hover {
 	transform: scale(1.2);
 	cursor: pointer;
-}
-
-.done-habits .habit {
-	color: var(--habit-fg-completed);
-}
-
-.habit span {
-	font-style: italic;
-	color: var(--gray);
-}
-
-button.danger {
-	color: var(--danger-red);
 }

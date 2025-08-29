@@ -6,7 +6,7 @@ function CloseButton({ close }) {
 export function HabitSidebar({ instance, open, close, handleDelete }) {
 	if (open)
 		return (
-			<div className="habit-sidebar">
+			<div className="sidebar">
 				<ul>
 					<li>
 						<DeleteButton
