@@ -1,6 +1,8 @@
+import { generateURL } from "./generateURL.js";
+
 async function register(username, password) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/register";
-	const response = await fetch(requestURL, {
+	const path = "/api/register";
+	const response = await fetch(generateURL(path), {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -12,8 +14,8 @@ async function register(username, password) {
 }
 
 async function logIn(username, password) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/login";
-	const response = await fetch(requestURL, {
+	const path = "/api/login";
+	const response = await fetch(generateURL(path), {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -26,14 +28,14 @@ async function logIn(username, password) {
 }
 
 async function logOut() {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/logout";
-	const response = await fetch(requestURL, { credentials: "include" });
+	const path = "/api/logout";
+	const response = await fetch(generateURL(path), { credentials: "include" });
 	return response;
 }
 
 async function getUser() {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/user";
-	const response = await fetch(requestURL, {
+	const path = "/api/user";
+	const response = await fetch(generateURL(path), {
 		credentials: "include",
 	});
 

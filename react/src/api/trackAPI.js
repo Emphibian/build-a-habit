@@ -1,6 +1,10 @@
+import { generateURL } from "./generateURL.js";
+
 async function getTracks() {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/tracks";
-	const response = await fetch(requestURL, { credentials: "include" });
+	const path = "/api/tracks";
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+	});
 
 	if (!response.ok) {
 		return null;
@@ -11,8 +15,8 @@ async function getTracks() {
 }
 
 async function deleteTrack(id) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/track/delete/" + id;
-	const response = await fetch(requestURL, {
+	const path = "/api/track/delete" + id;
+	const response = await fetch(generateURL(path), {
 		method: "DELETE",
 		credentials: "include",
 	});

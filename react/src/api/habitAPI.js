@@ -1,6 +1,8 @@
+import { generateURL } from "./generateURL.js";
+
 async function createTask(taskName, date) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/createTask";
-	const response = await fetch(requestURL, {
+	const path = "/api/createTask";
+	const response = await fetch(generateURL(path), {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -24,8 +26,8 @@ async function createHabit(
 	goalType,
 	target,
 ) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/createHabit";
-	const response = await fetch(requestURL, {
+	const path = "/api/createHabit";
+	const response = await fetch(generateURL(path), {
 		method: "POST",
 		headers: {
 			"Content-Type": "application/json",
@@ -46,8 +48,8 @@ async function createHabit(
 }
 
 async function getHabits() {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/habitsInstances";
-	const response = await fetch(requestURL, { credentials: "include" });
+	const path = "/api/habitsInstances";
+	const response = await fetch(generateURL(path), { credentials: "include" });
 
 	if (!response.ok) {
 		return null;
@@ -58,8 +60,8 @@ async function getHabits() {
 }
 
 async function getTasks() {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/tasks";
-	const response = await fetch(requestURL, { credentials: "include" });
+	const path = "/api/tasks";
+	const response = await fetch(generateURL(path), { credentials: "include" });
 
 	if (!response.ok) {
 		return null;
@@ -70,8 +72,8 @@ async function getTasks() {
 }
 
 async function markComplete(id, value) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/habit/completed/" + id;
-	const response = await fetch(requestURL, {
+	const path = "/api/habit/completed/" + id;
+	const response = await fetch(generateURL(path), {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
@@ -84,8 +86,8 @@ async function markComplete(id, value) {
 }
 
 async function updateTask(id) {
-	const requestURL = import.meta.env.VITE_SERVER + "/api/task/completed/" + id;
-	const response = await fetch(requestURL, {
+	const path = "/api/task/completed/" + id;
+	const response = await fetch(generateURL(path), {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
 		credentials: "include",
@@ -95,12 +97,9 @@ async function updateTask(id) {
 }
 
 async function updateHabitDuration(id, value, isHabit) {
-	const requestURL =
-		import.meta.env.VITE_SERVER +
-		`/api/${isHabit ? "habit" : "task"}/addDuration/` +
-		id;
+	const path = `/api/${isHabit ? "habit" : "task"}/addDuration/` + id;
 
-	const response = await fetch(requestURL, {
+	const response = await fetch(generateURL(path), {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
 		body: JSON.stringify({
@@ -114,9 +113,9 @@ async function updateHabitDuration(id, value, isHabit) {
 
 async function deleteInstance(id, isHabit) {
 	const type = isHabit ? "habitInstances" : "task";
-	const requestURL = import.meta.env.VITE_SERVER + `/api/${type}/delete/${id}`;
+	const path = `/api/${type}/delete/${id}`;
 
-	const response = await fetch(requestURL, {
+	const response = await fetch(generateURL(path), {
 		method: "DELETE",
 		headers: { "Content-Type": "application/json" },
 		credentials: "include",
