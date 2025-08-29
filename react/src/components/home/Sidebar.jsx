@@ -6,7 +6,7 @@ export function Sidebar({ tab, setTab }) {
 	const tabs = ["Today", "Tracks"];
 
 	return (
-		<div className="sidebar">
+		<div className="sidebar sidebar-left">
 			<ul>
 				{tabs.map((curTab) => {
 					if (tab === curTab) {
