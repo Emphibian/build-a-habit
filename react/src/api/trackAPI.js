@@ -10,6 +10,21 @@ async function getTracks() {
 	return data.tracks;
 }
 
+async function deleteTrack(id) {
+	const requestURL = import.meta.env.VITE_SERVER + "/api/track/delete/" + id;
+	const response = await fetch(requestURL, {
+		method: "DELETE",
+		credentials: "include",
+	});
+
+	if (!response.ok) {
+		return null;
+	}
+
+	return await response.json();
+}
+
 export default {
 	getTracks,
+	deleteTrack,
 };

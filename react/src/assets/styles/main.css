@@ -2,9 +2,9 @@
 @import "./body.css";
 
 @import "./components/dashboard.css";
+@import "./components/sidebar.css";
 @import "./components/create-habit-button.css";
 @import "./components/habit-modal.css";
 @import "./components/habit.css";
 @import "./components/timer.css";
-@import "./components/sidebar.css";
 @import "./components/entries.css";
