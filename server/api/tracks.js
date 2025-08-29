@@ -23,4 +23,26 @@ router.get("/tracks", async (req, res) => {
 	}
 });
 
+router.delete("/track/delete/:id", async (req, res) => {
+	console.log("this ran");
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const track = await Habit.findById(req.params.id).exec();
+		if (track) {
+			const result = await track.deleteOne().exec();
+			if (result.deletedCount === 1) {
+				res.status(201).json({ message: "Track successfully deleted" });
+			}
+		} else {
+			res.status(404).json({ message: "Couldn't find the track" });
+		}
+	} catch (error) {
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 module.exports = router;
