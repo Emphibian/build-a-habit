@@ -24,7 +24,6 @@ router.get("/tracks", async (req, res) => {
 });
 
 router.delete("/track/delete/:id", async (req, res) => {
-	console.log("this ran");
 	try {
 		if (!req.session.user) {
 			res.status(401).json({ message: "Not Logged In" });

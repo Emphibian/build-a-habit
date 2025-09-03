@@ -121,8 +121,6 @@ async function deleteInstance(id, isHabit) {
 		credentials: "include",
 	});
 
-	console.log(await response.json());
-
 	return await response.json();
 }
 

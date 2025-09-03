@@ -15,7 +15,7 @@ async function getTracks() {
 }
 
 async function deleteTrack(id) {
-	const path = "/api/track/delete" + id;
+	const path = "/api/track/delete/" + id;
 	const response = await fetch(generateURL(path), {
 		method: "DELETE",
 		credentials: "include",

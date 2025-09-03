@@ -28,6 +28,8 @@ export function TrackContainer() {
 					<Track
 						key={track._id}
 						name={track.name}
+						frequency={track.frequency}
+						frequencyInfo={track.frequencyInfo}
 						openSidebar={() => {
 							setSelectedTrack({ id: track._id });
 							setSidebarOpen(true);
