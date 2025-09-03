@@ -55,6 +55,25 @@ function GoalSelect({ goalType, setGoalType }) {
 	);
 }
 
+function TargetTextBox({ goalType, target, setTarget }) {
+	if (goalType !== "yes/no" && goalType !== "") {
+		console.log(goalType);
+		console.log(goalType === "yes/no");
+		return (
+			<label>
+				Target:
+				<input
+					type="text"
+					value={target}
+					onChange={(event) => setTarget(event.target.value)}
+					placeholder="Target"
+					required
+				/>
+			</label>
+		);
+	}
+}
+
 function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [habitName, setHabitName] = useState("");
 	const [habitFreq, setHabitFreq] = useState("");
@@ -147,16 +166,11 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 					</label>
 					{frequencyInfoHTML}
 					<GoalSelect goalType={goalType} setGoalType={setGoalType} />
-					<label>
-						Target:
-						<input
-							type="text"
-							value={target}
-							onChange={(event) => setTarget(event.target.value)}
-							placeholder="Target"
-							required
-						/>
-					</label>
+					<TargetTextBox
+						goalType={goalType}
+						target={target}
+						setTarget={setTarget}
+					/>
 					<button type="submit">Create</button>
 				</form>
 			</div>
