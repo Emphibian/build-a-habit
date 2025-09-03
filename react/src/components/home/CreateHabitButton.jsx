@@ -1,26 +1,118 @@
-import { useState, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { HabitsContext } from "./../../contexts/HabitContext.jsx";
+
+function WeeklyList({ addCurrentDay, removeCurrentDay }) {
+	const daysInWeek = [
+		"Sunday",
+		"Monday",
+		"Tuesday",
+		"Wednesday",
+		"Thursday",
+		"Friday",
+		"Saturday",
+	];
+
+	return (
+		<div>
+			{daysInWeek.map((day, index) => {
+				return (
+					<label key={day}>
+						<input
+							type="checkbox"
+							names="option"
+							onChange={(e) => {
+								if (e.target.checked) addCurrentDay(index);
+								else removeCurrentDay(index);
+							}}
+						/>
+						{day}
+					</label>
+				);
+			})}
+		</div>
+	);
+}
+
+function GoalSelect({ goalType, setGoalType }) {
+	return (
+		<label>
+			Goal Type:
+			<select
+				name="goal-type"
+				id="goal-type"
+				value={goalType}
+				onInput={(event) => setGoalType(event.target.value)}
+				required
+			>
+				<option value="" disabled hidden>
+					Please choose a type
+				</option>
+				<option value="duration">Duration</option>
+				<option value="yes/no">Yes or No</option>
+				<option value="times">Times Completed</option>
+			</select>
+		</label>
+	);
+}
 
 function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [habitName, setHabitName] = useState("");
 	const [habitFreq, setHabitFreq] = useState("");
-	const [habitFreqInfo, setHabitFreqInfo] = useState("");
+	const [habitFreqInfo, setHabitFreqInfo] = useState([]);
 	const [goalType, setGoalType] = useState("");
 	const [target, setTarget] = useState("");
+	const [frequencyInfoHTML, setFrequencyInfoHTML] = useState("");
 
 	const { createHabit } = useContext(HabitsContext);
+
+	useEffect(() => {
+		if (habitFreq !== "weekly") {
+			setHabitFreqInfo(new Set());
+			setFrequencyInfoHTML("");
+		} else {
+			setHabitFreqInfo(new Set());
+			setFrequencyInfoHTML(
+				<WeeklyList
+					addCurrentDay={addCurrentDay}
+					removeCurrentDay={removeCurrentDay}
+				/>,
+			);
+		}
+	}, [habitFreq]);
 
 	if (!isOpen) return null;
 
 	const handleCreation = async function (event) {
 		event.preventDefault();
-		createHabit({ habitName, habitFreq, habitFreqInfo, goalType, target });
+		let frequencyString = "";
+		for (const v of habitFreqInfo) frequencyString += v + ",";
+		frequencyString = frequencyString.slice(0, -1);
+
+		createHabit({
+			habitName,
+			habitFreq,
+			habitFreqInfo: frequencyString,
+			goalType,
+			target,
+		});
 		closeModal();
 	};
 
 	const closeModal = function () {
 		setOpen(false);
 		setButtonDisplay(false);
+	};
+
+	const addCurrentDay = function (day) {
+		habitFreqInfo.add(day);
+		setHabitFreqInfo(new Set(habitFreqInfo));
+	};
+
+	const removeCurrentDay = function (day) {
+		if (habitFreqInfo.has(day)) {
+			habitFreqInfo.delete(day);
+			setHabitFreqInfo(new Set(habitFreqInfo));
+		}
 	};
 
 	return (
@@ -39,34 +131,22 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 					</label>
 					<label>
 						Habit Frequency:
-						<input
-							type="text"
+						<select
+							name="habit-frequency"
+							id="habit-frequency"
 							value={habitFreq}
-							onChange={(event) => setHabitFreq(event.target.value)}
-							placeholder="Habit Frequency"
+							onInput={(event) => setHabitFreq(event.target.value)}
 							required
-						/>
+						>
+							<option value="" disabled hidden>
+								Please select a frequency type
+							</option>
+							<option value="daily">Daily</option>
+							<option value="weekly">Weekly</option>
+						</select>
 					</label>
-					<label>
-						Habit Frequency Info:
-						<input
-							type="text"
-							value={habitFreqInfo}
-							onChange={(event) => setHabitFreqInfo(event.target.value)}
-							placeholder="Habit Frequency Info"
-							required
-						/>
-					</label>
-					<label>
-						Goal Type:
-						<input
-							type="text"
-							value={goalType}
-							onChange={(event) => setGoalType(event.target.value)}
-							placeholder="Goal Type"
-							required
-						/>
-					</label>
+					{frequencyInfoHTML}
+					<GoalSelect goalType={goalType} setGoalType={setGoalType} />
 					<label>
 						Target:
 						<input
