@@ -109,6 +109,21 @@ export function Habits() {
 		setTasks(tasks.filter((task) => id !== task._id));
 	};
 
+	const updateEstimate = async function (id, newEstimate, isHabit) {
+		const updatedHabit = await habitAPI.updateEstimate(
+			id,
+			newEstimate,
+			isHabit,
+		);
+		if (isHabit) {
+			setHabits(
+				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
+			);
+		} else {
+			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
+		}
+	};
+
 	return (
 		<div className="habits-container">
 			<div className="todo-habits">
@@ -119,6 +134,7 @@ export function Habits() {
 								key={habit._id}
 								name={habit.name}
 								workDuration={habit.workDuration}
+								timeEstimate={habit.timeEstimate}
 								handleUpdate={() =>
 									updateValue(
 										habit._id,
@@ -213,6 +229,7 @@ export function Habits() {
 				close={() => {
 					setSidebarOpen(false);
 				}}
+				updateEstimate={updateEstimate}
 				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>

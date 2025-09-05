@@ -124,6 +124,20 @@ async function deleteInstance(id, isHabit) {
 	return await response.json();
 }
 
+async function updateEstimate(id, newEstimate, isHabit) {
+	const path = `/api/${isHabit ? "habit" : "task"}/updateEstimate/` + id;
+	const response = await fetch(generateURL(path), {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			value: newEstimate,
+		}),
+		credentials: "include",
+	});
+
+	return await response.json();
+}
+
 export default {
 	getHabits,
 	getTasks,
@@ -133,4 +147,5 @@ export default {
 	createTask,
 	createHabit,
 	deleteInstance,
+	updateEstimate,
 };
