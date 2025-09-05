@@ -86,6 +86,26 @@ router.patch("/habit/addDuration/:id", async (req, res) => {
 	}
 });
 
+router.patch("/habit/updateEstimate/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const userId = req.session.user.id;
+		const habitInstance = await Instance.findById(req.params.id).exec();
+		const value = parseInt(req.body.value);
+
+		habitInstance.timeEstimate = value;
+		await habitInstance.save();
+		res.json(habitInstance);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 router.delete("/habitInstances/delete/:id", async (req, res) => {
 	try {
 		if (!req.session.user) {

@@ -11,6 +11,7 @@ const InstanceSchema = new Schema({
 	goalTarget: String,
 	goalValue: String,
 	workDuration: Number,
+	timeEstimate: Number,
 });
 
 module.exports = mongoose.model("Instance", InstanceSchema);

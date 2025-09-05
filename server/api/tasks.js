@@ -77,6 +77,28 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 	}
 });
 
+router.patch("/task/updateEstimate/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const userId = req.session.user.id;
+		const taskId = req.params.id;
+
+		const task = await Task.findById(taskId).exec();
+		const value = parseInt(req.body.value);
+
+		task.timeEstimate = value;
+		await task.save();
+		res.status(201).json(task);
+	} catch (error) {
+		console.log(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 router.delete("/task/delete/:id", async (req, res) => {
 	try {
 		if (!req.session.user) {
@@ -99,4 +121,5 @@ router.delete("/task/delete/:id", async (req, res) => {
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
+
 module.exports = router;
