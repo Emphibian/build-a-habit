@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useContext } from "react";
 import { Timer } from "./Timer";
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
@@ -53,9 +53,9 @@ export function Habits() {
 
 	const checkIfComplete = async function (value, target, type) {
 		if (type === "duration") {
-			return parseInt(value) > parseInt(target);
+			return parseInt(value) >= parseInt(target);
 		} else if (type === "number") {
-			return parseInt(value) > parseInt(target);
+			return parseInt(value) >= parseInt(target);
 		} else if (type === "yes/no") {
 			return true;
 		}
@@ -115,6 +115,17 @@ export function Habits() {
 			newEstimate,
 			isHabit,
 		);
+		if (isHabit) {
+			setHabits(
+				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
+			);
+		} else {
+			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
+		}
+	};
+
+	const updateTimeSpent = async function (id, timeSpent, isHabit) {
+		const updatedHabit = await habitAPI.updateTimeSpent(id, timeSpent, isHabit);
 		if (isHabit) {
 			setHabits(
 				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
@@ -193,6 +204,10 @@ export function Habits() {
 										habit.goalType,
 									)
 								}
+								openSidebar={() => {
+									setSidebarHabit({ id: habit._id, isHabit: true });
+									setSidebarOpen(true);
+								}}
 							/>
 						);
 					}
@@ -206,6 +221,10 @@ export function Habits() {
 								workDuration={task.workDuration}
 								handleUpdate={() => {
 									updateTask(task._id);
+								}}
+								openSidebar={() => {
+									setSidebarHabit({ id: task._id, isHabit: false });
+									setSidebarOpen(true);
 								}}
 							/>
 						);
@@ -230,6 +249,7 @@ export function Habits() {
 					setSidebarOpen(false);
 				}}
 				updateEstimate={updateEstimate}
+				updateTimeSpent={updateTimeSpent}
 				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>

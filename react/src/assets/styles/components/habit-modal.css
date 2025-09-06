@@ -9,6 +9,7 @@
 	align-items: center;
 	z-index: 100;
 	background-color: rgba(0, 0, 0, 0.1);
+	color: #000;
 }
 
 .habit-overlay form {
@@ -30,5 +31,6 @@
 }
 
 .habit-overlay form button {
+	background-color: #04a9f5;
 	width: 50px;
 }
