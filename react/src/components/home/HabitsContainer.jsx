@@ -43,10 +43,9 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
-	const [timerOn, setTimerOn] = useState(false);
-	const [timerHabit, setTimerHabit] = useState("");
-	const [addDuration, setAddDuration] = useState(() => () => {});
 	const [sidebarHabit, setSidebarHabit] = useState(null);
+	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
+	const [timerOn, setTimerOn] = useState(false);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const { habits, setHabits, tasks, setTasks } = useContext(HabitsContext);
@@ -80,12 +79,8 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const habitTimerStart = function (id, name, isHabit) {
-		setTimerHabit(name);
+	const habitTimerStart = function () {
 		setTimerOn(true);
-		setAddDuration(() => (value) => {
-			updateHabitDuration(id, value, isHabit);
-		});
 	};
 
 	const updateTask = async function (id) {
@@ -155,6 +150,13 @@ export function Habits() {
 									)
 								}
 								handleTimer={() => {
+									setTimerHabit({
+										id: habit._id,
+										name: habit.name,
+										isHabit: true,
+										estimate:
+											habit.timeEstimate === undefined ? 0 : habit.timeEstimate,
+									});
 									habitTimerStart(habit._id, habit.name, true);
 								}}
 								openSidebar={() => {
@@ -176,6 +178,13 @@ export function Habits() {
 									updateTask(task._id);
 								}}
 								handleTimer={() => {
+									setTimerHabit({
+										id: task._id,
+										name: task.name,
+										isHabit: false,
+										estimate:
+											task.timeEstimate === undefined ? 0 : task.timeEstimate,
+									});
 									habitTimerStart(task._id, task.name, false);
 								}}
 								openSidebar={() => {
@@ -239,8 +248,18 @@ export function Habits() {
 			<Timer
 				timerOn={timerOn}
 				setTimerOn={setTimerOn}
-				habitName={timerHabit}
-				addDuration={addDuration}
+				habitName={timerHabit.name}
+				timeEstimate={timerHabit.estimate}
+				addDuration={(value) => {
+					updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
+				}}
+				addEstimate={(value) => {
+					updateEstimate(
+						timerHabit.id,
+						value + timerHabit.estimate,
+						timerHabit.isHabit,
+					);
+				}}
 			/>
 			<HabitSidebar
 				instance={sidebarHabit}

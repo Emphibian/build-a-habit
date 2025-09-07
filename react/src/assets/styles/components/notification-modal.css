@@ -1,0 +1,10 @@
+.notification-modal {
+	position: absolute;
+	top: 0;
+	right: 0;
+	margin-right: 1rem;
+	margin-top: 1rem;
+	background: white;
+	padding: 3rem;
+	border: 3px solid var(--timer-bg);
+}

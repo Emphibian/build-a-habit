@@ -22,12 +22,12 @@ export function Habit({
 	return (
 		<div className="habit">
 			<p className="habit-name">{name}</p>
-			<button onClick={handleTimer}>
-				<Play fill={fill} />
-			</button>
 			<span>
 				{prettyPrintDuration(workDuration)}/{prettyPrintDuration(timeEstimate)}
 			</span>
+			<button onClick={handleTimer}>
+				<Play fill={fill} />
+			</button>
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
