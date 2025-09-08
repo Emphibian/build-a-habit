@@ -15,14 +15,19 @@ router.get("/tasks", async (req, res) => {
 		currentDay.setHours(0, 0, 0, 0);
 
 		const userId = req.session.user.id;
-		const tasks = await Task.find({ userId, completed: false }).exec();
-		tasks.filter((task) => task.scheduledOn.getTime() <= currentDay.getTime());
+		let tasks = await Task.find({ userId, completed: false }).exec();
+		tasks = tasks.filter((task) => {
+			return task.scheduledOn.getTime() <= currentDay.getTime();
+		});
 
 		const taskCompletedToday = await Task.find({
 			userId,
+			completed: true,
 			completedOn: currentDay,
 		});
+
 		taskCompletedToday.forEach((task) => tasks.push(task));
+
 		res.status(201).json({ tasks });
 	} catch (error) {
 		console.log(error);
