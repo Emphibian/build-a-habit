@@ -60,7 +60,7 @@ export function CreateTaskButton({ setButtonDisplay }) {
 	return (
 		<>
 			<button className="create-habit" onClick={handleClick}>
-				Add Task
+				Task
 			</button>
 			<CreateTaskModal
 				isOpen={modalOpen}

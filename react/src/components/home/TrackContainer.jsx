@@ -34,6 +34,7 @@ export function TrackContainer() {
 							setSelectedTrack({ id: track._id });
 							setSidebarOpen(true);
 						}}
+						isSidebarOpen={sidebarOpen && track._id === selectedTrack?.id}
 					/>
 				);
 			})}

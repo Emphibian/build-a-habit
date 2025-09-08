@@ -10,6 +10,9 @@
 .sidebar li {
 	background-color: var(--sidebar-li-bg);
 	color: var(--sidebar-fg);
+	display: flex;
+	align-items: center;
+	padding-left: 1rem;
 }
 
 .sidebar ul {
@@ -20,11 +23,10 @@
 .sidebar button {
 	border: none;
 	background-color: inherit;
-	width: 100%;
 	color: inherit;
 	height: 100%;
 	text-align: left;
-	padding: 1rem;
+	padding: 1rem 1rem 1.2rem 0.5rem;
 }
 
 .sidebar li:hover {
@@ -37,4 +39,8 @@
 
 .sidebar-right {
 	right: 0;
+}
+
+.sidebar .icon {
+	width: 1.7rem;
 }

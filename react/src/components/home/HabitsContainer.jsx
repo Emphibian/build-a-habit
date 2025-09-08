@@ -176,6 +176,7 @@ export function Habits() {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setSidebarOpen(true);
 								}}
+								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
 							/>
 						);
 					}
@@ -204,6 +205,7 @@ export function Habits() {
 									setSidebarHabit({ id: task._id, isHabit: false });
 									setSidebarOpen(true);
 								}}
+								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
 							/>
 						);
 					}
@@ -230,6 +232,7 @@ export function Habits() {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setSidebarOpen(true);
 								}}
+								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
 							/>
 						);
 					}
@@ -248,6 +251,7 @@ export function Habits() {
 									setSidebarHabit({ id: task._id, isHabit: false });
 									setSidebarOpen(true);
 								}}
+								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
 							/>
 						);
 					}

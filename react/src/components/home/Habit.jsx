@@ -1,5 +1,7 @@
 import Checkmark from "../../assets/svgs/checkmark.svg?react";
 import Play from "../../assets/svgs/play.svg?react";
+import SidebarOpen from "../../assets/svgs/menu-open.svg?react";
+import SidebarClose from "../../assets/svgs/menu-close.svg?react";
 
 export function Habit({
 	name,
@@ -8,6 +10,7 @@ export function Habit({
 	handleTimer,
 	openSidebar,
 	timeEstimate,
+	isSidebarOpen,
 }) {
 	const prettyPrintDuration = function (workDuration) {
 		if (isNaN(workDuration)) return "-";
@@ -17,6 +20,13 @@ export function Habit({
 
 		return `${hours}h ${minutes}m`;
 	};
+
+	let sidebarIcon;
+	if (isSidebarOpen) {
+		sidebarIcon = <SidebarOpen />;
+	} else {
+		sidebarIcon = <SidebarClose />;
+	}
 
 	const fill = "#3B4554";
 	return (
@@ -31,7 +41,7 @@ export function Habit({
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
 			</button>
-			<button onClick={openSidebar}>Sidebar</button>
+			<button onClick={openSidebar}>{sidebarIcon}</button>
 		</div>
 	);
 }

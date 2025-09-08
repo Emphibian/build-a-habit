@@ -1,3 +1,6 @@
+import SidebarOpen from "../../assets/svgs/menu-open.svg?react";
+import SidebarClose from "../../assets/svgs/menu-close.svg?react";
+
 function descriptiveName(frequency, frequencyInfo) {
 	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	let returnString = "";
@@ -12,14 +15,27 @@ function descriptiveName(frequency, frequencyInfo) {
 	}
 }
 
-export function Track({ name, frequency, frequencyInfo, openSidebar }) {
+export function Track({
+	name,
+	frequency,
+	frequencyInfo,
+	openSidebar,
+	isSidebarOpen,
+}) {
+	let sidebarIcon;
+	if (isSidebarOpen) {
+		sidebarIcon = <SidebarOpen />;
+	} else {
+		sidebarIcon = <SidebarClose />;
+	}
+
 	return (
 		<div className="entry">
 			<p className="entry-name">{name}</p>
 			<p className="entry-frequency">
 				{descriptiveName(frequency, frequencyInfo)}
 			</p>
-			<button onClick={openSidebar}>Sidebar</button>
+			<button onClick={openSidebar}>{sidebarIcon}</button>
 		</div>
 	);
 }

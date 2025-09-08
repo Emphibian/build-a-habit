@@ -2,6 +2,8 @@ import { useState } from "react";
 import { CreateHabitButton } from "./CreateHabitButton";
 import { CreateTaskButton } from "./CreateTaskButton";
 
+import PlusIcon from "../../assets/svgs/plus.svg?react";
+
 export function CreateButton() {
 	const [buttonDisplay, setButtonDisplay] = useState(false);
 	const handleClick = function () {
@@ -23,7 +25,7 @@ export function CreateButton() {
 			<div className="create-habit-div">
 				{buttonDiv}
 				<button className="create-habit" onClick={handleClick}>
-					Add
+					<PlusIcon />
 				</button>
 			</div>
 		</>
