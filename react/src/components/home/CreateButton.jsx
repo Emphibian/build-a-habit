@@ -7,11 +7,15 @@ import PlusIcon from "../../assets/svgs/plus.svg?react";
 export function CreateButton() {
 	const [buttonDisplay, setButtonDisplay] = useState(false);
 	const handleClick = function () {
-		setButtonDisplay(true);
+		setButtonDisplay((value) => !value);
 	};
+
+	let addButton = document.querySelector("button.create-habit:last-child");
+	addButton?.classList.remove("pressed");
 
 	let buttonDiv = null;
 	if (buttonDisplay) {
+		addButton.classList.add("pressed");
 		buttonDiv = (
 			<>
 				<CreateHabitButton setButtonDisplay={setButtonDisplay} />

@@ -5,6 +5,7 @@ div.create-habit-div {
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;
+	width: 5rem;
 }
 
 button.create-habit {
@@ -20,4 +21,9 @@ button.create-habit:last-child {
 	border-radius: 50%;
 	margin: auto;
 	padding: 0.2rem 0.3rem;
+	transition: 200ms transform;
+}
+
+button.create-habit.pressed {
+	transform: rotate(45deg);
 }
