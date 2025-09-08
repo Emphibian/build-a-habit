@@ -46,6 +46,7 @@ export function Habits() {
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
 	const [timerOn, setTimerOn] = useState(false);
+	const [timerDuration, setTimerDuration] = useState(0);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
 	const { habits, setHabits, tasks, setTasks } = useContext(HabitsContext);
@@ -79,8 +80,20 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const habitTimerStart = function () {
+	const habitTimerStart = function (id, name, isHabit) {
+		if (timerOn) {
+			if (timerHabit.id === id) return;
+			habitTimerStop();
+		}
+
+		setTimerHabit({ id, name, isHabit });
+		setTimerDuration(0);
 		setTimerOn(true);
+	};
+
+	const habitTimerStop = function () {
+		updateHabitDuration(timerHabit.id, timerDuration, timerHabit.isHabit);
+		setTimerOn(false);
 	};
 
 	const updateTask = async function (id) {
@@ -260,6 +273,8 @@ export function Habits() {
 						timerHabit.isHabit,
 					);
 				}}
+				duration={timerDuration}
+				incrementDuration={() => setTimerDuration((prev) => prev + 1)}
 			/>
 			<HabitSidebar
 				instance={sidebarHabit}

@@ -21,20 +21,21 @@ function NotificationModal({
 }
 
 export function Timer({
+	duration,
+	incrementDuration,
 	timerOn,
 	habitName,
 	timeEstimate,
 	addDuration,
 	addEstimate,
 }) {
-	const [duration, setDuration] = useState(0);
 	const [pause, setPause] = useState(false);
 	const [counter, setCounter] = useState();
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
-	const oneMinute = 1000;
+	const oneMinute = 60000;
 	const durationUpdate = function () {
-		setDuration((prevDuration) => prevDuration + 1);
+		incrementDuration();
 	};
 
 	useEffect(() => {
@@ -46,7 +47,7 @@ export function Timer({
 	}, [timerOn]);
 
 	useEffect(() => {
-		if (timeEstimate >= 0 && timeEstimate < duration) {
+		if (timeEstimate > 0 && timeEstimate < duration) {
 			setNotificationModalOpen(true);
 		}
 	}, [duration, timeEstimate]);
@@ -83,7 +84,6 @@ export function Timer({
 		return (
 			<button
 				onClick={() => {
-					setDuration(0);
 					setCounter(setInterval(durationUpdate, oneMinute));
 					setPause(false);
 				}}
