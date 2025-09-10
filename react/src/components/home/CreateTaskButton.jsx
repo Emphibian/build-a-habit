@@ -24,14 +24,13 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 			<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
 				<form onSubmit={handleCreation}>
 					<label>
-						Task Name:
 						<input
 							type="text"
 							value={taskName}
 							onChange={(event) => setTaskName(event.target.value)}
-							placeholder="Task Name"
 							required
 						/>
+						<span>Task Name</span>
 					</label>
 					<label>
 						Schedule on:

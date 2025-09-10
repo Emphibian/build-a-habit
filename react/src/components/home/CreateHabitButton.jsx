@@ -137,16 +137,16 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	return (
 		<div className="habit-overlay" onClick={closeModal}>
 			<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
+				<h3>Create a new Habit</h3>
 				<form onSubmit={handleCreation}>
 					<label>
-						Habit Name:
 						<input
 							type="text"
 							value={habitName}
 							onChange={(event) => setHabitName(event.target.value)}
-							placeholder="Habit Name"
 							required
 						/>
+						<span>Habit Name</span>
 					</label>
 					<label>
 						Habit Frequency:
