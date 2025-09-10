@@ -1,5 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import { HabitsContext } from "./../../contexts/HabitContext.jsx";
+import SaveIcon from "./../../assets/svgs/content-save.svg?react";
 
 function WeeklyList({ addCurrentDay, removeCurrentDay }) {
 	const daysInWeek = [
@@ -13,7 +14,7 @@ function WeeklyList({ addCurrentDay, removeCurrentDay }) {
 	];
 
 	return (
-		<div>
+		<div className="weekly-list">
 			{daysInWeek.map((day, index) => {
 				return (
 					<label key={day}>
@@ -25,7 +26,7 @@ function WeeklyList({ addCurrentDay, removeCurrentDay }) {
 								else removeCurrentDay(index);
 							}}
 						/>
-						{day}
+						<span>{day}</span>
 					</label>
 				);
 			})}
@@ -36,7 +37,6 @@ function WeeklyList({ addCurrentDay, removeCurrentDay }) {
 function GoalSelect({ goalType, setGoalType }) {
 	return (
 		<label>
-			Goal Type:
 			<select
 				name="goal-type"
 				id="goal-type"
@@ -51,6 +51,7 @@ function GoalSelect({ goalType, setGoalType }) {
 				<option value="yes/no">Yes or No</option>
 				<option value="times">Times Completed</option>
 			</select>
+			<span>Goal Type:</span>
 		</label>
 	);
 }
@@ -61,14 +62,13 @@ function TargetTextBox({ goalType, target, setTarget }) {
 		console.log(goalType === "yes/no");
 		return (
 			<label>
-				Target:
 				<input
 					type="text"
 					value={target}
 					onChange={(event) => setTarget(event.target.value)}
-					placeholder="Target"
 					required
 				/>
+				<span>Target</span>
 			</label>
 		);
 	}
@@ -149,7 +149,6 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 						<span>Habit Name</span>
 					</label>
 					<label>
-						Habit Frequency:
 						<select
 							name="habit-frequency"
 							id="habit-frequency"
@@ -163,6 +162,7 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 							<option value="daily">Daily</option>
 							<option value="weekly">Weekly</option>
 						</select>
+						<span>Habit Frequency:</span>
 					</label>
 					{frequencyInfoHTML}
 					<GoalSelect goalType={goalType} setGoalType={setGoalType} />
@@ -171,7 +171,10 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 						target={target}
 						setTarget={setTarget}
 					/>
-					<button type="submit">Create</button>
+					<button type="submit">
+						<SaveIcon fill="#04a9f5" />
+						Save
+					</button>
 				</form>
 			</div>
 		</div>

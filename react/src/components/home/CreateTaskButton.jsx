@@ -1,5 +1,6 @@
 import { useState, useContext } from "react";
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
+import SaveIcon from "./../../assets/svgs/content-save.svg?react";
 
 function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [taskName, setTaskName] = useState("");
@@ -22,6 +23,7 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	return (
 		<div className="habit-overlay" onClick={closeModal}>
 			<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
+				<h3>Create a new Task</h3>
 				<form onSubmit={handleCreation}>
 					<label>
 						<input
@@ -33,7 +35,6 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 						<span>Task Name</span>
 					</label>
 					<label>
-						Schedule on:
 						<input
 							type="date"
 							value={date}
@@ -41,8 +42,12 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 								setDate(event.target.value);
 							}}
 						/>
+						<span>Schedule on:</span>
 					</label>
-					<button type="submit">Create</button>
+					<button type="submit">
+						<SaveIcon fill="#04a9f5" />
+						Save
+					</button>
 				</form>
 			</div>
 		</div>
