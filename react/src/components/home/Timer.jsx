@@ -69,6 +69,7 @@ export function Timer({
 	const PauseButton = function () {
 		return (
 			<button
+				class="running"
 				onClick={() => {
 					clearInterval(counter);
 					setPause(true);

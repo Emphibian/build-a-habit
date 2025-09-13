@@ -37,6 +37,14 @@
 	transition: transform 0.25s ease-in-out;
 }
 
+div.habit.timer-on {
+	outline: 2px solid var(--timer-bg);
+}
+
+div.svg-icon {
+	width: 1.7rem;
+}
+
 .habit button:hover {
 	transform: scale(1.2);
 	cursor: pointer;

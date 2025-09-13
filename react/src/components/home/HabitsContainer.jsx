@@ -177,6 +177,7 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
+								isTimerOpen={timerOn && habit._id === timerHabit?.id}
 							/>
 						);
 					}
@@ -206,6 +207,7 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
+								isTimerOpen={timerOn && task._id === timerHabit?.id}
 							/>
 						);
 					}
