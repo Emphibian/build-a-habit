@@ -26,15 +26,18 @@ function UpdateEstimateButton({ id, updateUI, isHabit }) {
 				<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
 					<form onSubmit={handleUpdate}>
 						<label>
-							Enter Estimate:
 							<input
 								type="text"
 								value={newEstimate}
 								onChange={(event) => setNewEstimate(event.target.value)}
 								required
 							/>
+							<span>Estimate</span>
 						</label>
-						<button type="submit">Update</button>
+						<div className="btn-grp">
+							<button type="submit">Update</button>
+							<button onClick={closeModal}>Cancel</button>
+						</div>
 					</form>
 				</div>
 			</div>
@@ -74,15 +77,18 @@ function UpdateTimeSpentButton({ id, updateUI, isHabit }) {
 				<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
 					<form onSubmit={handleUpdate}>
 						<label>
-							Enter Time Spent:
 							<input
 								type="text"
 								value={timeSpent}
 								onChange={(event) => setTimeSpent(event.target.value)}
 								required
 							/>
+							<span>Time Spent</span>
 						</label>
-						<button type="submit">Update</button>
+						<div className="btn-grp">
+							<button type="submit">Update</button>
+							<button onClick={closeModal}>Cancel</button>
+						</div>
 					</form>
 				</div>
 			</div>

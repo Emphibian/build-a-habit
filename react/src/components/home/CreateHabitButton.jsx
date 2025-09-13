@@ -171,10 +171,13 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 						target={target}
 						setTarget={setTarget}
 					/>
-					<button type="submit">
-						<SaveIcon fill="#04a9f5" />
-						Save
-					</button>
+					<div class="btn-grp">
+						<button type="submit">
+							<SaveIcon fill="#04a9f5" />
+							Save
+						</button>
+						<button onClick={closeModal}>Cancel</button>
+					</div>
 				</form>
 			</div>
 		</div>

@@ -14,8 +14,8 @@
 
 .main-habit-form {
 	background-color: rgba(255, 255, 255, 1);
-	border-radius: 10px;
-	padding: 20px;
+	border-radius: 3px;
+	padding: 1rem;
 }
 
 .main-habit-form h3 {
@@ -126,4 +126,14 @@ div.weekly-list label {
 div.weekly-list span {
 	position: unset;
 	margin-right: 0.5rem;
+}
+
+form div.btn-grp {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-start;
+	gap: 0.5rem;
+	width: 100%;
+	margin-top: 1rem;
+	margin-right: 1rem;
 }
