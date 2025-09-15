@@ -159,7 +159,6 @@ export function Habits() {
 								handleTimer={() => {
 									// update the previous running instance
 									habitTimerStop();
-									if (timerRunning) return;
 									if (!timerRunning || timerHabit.id !== habit._id) {
 										setTimerHabit({
 											id: habit._id,
@@ -178,7 +177,7 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
-								timerRunning={timerRunning && habit._id === timerHabit?.id}
+								isTimerRunning={timerRunning && habit._id === timerHabit?.id}
 							/>
 						);
 					}
@@ -196,7 +195,6 @@ export function Habits() {
 								handleTimer={() => {
 									// update the previous running instance
 									habitTimerStop();
-									if (timerRunning) return;
 									if (!timerRunning || timerHabit.id !== task._id) {
 										setTimerHabit({
 											id: task._id,
@@ -213,7 +211,7 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
-								isTimerOpen={timerOn && task._id === timerHabit?.id}
+								isTimerRunning={timerRunning && task._id === timerHabit?.id}
 							/>
 						);
 					}

@@ -12,8 +12,7 @@ export function Habit({
 	openSidebar,
 	timeEstimate,
 	isSidebarOpen,
-	isTimerOpen,
-	timerRunning,
+	isTimerRunning,
 }) {
 	const prettyPrintDuration = function (workDuration) {
 		if (isNaN(workDuration)) return "-";
@@ -32,20 +31,20 @@ export function Habit({
 	}
 
 	let outerDivClasses = "habit";
-	if (isTimerOpen) {
+	if (isTimerRunning) {
 		outerDivClasses = "habit timer-on";
 	}
 
 	const fill = "#3B4554";
 	return (
 		<div className={outerDivClasses}>
-			<div class="svg-icon">{isTimerOpen && <Play fill="#ff4081" />}</div>
+			<div class="svg-icon">{isTimerRunning && <Play fill="#ff4081" />}</div>
 			<p className="habit-name">{name}</p>
 			<span>
 				{prettyPrintDuration(workDuration)}/{prettyPrintDuration(timeEstimate)}
 			</span>
 			<button onClick={handleTimer}>
-				{timerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
+				{isTimerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
 			</button>
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />

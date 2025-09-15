@@ -24,6 +24,7 @@
 	padding: 0.3rem 1rem;
 	box-shadow: 0 1px 20px 0 rgb(69, 90, 100, 0.08);
 	border-radius: 4px;
+	transition: outline 0.1s cubic-bezier(0.9, 0.38, 0.4, 1.1);
 }
 
 .habit-name {
