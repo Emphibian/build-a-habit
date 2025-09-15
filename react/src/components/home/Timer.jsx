@@ -23,36 +23,39 @@ function NotificationModal({
 export function Timer({
 	duration,
 	incrementDuration,
-	timerOn,
 	habitName,
 	timeEstimate,
 	addDuration,
 	addEstimate,
+	timerRunning,
+	setTimerRunning,
 }) {
-	const [pause, setPause] = useState(false);
 	const [counter, setCounter] = useState();
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
-	const oneMinute = 60000;
+	const ONE_MINUTE = 60000;
 	const durationUpdate = function () {
+		addDuration(1);
 		incrementDuration();
 	};
 
 	useEffect(() => {
-		if (timerOn) setCounter(setInterval(durationUpdate, oneMinute));
+		// clear previously running interval (if any)
+		clearInterval(counter);
+		if (timerRunning) {
+			setCounter(setInterval(durationUpdate, ONE_MINUTE));
+		}
 
 		return () => {
 			clearInterval(counter);
 		};
-	}, [timerOn]);
+	}, [timerRunning]);
 
 	useEffect(() => {
 		if (timeEstimate > 0 && timeEstimate < duration) {
 			setNotificationModalOpen(true);
 		}
 	}, [duration, timeEstimate]);
-
-	if (!timerOn) return;
 
 	let notificationModal = "";
 	if (notificationModalOpen) {
@@ -71,9 +74,7 @@ export function Timer({
 			<button
 				class="running"
 				onClick={() => {
-					clearInterval(counter);
-					setPause(true);
-					addDuration(duration);
+					setTimerRunning(false);
 				}}
 			>
 				<Pause />
@@ -85,8 +86,7 @@ export function Timer({
 		return (
 			<button
 				onClick={() => {
-					setCounter(setInterval(durationUpdate, oneMinute));
-					setPause(false);
+					setTimerRunning(true);
 				}}
 			>
 				<Play />
@@ -98,7 +98,7 @@ export function Timer({
 		<>
 			<div className="timer">
 				<p>{duration}m</p>
-				{pause ? <PlayButton /> : <PauseButton />}
+				{timerRunning ? <PauseButton /> : <PlayButton />}
 				<p>{habitName}</p>
 			</div>
 			{notificationModal}

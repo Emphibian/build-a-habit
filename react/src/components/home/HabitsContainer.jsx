@@ -24,14 +24,13 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 			<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
 				<form onSubmit={handleUpdate}>
 					<label>
-						Value:
 						<input
 							type="text"
 							value={inputValue}
 							onChange={(event) => setInputValue(event.target.value)}
-							placeholder="Value"
 							required
 						/>
+						<span>Value</span>
 					</label>
 					<button type="submit">Update</button>
 				</form>
@@ -46,6 +45,7 @@ export function Habits() {
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
 	const [timerOn, setTimerOn] = useState(false);
+	const [timerRunning, setTimerRunning] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -81,19 +81,13 @@ export function Habits() {
 	};
 
 	const habitTimerStart = function (id, name, isHabit) {
-		if (timerOn) {
-			if (timerHabit.id === id) return;
-			habitTimerStop();
-		}
-
+		if (timerHabit.id !== id) setTimerDuration(0);
 		setTimerHabit({ id, name, isHabit });
-		setTimerDuration(0);
-		setTimerOn(true);
+		setTimerRunning(true);
 	};
 
 	const habitTimerStop = function () {
-		updateHabitDuration(timerHabit.id, timerDuration, timerHabit.isHabit);
-		setTimerOn(false);
+		setTimerRunning(false);
 	};
 
 	const updateTask = async function (id) {
@@ -163,21 +157,28 @@ export function Habits() {
 									)
 								}
 								handleTimer={() => {
-									setTimerHabit({
-										id: habit._id,
-										name: habit.name,
-										isHabit: true,
-										estimate:
-											habit.timeEstimate === undefined ? 0 : habit.timeEstimate,
-									});
-									habitTimerStart(habit._id, habit.name, true);
+									// update the previous running instance
+									habitTimerStop();
+									if (timerRunning) return;
+									if (!timerRunning || timerHabit.id !== habit._id) {
+										setTimerHabit({
+											id: habit._id,
+											name: habit.name,
+											isHabit: true,
+											estimate:
+												habit.timeEstimate === undefined
+													? 0
+													: habit.timeEstimate,
+										});
+										habitTimerStart(habit._id, habit.name, true);
+									}
 								}}
 								openSidebar={() => {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
-								isTimerOpen={timerOn && habit._id === timerHabit?.id}
+								timerRunning={timerRunning && habit._id === timerHabit?.id}
 							/>
 						);
 					}
@@ -193,14 +194,19 @@ export function Habits() {
 									updateTask(task._id);
 								}}
 								handleTimer={() => {
-									setTimerHabit({
-										id: task._id,
-										name: task.name,
-										isHabit: false,
-										estimate:
-											task.timeEstimate === undefined ? 0 : task.timeEstimate,
-									});
-									habitTimerStart(task._id, task.name, false);
+									// update the previous running instance
+									habitTimerStop();
+									if (timerRunning) return;
+									if (!timerRunning || timerHabit.id !== task._id) {
+										setTimerHabit({
+											id: task._id,
+											name: task.name,
+											isHabit: false,
+											estimate:
+												task.timeEstimate === undefined ? 0 : task.timeEstimate,
+										});
+										habitTimerStart(task._id, task.name, true);
+									}
 								}}
 								openSidebar={() => {
 									setSidebarHabit({ id: task._id, isHabit: false });
@@ -267,6 +273,8 @@ export function Habits() {
 			<Timer
 				timerOn={timerOn}
 				setTimerOn={setTimerOn}
+				timerRunning={timerRunning}
+				setTimerRunning={setTimerRunning}
 				habitName={timerHabit.name}
 				timeEstimate={timerHabit.estimate}
 				addDuration={(value) => {

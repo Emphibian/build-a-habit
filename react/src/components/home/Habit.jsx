@@ -13,6 +13,7 @@ export function Habit({
 	timeEstimate,
 	isSidebarOpen,
 	isTimerOpen,
+	timerRunning,
 }) {
 	const prettyPrintDuration = function (workDuration) {
 		if (isNaN(workDuration)) return "-";
@@ -44,7 +45,7 @@ export function Habit({
 				{prettyPrintDuration(workDuration)}/{prettyPrintDuration(timeEstimate)}
 			</span>
 			<button onClick={handleTimer}>
-				{isTimerOpen ? <Pause fill={fill} /> : <Play fill={fill} />}
+				{timerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
 			</button>
 			<button onClick={handleUpdate}>
 				<Checkmark fill={fill} />
