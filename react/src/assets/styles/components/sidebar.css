@@ -26,7 +26,8 @@
 	color: inherit;
 	height: 100%;
 	text-align: left;
-	padding: 1rem 1rem 1.2rem 0.5rem;
+	padding: 1rem 0;
+	margin-left: 0.5rem;
 }
 
 .sidebar li:hover {
@@ -42,5 +43,29 @@
 }
 
 .sidebar .icon {
-	width: 1.7rem;
+	width: 1.5rem;
+	margin-left: 0.7rem;
+}
+
+.sidebar li.selected {
+	position: relative;
+	color: #e1e2e3;
+}
+
+.sidebar li.selected::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 5px;
+	background-color: var(--focus-blue);
+}
+
+.sidebar li.selected::after {
+	position: absolute;
+	inset: 0px;
+	opacity: 0.1;
+	content: "";
+	background-color: rgb(33 37 41);
 }
