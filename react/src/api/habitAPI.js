@@ -152,6 +152,12 @@ async function updateTimeSpent(id, timeSpent, isHabit) {
 	return await response.json();
 }
 
+async function getTodayDuration() {
+	const path = "/api/user/todayDuration";
+	const response = await fetch(generateURL(path), { credentials: "include" });
+	return await response.json();
+}
+
 export default {
 	getHabits,
 	getTasks,
@@ -163,4 +169,5 @@ export default {
 	deleteInstance,
 	updateEstimate,
 	updateTimeSpent,
+	getTodayDuration,
 };

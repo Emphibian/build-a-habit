@@ -34,7 +34,7 @@ export function Timer({
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
 	const ONE_MINUTE = 60000;
-	const durationUpdate = function () {
+	const durationUpdate = function() {
 		addDuration(1);
 		incrementDuration();
 	};
@@ -69,10 +69,10 @@ export function Timer({
 		);
 	}
 
-	const PauseButton = function () {
+	const PauseButton = function() {
 		return (
 			<button
-				class="running"
+				className="running"
 				onClick={() => {
 					setTimerRunning(false);
 				}}
@@ -82,7 +82,7 @@ export function Timer({
 		);
 	};
 
-	const PlayButton = function () {
+	const PlayButton = function() {
 		return (
 			<button
 				onClick={() => {

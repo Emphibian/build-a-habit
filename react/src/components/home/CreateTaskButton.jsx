@@ -9,13 +9,13 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 
 	if (!isOpen) return null;
 
-	const handleCreation = async function (event) {
+	const handleCreation = async function(event) {
 		event.preventDefault();
 		createTask({ taskName, date });
 		closeModal();
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setOpen(false);
 		setButtonDisplay(false);
 	};
@@ -44,7 +44,7 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 						/>
 						<span>Schedule on:</span>
 					</label>
-					<div class="btn-grp">
+					<div className="btn-grp">
 						<button type="submit">
 							<SaveIcon fill="#04a9f5" />
 							Save

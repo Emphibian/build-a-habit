@@ -18,9 +18,9 @@ export function Sidebar({ tab, setTab }) {
 				{tabs.map((curTab) => {
 					if (tab === curTab.name) {
 						return (
-							<li key={curTab.name} class="selected">
+							<li key={curTab.name} className="selected">
 								<span className="icon">{curTab.icon}</span>
-								<Tab name={curTab.name} handleClick={() => {}} />
+								<Tab name={curTab.name} handleClick={() => { }} />
 							</li>
 						);
 					} else {

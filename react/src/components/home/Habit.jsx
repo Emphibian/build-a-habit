@@ -3,6 +3,7 @@ import Play from "../../assets/svgs/play.svg?react";
 import Pause from "../../assets/svgs/pause.svg?react";
 import SidebarOpen from "../../assets/svgs/menu-open.svg?react";
 import SidebarClose from "../../assets/svgs/menu-close.svg?react";
+import prettyPrintDuration from "../../utils/prettyPrintDuration";
 
 export function Habit({
 	name,
@@ -14,15 +15,6 @@ export function Habit({
 	isSidebarOpen,
 	isTimerRunning,
 }) {
-	const prettyPrintDuration = function (workDuration) {
-		if (isNaN(workDuration)) return "-";
-		if (workDuration < 60) return `${workDuration}m`;
-		const hours = Math.floor(workDuration / 60);
-		const minutes = workDuration % 60;
-
-		return `${hours}h ${minutes}m`;
-	};
-
 	let sidebarIcon;
 	if (isSidebarOpen) {
 		sidebarIcon = <SidebarOpen />;
@@ -38,7 +30,9 @@ export function Habit({
 	const fill = "#3B4554";
 	return (
 		<div className={outerDivClasses}>
-			<div class="svg-icon">{isTimerRunning && <Play fill="#ff4081" />}</div>
+			<div className="svg-icon">
+				{isTimerRunning && <Play fill="#ff4081" />}
+			</div>
 			<p className="habit-name">{name}</p>
 			<span>
 				{prettyPrintDuration(workDuration)}/{prettyPrintDuration(timeEstimate)}
