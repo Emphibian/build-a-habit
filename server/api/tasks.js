@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const Task = require("../models/taskModel.js");
+const User = require("../models/usersModel.js");
 
 router.get("/tasks", async (req, res) => {
 	try {
@@ -72,8 +72,12 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 
 		const task = await Task.findById(taskId).exec();
 		const value = parseInt(req.body.value);
+		const user = await User.findById(userId);
 
+		user.todayDuration = user.todayDuration + value;
 		task.workDuration = task.workDuration + value;
+
+		await user.save();
 		await task.save();
 		res.status(201).json(task);
 	} catch (error) {

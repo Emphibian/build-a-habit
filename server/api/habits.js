@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const generateInstances = require("../utils/generateInstances.js");
 const generateDayString = require("../utils/generateDayString.js");
 const Instance = require("../models/habitInstanceModel.js");
+const User = require("../models/usersModel.js");
 
 router.get("/habitsInstances", async (req, res) => {
 	try {
@@ -75,9 +76,13 @@ router.patch("/habit/addDuration/:id", async (req, res) => {
 
 		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
-		const value = parseInt(req.body.value);
+		const user = await User.findById(userId);
 
+		const value = parseInt(req.body.value);
+		user.todayDuration = user.todayDuration + value;
 		habitInstance.workDuration = habitInstance.workDuration + value;
+
+		await user.save();
 		await habitInstance.save();
 		res.json(habitInstance);
 	} catch (error) {
