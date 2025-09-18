@@ -8,4 +8,6 @@
 @import "./components/habit.css";
 @import "./components/timer.css";
 @import "./components/entries.css";
-@import "./components/notification-modal.css"
+@import "./components/notification-modal.css";
+@import "./components/today-metrics.css";
+@import "./classes.css";

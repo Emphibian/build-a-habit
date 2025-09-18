@@ -1,0 +1,12 @@
+div.today-metrics {
+	display: flex;
+	justify-content: center;
+}
+
+div.today-metric {
+	gap: 0.5rem;
+}
+
+div.today-metric svg {
+	width: 1.5rem;
+}
