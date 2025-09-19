@@ -1,6 +1,5 @@
 div.today-metrics {
-	display: flex;
-	justify-content: center;
+	gap: 1rem;
 }
 
 div.today-metric {

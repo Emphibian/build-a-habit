@@ -5,17 +5,17 @@ function UpdateEstimateButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newEstimate, setNewEstimate] = useState("");
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
 		updateUI(id, newEstimate, isHabit);
 		closeModal();
 	};
 
-	const openModal = function () {
+	const openModal = function() {
 		setModalOpen(true);
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setModalOpen(false);
 	};
 
@@ -56,17 +56,17 @@ function UpdateTimeSpentButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [timeSpent, setTimeSpent] = useState("");
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
 		updateUI(id, timeSpent, isHabit);
 		closeModal();
 	};
 
-	const openModal = function () {
+	const openModal = function() {
 		setModalOpen(true);
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setModalOpen(false);
 	};
 

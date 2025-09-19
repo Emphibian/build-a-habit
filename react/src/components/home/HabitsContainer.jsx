@@ -60,7 +60,8 @@ export function Habits() {
 		loadDuration();
 	}, []);
 
-	const { habits, setHabits, tasks, setTasks } = useContext(HabitsContext);
+	const { habits, setHabits, tasks, setTasks, estimate, calculateEstimate } =
+		useContext(HabitsContext);
 
 	const checkIfComplete = async function(value, target, type) {
 		if (type === "duration") {
@@ -116,11 +117,13 @@ export function Habits() {
 		} else {
 			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
 		}
+		calculateEstimate();
 	};
 
 	const handleDelete = async function(id) {
 		setHabits(habits.filter((habit) => id !== habit._id));
 		setTasks(tasks.filter((task) => id !== task._id));
+		calculateEstimate();
 	};
 
 	const updateEstimate = async function(id, newEstimate, isHabit) {
@@ -136,6 +139,8 @@ export function Habits() {
 		} else {
 			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
 		}
+
+		calculateEstimate();
 	};
 
 	const updateTimeSpent = async function(id, timeSpent, isHabit) {
@@ -147,11 +152,12 @@ export function Habits() {
 		} else {
 			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
 		}
+		calculateEstimate();
 	};
 
 	return (
 		<div className="habits-container">
-			<TodayMetrics todayDuration={todayDuration} />
+			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
 			<div className="todo-habits">
 				{habits.map((habit) => {
 					if (habit.status === "Not Completed") {
@@ -202,6 +208,7 @@ export function Habits() {
 								key={task._id}
 								name={task.name}
 								workDuration={task.workDuration}
+								timeEstimate={task.timeEstimate}
 								handleUpdate={() => {
 									updateTask(task._id);
 								}}
@@ -216,7 +223,7 @@ export function Habits() {
 											estimate:
 												task.timeEstimate === undefined ? 0 : task.timeEstimate,
 										});
-										habitTimerStart(task._id, task.name, true);
+										habitTimerStart(task._id, task.name, false);
 									}
 								}}
 								openSidebar={() => {
