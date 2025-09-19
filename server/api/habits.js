@@ -77,13 +77,13 @@ router.patch("/habit/addDuration/:id", async (req, res) => {
 		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 		const user = await User.findById(userId);
-
 		const value = parseInt(req.body.value);
-		user.todayDuration = user.todayDuration + value;
-		habitInstance.workDuration = habitInstance.workDuration + value;
 
-		await user.save();
+		habitInstance.workDuration = habitInstance.workDuration + value;
 		await habitInstance.save();
+
+		user.todayDuration = user.todayDuration + value;
+		await user.save();
 		res.json(habitInstance);
 	} catch (error) {
 		console.log(error);

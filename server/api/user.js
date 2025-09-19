@@ -22,8 +22,15 @@ router.get("/user/todayDuration", async (req, res) => {
 		if (req.session.user) {
 			const userId = req.session.user.id;
 			const storedUser = await User.findById(userId).exec();
+			const lastAccess = new Date(req.session.user.lastAccess);
+			lastAccess.setHours(0, 0, 0, 0);
+			const currentDay = new Date();
+			currentDay.setHours(0, 0, 0, 0);
 
-			if (storedUser.todayDuration === undefined) {
+			if (
+				lastAccess.getTime() !== currentDay.getTime() ||
+				storedUser.todayDuration === undefined
+			) {
 				storedUser.todayDuration = 0;
 				await storedUser.save();
 			}

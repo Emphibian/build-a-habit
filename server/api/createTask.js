@@ -29,6 +29,7 @@ router.post("/createTask", async (req, res) => {
 			completed: false,
 			completedOn: null,
 			scheduledOn: scheduledOnDate,
+			timeEstimate: 0,
 		});
 
 		await task.save();

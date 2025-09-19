@@ -74,11 +74,11 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 		const value = parseInt(req.body.value);
 		const user = await User.findById(userId);
 
-		user.todayDuration = user.todayDuration + value;
 		task.workDuration = task.workDuration + value;
-
-		await user.save();
 		await task.save();
+
+		user.todayDuration = user.todayDuration + value;
+		await user.save();
 		res.status(201).json(task);
 	} catch (error) {
 		console.log(error);

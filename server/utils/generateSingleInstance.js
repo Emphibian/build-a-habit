@@ -15,6 +15,7 @@ async function generateSingleInstance(habit, userId) {
 		goalTarget: habit.goalTarget,
 		goalValue: "",
 		workDuration: 0,
+		timeEstimate: 0,
 	});
 
 	await instance.save();
