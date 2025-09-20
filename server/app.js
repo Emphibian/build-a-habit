@@ -45,7 +45,6 @@ const habitsRouter = require("./api/habits.js");
 const createHabitRouter = require("./api/createHabit.js");
 const createTaskRouter = require("./api/createTask.js");
 const tasksRouter = require("./api/tasks.js");
-const generateInstanceRouter = require("./api/generateInstance.js");
 const tracksRouter = require("./api/tracks.js");
 
 app.use("/api", registerRouter);
@@ -56,7 +55,6 @@ app.use("/api", habitsRouter);
 app.use("/api", tasksRouter);
 app.use("/api", createHabitRouter);
 app.use("/api", createTaskRouter);
-app.use("/api", generateInstanceRouter);
 app.use("/api", tracksRouter);
 
 app.get("/*splat", (req, res) => {
