@@ -6,8 +6,13 @@ import PlusIcon from "../../assets/svgs/plus.svg?react";
 
 export function CreateButton() {
 	const [buttonDisplay, setButtonDisplay] = useState(false);
-	const handleClick = function () {
-		setButtonDisplay((value) => !value);
+	const handleClick = function() {
+		let buttons = document.querySelectorAll(".spawned");
+		buttons.forEach((button) => {
+			button.classList.remove("spawned");
+		});
+
+		setTimeout(() => setButtonDisplay((value) => !value), 100);
 	};
 
 	let addButton = document.querySelector("button.create-habit:last-child");
