@@ -4,6 +4,7 @@ const router = express.Router();
 const User = require("../models/usersModel.js");
 const Habit = require("../models/habitModel.js");
 const generateSingleInstance = require("../utils/generateSingleInstance.js");
+const checkIfInstanceRequired = require("../utils/checkIfInstanceRequired.js");
 
 router.post("/createHabit", async (req, res) => {
 	try {
@@ -33,7 +34,10 @@ router.post("/createHabit", async (req, res) => {
 
 		await habit.save();
 
-		const instance = await generateSingleInstance(habit, userId);
+		let instance = null;
+		if (checkIfInstanceRequired(habit)) {
+			instance = await generateSingleInstance(habit, userId);
+		}
 		res.status(201).json({ instance });
 	} catch (error) {
 		console.log(error);

@@ -59,6 +59,7 @@ export function HabitsProvider({ children }) {
 			habitObj.target,
 		);
 
+		if (newInstance === null) return;
 		setHabits((habits) => [newInstance, ...habits]);
 	};
 

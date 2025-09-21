@@ -1,19 +1,7 @@
 const Habit = require("../models/habitModel.js");
 const Instance = require("../models/habitInstanceModel.js");
+const checkIfInstanceRequired = require("./checkIfInstanceRequired.js");
 const generateSingleInstance = require("./generateSingleInstance.js");
-
-// check if the instance should be generated for the current day
-function checkIfInstanceRequired(habit) {
-	if (habit.frequency === "daily") {
-		return true;
-	} else if (habit.frequency === "weekly") {
-		const currentDay = new Date().getDay();
-		const daysInWeek = habit.frequencyInfo.split(",");
-		if (daysInWeek.includes(currentDay.toString())) return true;
-	}
-
-	return false;
-}
 
 // check if instance has already been generated
 async function checkIfInstanceExists(habit) {
