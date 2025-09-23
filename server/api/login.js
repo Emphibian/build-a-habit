@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const User = require("../models/usersModel.js");
 const generateInstances = require("../utils/generateInstances.js");
@@ -15,6 +14,7 @@ router.post("/login", async (req, res) => {
 			res.status(401).json({ message: "No such user" });
 		}
 
+		// TODO replace this with actual hashing
 		if (storedUser.passwordHash == passwordHash) {
 			const currentDay = new Date();
 			currentDay.setHours(0, 0, 0, 0);
@@ -23,8 +23,10 @@ router.post("/login", async (req, res) => {
 				lastAccess: generateDayString(currentDay),
 			};
 
+			// logging in for the first time today
 			if (storedUser.lastLogin.getTime() !== currentDay.getTime()) {
 				storedUser.lastLogin = currentDay;
+				storedUser.todayDuration = 0;
 				await storedUser.save();
 				generateInstances(storedUser._id);
 			}

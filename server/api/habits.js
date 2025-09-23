@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const generateInstances = require("../utils/generateInstances.js");
 const generateDayString = require("../utils/generateDayString.js");
@@ -20,6 +19,7 @@ router.get("/habitsInstances", async (req, res) => {
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);
 
+		// if the user is already logged in and its a new day
 		if (lastAccess.getTime() !== currentDay.getTime()) {
 			req.session.user.lastAccess = generateDayString(currentDay);
 			await generateInstances(userId);

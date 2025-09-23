@@ -1,12 +1,25 @@
 const express = require("express");
 const User = require("../models/usersModel.js");
 const router = express.Router();
+const generateDayString = require("../utils/generateDayString.js");
 
 router.get("/user", async (req, res) => {
 	try {
 		if (req.session.user) {
 			const userId = req.session.user.id;
 			const storedUser = await User.findById(userId).exec();
+
+			const lastAccess = new Date(req.session.user.lastAccess);
+			lastAccess.setHours(0, 0, 0, 0);
+			const currentDay = new Date();
+			currentDay.setHours(0, 0, 0, 0);
+
+			// reset today work duration if it's a new day
+			if (lastAccess.getTime() !== currentDay.getTime()) {
+				req.session.user.lastAccess = generateDayString(currentDay);
+				storedUser.todayDuration = 0;
+				await storedUser.save();
+			}
 
 			res.json({ user: storedUser.username });
 		} else {
