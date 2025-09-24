@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const bcrypt = require("bcryptjs");
 
 const User = require("../models/usersModel.js");
 const generateInstances = require("../utils/generateInstances.js");
@@ -7,15 +8,16 @@ const generateDayString = require("../utils/generateDayString.js");
 
 router.post("/login", async (req, res) => {
 	try {
-		const { username, passwordHash } = req.body;
+		const { username, password } = req.body;
 		const storedUser = await User.findOne({ username }).exec();
 
 		if (storedUser === null) {
 			res.status(401).json({ message: "No such user" });
 		}
 
-		// TODO replace this with actual hashing
-		if (storedUser.passwordHash == passwordHash) {
+		const match = await bcrypt.compare(password, storedUser.passwordHash);
+
+		if (match) {
 			const currentDay = new Date();
 			currentDay.setHours(0, 0, 0, 0);
 			req.session.user = {

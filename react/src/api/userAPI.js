@@ -7,7 +7,7 @@ async function register(username, password) {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ username, passwordHash: password }),
+		body: JSON.stringify({ username, password }),
 	});
 
 	return response;
@@ -20,7 +20,7 @@ async function logIn(username, password) {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({ username, passwordHash: password }),
+		body: JSON.stringify({ username, password }),
 		credentials: "include",
 	});
 
