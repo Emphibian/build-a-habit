@@ -12,7 +12,6 @@
 	color: var(--sidebar-fg);
 	display: flex;
 	align-items: center;
-	padding-left: 1rem;
 }
 
 .sidebar ul {
@@ -27,7 +26,11 @@
 	height: 100%;
 	text-align: left;
 	padding: 1rem 0;
-	margin-left: 0.5rem;
+}
+
+.sidebar li > button {
+	padding-left: 1rem;
+	width: 100%;
 }
 
 .sidebar li:hover {

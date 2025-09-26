@@ -9,13 +9,13 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 
 	if (!isOpen) return null;
 
-	const handleCreation = async function(event) {
+	const handleCreation = async function (event) {
 		event.preventDefault();
 		createTask({ taskName, date });
 		closeModal();
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setOpen(false);
 		setButtonDisplay(false);
 	};
@@ -41,6 +41,7 @@ function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 							onChange={(event) => {
 								setDate(event.target.value);
 							}}
+							required
 						/>
 						<span>Schedule on:</span>
 					</label>
