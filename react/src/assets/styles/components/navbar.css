@@ -1,0 +1,72 @@
+.navbar {
+	width: 250px;
+	height: 100vh;
+	flex: 0 0 auto;
+	background-color: var(--navbar-bg);
+	z-index: 1;
+}
+
+.navbar ul {
+	display: flex;
+	flex-direction: column;
+	color: var(--habit-fg);
+	list-style: none;
+}
+
+.navbar li {
+	display: flex;
+	align-items: center;
+}
+
+.navbar button {
+	border: none;
+	background-color: inherit;
+	color: inherit;
+	height: 100%;
+	text-align: left;
+	padding: 0.7rem 0;
+	cursor: pointer;
+	font-family: inherit;
+	font-weight: 500;
+}
+
+.navbar li > button {
+	padding-left: 1rem;
+	width: 100%;
+}
+
+.navbar li:hover {
+	background-color: var(--navbar-li-hover-bg);
+}
+
+.navbar .icon {
+	width: 1.5rem;
+	margin-left: 0.7rem;
+}
+
+.navbar li svg {
+	fill: black;
+}
+
+.navbar li.selected {
+	position: relative;
+	color: var(--focus-blue);
+}
+
+.navbar li.selected svg {
+	fill: var(--focus-blue);
+}
+
+.navbar li.selected button {
+	font-weight: 700;
+}
+
+.navbar li.selected::before {
+	content: "";
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 5px;
+	background-color: var(--focus-blue);
+}

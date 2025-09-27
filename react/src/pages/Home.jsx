@@ -42,9 +42,11 @@ export function Home() {
 
 	return (
 		<div className="home">
-			<Dashboard />
 			<Sidebar tab={tab} setTab={setTab} />
-			{mainDiv}
+			<div className="main-container">
+				<Dashboard />
+				{mainDiv}
+			</div>
 		</div>
 	);
 }

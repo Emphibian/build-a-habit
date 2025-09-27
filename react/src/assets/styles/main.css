@@ -1,7 +1,9 @@
 @import "./variables.css";
 @import "./body.css";
 
+@import "./home.css";
 @import "./components/dashboard.css";
+@import "./components/navbar.css";
 @import "./components/sidebar.css";
 @import "./components/create-habit-button.css";
 @import "./components/habit-modal.css";
