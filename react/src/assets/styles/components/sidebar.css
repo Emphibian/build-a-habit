@@ -44,10 +44,15 @@
 	text-align: left;
 	padding: 0.7rem 0;
 	cursor: pointer;
+	font-family: inherit;
+	font-weight: 500;
 }
 
 .sidebar-right button {
-	font-size: inherit;
+	letter-spacing: 0.25px;
+	font-size: 14px;
+	line-height: 20px;
+	font-optical-sizing: auto;
 }
 
 .sidebar li > button {
