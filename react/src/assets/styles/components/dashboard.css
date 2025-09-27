@@ -1,5 +1,5 @@
 .dashboard {
-	background-color: var(--dashboard);
+	background-color: transparent;
 	padding: 1.8rem 1.1rem;
 	display: flex;
 	flex-direction: row;

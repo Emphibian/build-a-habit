@@ -81,9 +81,21 @@
 	margin-left: 0.7rem;
 }
 
+.sidebar li svg {
+	fill: black;
+}
+
 .sidebar li.selected {
 	position: relative;
-	color: #e1e2e3;
+	color: var(--focus-blue);
+}
+
+.sidebar li.selected svg {
+	fill: var(--focus-blue);
+}
+
+.sidebar li.selected button {
+	font-weight: 700;
 }
 
 .sidebar li.selected::before {
@@ -94,12 +106,4 @@
 	bottom: 0;
 	width: 5px;
 	background-color: var(--focus-blue);
-}
-
-.sidebar li.selected::after {
-	position: absolute;
-	inset: 0px;
-	opacity: 0.1;
-	content: "";
-	background-color: rgb(33 37 41);
 }
