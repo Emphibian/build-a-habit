@@ -1,5 +1,8 @@
 import { DeleteButton } from "./DeleteButton.jsx";
 import { useState } from "react";
+import StopwatchIcon from "../../assets/svgs/timer.svg?react";
+import AlarmSnoozeIcon from "../../assets/svgs/alarm-snooze.svg?react";
+import CloseIcon from "../../assets/svgs/close.svg?react";
 
 function UpdateEstimateButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
@@ -47,7 +50,10 @@ function UpdateEstimateButton({ id, updateUI, isHabit }) {
 	return (
 		<>
 			{modal}
-			<button onClick={openModal}>Update Estimate</button>
+			<button onClick={openModal}>
+				<StopwatchIcon />
+				Update Estimate
+			</button>
 		</>
 	);
 }
@@ -98,13 +104,21 @@ function UpdateTimeSpentButton({ id, updateUI, isHabit }) {
 	return (
 		<>
 			{modal}
-			<button onClick={openModal}>Update Time Spent</button>
+			<button onClick={openModal}>
+				<AlarmSnoozeIcon />
+				Update Time Spent
+			</button>
 		</>
 	);
 }
 
 function CloseButton({ close }) {
-	return <button onClick={close}>Close</button>;
+	return (
+		<button onClick={close}>
+			<CloseIcon />
+			Close
+		</button>
+	);
 }
 
 export function HabitSidebar({

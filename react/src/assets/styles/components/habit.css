@@ -73,4 +73,5 @@ div.svg-icon {
 
 button.danger {
 	color: var(--danger-red);
+	fill: var(--danger-red);
 }

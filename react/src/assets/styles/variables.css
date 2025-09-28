@@ -12,6 +12,7 @@
 	--gray: #9e9e9e;
 	--danger-red: #f44236;
 	--navbar-bg: hsl(0 0 92%);
+	--navbar-border: hsl(0 0 81%);
 	--sidebar-li-bg: #374258;
 	--navbar-li-hover-bg: hsl(0 0 calc(92% - 5%));
 	--sidebar-fg: #a9b7d0;

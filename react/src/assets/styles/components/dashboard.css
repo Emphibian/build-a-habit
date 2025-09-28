@@ -47,6 +47,7 @@
 	position: absolute;
 	right: 0;
 	transform: translate(0.1rem, 0.5rem);
+	box-shadow: 0 4px 24px 0 rgba(62, 57, 107, 0.18);
 }
 
 .account-modal .user-div {
