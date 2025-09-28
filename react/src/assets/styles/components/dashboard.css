@@ -1,9 +1,10 @@
 .dashboard {
 	background-color: transparent;
-	padding: 1.8rem 1.1rem;
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;
+	padding: 1.4rem 1.1rem;
+	margin-right: 1rem;
 }
 
 .header-name a {
@@ -17,16 +18,71 @@
 	align-items: center;
 }
 
-.dashboard nav button {
-	width: 1.4rem;
-	border: none;
-	background: inherit;
-}
-
 .dashboard .account {
-	display: flex;
+	position: relative;
 }
 
 .dashboard .account svg {
 	width: 1.4rem;
+}
+
+.account > button {
+	border: none;
+	background-color: inherit;
+	transition: transform 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.account > button:hover {
+	transform: scale(1.1);
+}
+
+.account-modal {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	background-color: var(--habit-bg);
+	border-radius: 5px;
+	min-width: 250px;
+	overflow: hidden;
+	position: absolute;
+	right: 0;
+	transform: translate(0.1rem, 0.5rem);
+}
+
+.account-modal .user-div {
+	background-color: var(--focus-blue);
+	color: var(--button-fg);
+	padding: 1rem;
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+
+.account-modal .user-options {
+	padding: 1rem;
+}
+
+div.account-modal button {
+	background-color: var(--focus-blue);
+	color: var(--button-fg);
+	padding: 0.5rem 2rem;
+	border: none;
+	border-radius: 5px;
+	font-size: 0.875rem;
+	font-weight: 500;
+}
+
+div.account-modal button:hover {
+	background-color: var(--focus-hover-blue);
+}
+
+.user-options button {
+	display: flex;
+	justify-content: center;
+	gap: 0.2rem;
+}
+
+div.account-modal button svg {
+	fill: var(--button-fg);
 }

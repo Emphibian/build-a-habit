@@ -15,5 +15,7 @@
 	--sidebar-li-bg: #374258;
 	--navbar-li-hover-bg: hsl(0 0 calc(92% - 5%));
 	--sidebar-fg: #a9b7d0;
-	--focus-blue: #04a9f5;
+	--focus-blue: hsl(199 97% 49%);
+	--focus-hover-blue: hsl(199 97% calc(49% - 5%));
+	--button-fg: hsl(0 0 100%);
 }

@@ -4,6 +4,36 @@ import userAPI from "../../api/userAPI.js";
 import Logout from "../../assets/svgs/logout.svg?react";
 import AccountSvg from "../../assets/svgs/account.svg?react";
 
+function AccountModal({ username, modalOpen, logout }) {
+	if (modalOpen) {
+		return (
+			<div class="account-modal">
+				<div class="user-div">
+					<span>{username}</span>
+				</div>
+				<div class="user-options">
+					<button onClick={() => logout()}>
+						<Logout /> Logout
+					</button>
+				</div>
+			</div>
+		);
+	}
+}
+
+function AccountModalButton({ username, logout }) {
+	const [modalOpen, setModalOpen] = useState(false);
+
+	return (
+		<>
+			<button onClick={() => setModalOpen((prev) => !prev)}>
+				<AccountSvg />
+			</button>
+			<AccountModal username={username} modalOpen={modalOpen} logout={logout} />
+		</>
+	);
+}
+
 export function Dashboard() {
 	const [user, setUser] = useState("");
 	const navigate = useNavigate();
@@ -41,14 +71,8 @@ export function Dashboard() {
 				</div>
 				<nav>
 					<div className="account">
-						<AccountSvg />
-						{user}
+						<AccountModalButton username={user} logout={logout} />
 					</div>
-					<button onClick={() => logout()}>
-						<Logout>
-							<title>Logout</title>
-						</Logout>
-					</button>
 				</nav>
 			</div>
 		);
