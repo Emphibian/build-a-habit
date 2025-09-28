@@ -3,8 +3,18 @@
 	padding: 1rem;
 	display: flex;
 	flex-direction: column;
-	gap: 0.2rem;
+	gap: 2px;
 	align-items: center;
+}
+
+.todo-habits .habit:first-child {
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+}
+
+.todo-habits .habit:last-child {
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
 }
 
 .done-habits h2 {
@@ -22,9 +32,9 @@
 	background-color: var(--habit-bg);
 	color: var(--habit-fg);
 	padding: 0.3rem 1rem;
-	box-shadow: 0 1px 20px 0 rgb(69, 90, 100, 0.08);
-	border-radius: 4px;
-	transition: outline 0.1s cubic-bezier(0.9, 0.38, 0.4, 1.1);
+	transition:
+		outline 0.1s cubic-bezier(0.9, 0.38, 0.4, 1.1),
+		box-shadow 0.3s ease-in-out;
 }
 
 .habit-name {
@@ -40,6 +50,7 @@
 
 div.habit.timer-on {
 	outline: 2px solid var(--timer-bg);
+	box-shadow: 0 0 4px 0 hsl(0 0 0%);
 }
 
 div.svg-icon {

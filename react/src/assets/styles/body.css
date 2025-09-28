@@ -10,6 +10,7 @@ body {
 	flex-direction: column;
 	align-items: center;
 	font-family: "Open Sans", sans-serif;
+	font-size: 0.875rem;
 	background-color: var(--body-bg);
 }
 
@@ -17,11 +18,11 @@ body {
 	background-image: linear-gradient(
 		180deg,
 		hsl(292deg 73% 85%) 0%,
-		hsl(292deg 73% 88%) 2%,
-		hsl(293deg 73% 91%) 6%,
-		hsl(292deg 73% 94%) 14%,
-		hsl(295deg 73% 97%) 30%,
-		hsl(0deg 0% 100%) 100%
+		hsl(293deg 69% 89%) 3%,
+		hsl(294deg 60% 93%) 16%,
+		hsl(296deg 44% 95%) 40%,
+		hsl(303deg 25% 96%) 72%,
+		hsl(60deg 7% 97%) 100%
 	);
 }
 

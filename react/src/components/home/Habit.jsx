@@ -35,7 +35,8 @@ export function Habit({
 			</div>
 			<p className="habit-name">{name}</p>
 			<span>
-				{prettyPrintDuration(workDuration)}/{prettyPrintDuration(timeEstimate)}
+				{prettyPrintDuration(workDuration)} /{" "}
+				{prettyPrintDuration(timeEstimate)}
 			</span>
 			<button onClick={handleTimer}>
 				{isTimerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
