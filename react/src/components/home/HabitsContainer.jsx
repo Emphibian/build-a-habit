@@ -50,6 +50,10 @@ export function Habits() {
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [todayDuration, setTodayDuration] = useState(0);
+	const [focusedId, setFocusedId] = useState(null);
+
+	const onItemClick = (id) => setFocusedId(id);
+	const onClear = () => setFocusedId(null);
 
 	useEffect(() => {
 		async function loadDuration() {
@@ -159,7 +163,7 @@ export function Habits() {
 		<div className="habits-container">
 			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
 			<div className="todo-habits">
-				{habits.map((habit) => {
+				{habits.map((habit, index) => {
 					if (habit.status === "Not Completed") {
 						return (
 							<Habit
@@ -167,6 +171,8 @@ export function Habits() {
 								name={habit.name}
 								workDuration={habit.workDuration}
 								timeEstimate={habit.timeEstimate}
+								setFocus={() => setFocusedId("h" + index)}
+								focused={focusedId === "h" + index}
 								handleUpdate={() =>
 									updateValue(
 										habit._id,
@@ -201,7 +207,7 @@ export function Habits() {
 						);
 					}
 				})}
-				{tasks.map((task) => {
+				{tasks.map((task, index) => {
 					if (!task.completed) {
 						return (
 							<Habit
@@ -209,6 +215,8 @@ export function Habits() {
 								name={task.name}
 								workDuration={task.workDuration}
 								timeEstimate={task.timeEstimate}
+								setFocus={() => setFocusedId("t" + index)}
+								focused={focusedId === "t" + index}
 								handleUpdate={() => {
 									updateTask(task._id);
 								}}

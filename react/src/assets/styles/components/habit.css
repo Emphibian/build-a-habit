@@ -34,7 +34,7 @@
 	padding: 0.3rem 1rem;
 	transition:
 		outline 0.1s cubic-bezier(0.9, 0.38, 0.4, 1.1),
-		box-shadow 0.3s ease-in-out;
+		box-shadow 0.1s ease-in-out;
 }
 
 .habit-name {
@@ -48,7 +48,8 @@
 	transition: transform 0.25s ease-in-out;
 }
 
-div.habit.timer-on {
+div.habit.timer-on,
+div.habit.timer-on.focused {
 	outline: 2px solid var(--timer-bg);
 	box-shadow: 0 0 4px 0 hsl(0 0 0%);
 }
@@ -74,4 +75,9 @@ div.svg-icon {
 button.danger {
 	color: var(--danger-red);
 	fill: var(--danger-red);
+}
+
+div.habit.focused {
+	outline: 1px solid var(--focus-blue);
+	box-shadow: 0 0 3px 0 var(--focus-blue);
 }

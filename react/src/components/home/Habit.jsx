@@ -14,6 +14,8 @@ export function Habit({
 	timeEstimate,
 	isSidebarOpen,
 	isTimerRunning,
+	setFocus,
+	focused,
 }) {
 	let sidebarIcon;
 	if (isSidebarOpen) {
@@ -27,9 +29,13 @@ export function Habit({
 		outerDivClasses = "habit timer-on";
 	}
 
+	if (focused) {
+		outerDivClasses += " focused";
+	}
+
 	const fill = "#3B4554";
 	return (
-		<div className={outerDivClasses}>
+		<div onClick={setFocus} className={outerDivClasses}>
 			<div className="svg-icon">
 				{isTimerRunning && <Play fill="#ff4081" />}
 			</div>
