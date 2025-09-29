@@ -6,6 +6,7 @@ import { Habits } from "../components/home/HabitsContainer";
 import { Sidebar } from "../components/home/Sidebar.jsx";
 import userAPI from "../api/userAPI.js";
 import { HabitsProvider } from "../contexts/HabitContext.jsx";
+import { TimerProvider } from "../contexts/TimerContext.jsx";
 import { TrackContainer } from "../components/home/TrackContainer.jsx";
 
 export function Home() {
@@ -43,10 +44,12 @@ export function Home() {
 	return (
 		<div className="home">
 			<Sidebar tab={tab} setTab={setTab} />
-			<div className="main-container">
-				<Dashboard />
-				{mainDiv}
-			</div>
+			<TimerProvider>
+				<div className="main-container">
+					<Dashboard />
+					{mainDiv}
+				</div>
+			</TimerProvider>
 		</div>
 	);
 }

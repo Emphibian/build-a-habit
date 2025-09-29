@@ -4,16 +4,17 @@ import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
 import habitAPI from "../../api/habitAPI.js";
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
+import { TimerContext } from "../../contexts/TimerContext.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
-	const closeModal = function() {
+	const closeModal = function () {
 		setOpen(false);
 	};
 
-	const handleUpdate = async function(event) {
+	const handleUpdate = async function (event) {
 		event.preventDefault();
 
 		closeModal();
@@ -42,18 +43,11 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
-	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => { });
+	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [sidebarHabit, setSidebarHabit] = useState(null);
-	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
-	const [timerOn, setTimerOn] = useState(false);
-	const [timerRunning, setTimerRunning] = useState(false);
-	const [timerDuration, setTimerDuration] = useState(0);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [todayDuration, setTodayDuration] = useState(0);
 	const [focusedId, setFocusedId] = useState(null);
-
-	const onItemClick = (id) => setFocusedId(id);
-	const onClear = () => setFocusedId(null);
 
 	useEffect(() => {
 		async function loadDuration() {
@@ -67,7 +61,20 @@ export function Habits() {
 	const { habits, setHabits, tasks, setTasks, estimate, calculateEstimate } =
 		useContext(HabitsContext);
 
-	const checkIfComplete = async function(value, target, type) {
+	const {
+		habitTimerStart,
+		habitTimerStop,
+		timerHabit,
+		setTimerHabit,
+		timerOn,
+		setTimerOn,
+		timerRunning,
+		setTimerRunning,
+		timerDuration,
+		setTimerDuration,
+	} = useContext(TimerContext);
+
+	const checkIfComplete = async function (value, target, type) {
 		if (type === "duration") {
 			return parseInt(value) >= parseInt(target);
 		} else if (type === "number") {
@@ -77,14 +84,14 @@ export function Habits() {
 		}
 	};
 
-	const handleComplete = async function(id, value, target, type) {
+	const handleComplete = async function (id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 
 		const updatedHabit = await habitAPI.markComplete(id, value);
 		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
 	};
 
-	const updateValue = function(id, value, target, type) {
+	const updateValue = function (id, value, target, type) {
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
 			return;
@@ -96,22 +103,12 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const habitTimerStart = function(id, name, isHabit) {
-		if (timerHabit.id !== id) setTimerDuration(0);
-		setTimerHabit({ id, name, isHabit });
-		setTimerRunning(true);
-	};
-
-	const habitTimerStop = function() {
-		setTimerRunning(false);
-	};
-
-	const updateTask = async function(id) {
+	const updateTask = async function (id) {
 		const updatedTask = await habitAPI.updateTask(id);
 		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
-	const updateHabitDuration = async function(id, value, isHabit) {
+	const updateHabitDuration = async function (id, value, isHabit) {
 		setTodayDuration((prev) => prev + value);
 		const updatedHabit = await habitAPI.updateHabitDuration(id, value, isHabit);
 		if (isHabit) {
@@ -124,13 +121,13 @@ export function Habits() {
 		calculateEstimate();
 	};
 
-	const handleDelete = async function(id) {
+	const handleDelete = async function (id) {
 		setHabits(habits.filter((habit) => id !== habit._id));
 		setTasks(tasks.filter((task) => id !== task._id));
 		calculateEstimate();
 	};
 
-	const updateEstimate = async function(id, newEstimate, isHabit) {
+	const updateEstimate = async function (id, newEstimate, isHabit) {
 		const updatedHabit = await habitAPI.updateEstimate(
 			id,
 			newEstimate,
@@ -147,7 +144,7 @@ export function Habits() {
 		calculateEstimate();
 	};
 
-	const updateTimeSpent = async function(id, timeSpent, isHabit) {
+	const updateTimeSpent = async function (id, timeSpent, isHabit) {
 		const updatedHabit = await habitAPI.updateTimeSpent(id, timeSpent, isHabit);
 		if (isHabit) {
 			setHabits(
