@@ -28,28 +28,34 @@ export function Home() {
 		}
 	}, [navigate]);
 
-	let mainDiv;
-
 	if (tab === "Today") {
-		mainDiv = (
-			<HabitsProvider>
-				<Habits />
-				<CreateButton />
-			</HabitsProvider>
+		return (
+			<div className="home">
+				<Sidebar tab={tab} setTab={setTab} />
+				<HabitsProvider>
+					<TimerProvider>
+						<div className="main-container">
+							<Dashboard />
+							<Habits />
+							<CreateButton />
+						</div>
+					</TimerProvider>
+				</HabitsProvider>
+			</div>
 		);
-	} else if (tab == "Tracks") {
-		mainDiv = <TrackContainer />;
 	}
 
 	return (
 		<div className="home">
 			<Sidebar tab={tab} setTab={setTab} />
-			<TimerProvider>
-				<div className="main-container">
-					<Dashboard />
-					{mainDiv}
-				</div>
-			</TimerProvider>
+			<HabitsProvider>
+				<TimerProvider>
+					<div className="main-container">
+						<Dashboard />
+						<TrackContainer />
+					</div>
+				</TimerProvider>
+			</HabitsProvider>
 		</div>
 	);
 }

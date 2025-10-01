@@ -1,5 +1,4 @@
 import { useState, useEffect, useContext } from "react";
-import { Timer } from "./Timer";
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
 import habitAPI from "../../api/habitAPI.js";
@@ -46,7 +45,6 @@ export function Habits() {
 	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
-	const [todayDuration, setTodayDuration] = useState(0);
 	const [focusedId, setFocusedId] = useState(null);
 
 	useEffect(() => {
@@ -66,12 +64,10 @@ export function Habits() {
 		habitTimerStop,
 		timerHabit,
 		setTimerHabit,
-		timerOn,
-		setTimerOn,
 		timerRunning,
-		setTimerRunning,
-		timerDuration,
-		setTimerDuration,
+		todayDuration,
+		setTodayDuration,
+		updateEstimate,
 	} = useContext(TimerContext);
 
 	const checkIfComplete = async function (value, target, type) {
@@ -108,39 +104,9 @@ export function Habits() {
 		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
-	const updateHabitDuration = async function (id, value, isHabit) {
-		setTodayDuration((prev) => prev + value);
-		const updatedHabit = await habitAPI.updateHabitDuration(id, value, isHabit);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
-		calculateEstimate();
-	};
-
 	const handleDelete = async function (id) {
 		setHabits(habits.filter((habit) => id !== habit._id));
 		setTasks(tasks.filter((task) => id !== task._id));
-		calculateEstimate();
-	};
-
-	const updateEstimate = async function (id, newEstimate, isHabit) {
-		const updatedHabit = await habitAPI.updateEstimate(
-			id,
-			newEstimate,
-			isHabit,
-		);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
-
 		calculateEstimate();
 	};
 
@@ -292,26 +258,6 @@ export function Habits() {
 				isOpen={doneModalOpen}
 				setOpen={setDoneModalOpen}
 				handleHabitUpdate={doneModalUpdate}
-			/>
-			<Timer
-				timerOn={timerOn}
-				setTimerOn={setTimerOn}
-				timerRunning={timerRunning}
-				setTimerRunning={setTimerRunning}
-				habitName={timerHabit.name}
-				timeEstimate={timerHabit.estimate}
-				addDuration={(value) => {
-					updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
-				}}
-				addEstimate={(value) => {
-					updateEstimate(
-						timerHabit.id,
-						value + timerHabit.estimate,
-						timerHabit.isHabit,
-					);
-				}}
-				duration={timerDuration}
-				incrementDuration={() => setTimerDuration((prev) => prev + 1)}
 			/>
 			<HabitSidebar
 				instance={sidebarHabit}
