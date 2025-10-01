@@ -1,7 +1,7 @@
 .dashboard {
 	background-color: transparent;
-	position: relative;
 	display: flex;
+	align-items: center;
 	flex-direction: row;
 	justify-content: space-between;
 	padding: 1.4rem 1.1rem;
@@ -17,6 +17,11 @@
 	display: flex;
 	gap: 1rem;
 	align-items: center;
+}
+
+.dashboard-right {
+	display: flex;
+	gap: 1rem;
 }
 
 .dashboard .account {

@@ -97,9 +97,9 @@ export function Timer({
 	return (
 		<>
 			<div className="timer">
-				<p>{duration}m</p>
-				{timerRunning ? <PauseButton /> : <PlayButton />}
 				<p>{habitName}</p>
+				{timerRunning ? <PauseButton /> : <PlayButton />}
+				{/*<p>{duration}m</p> */}
 			</div>
 			{notificationModal}
 		</>

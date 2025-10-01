@@ -83,31 +83,33 @@ export function Dashboard() {
 				<div className="header-name">
 					<Link to="/home">buildAhabit</Link>
 				</div>
-				<Timer
-					timerOn={timerOn}
-					setTimerOn={setTimerOn}
-					timerRunning={timerRunning}
-					setTimerRunning={setTimerRunning}
-					habitName={timerHabit.name}
-					timerEstimate={timerHabit.estimate}
-					duration={timerDuration}
-					incrementDuration={() => setTimerDuration((prev) => prev + 1)}
-					addDuration={(value) => {
-						updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
-					}}
-					addEstimate={(value) => {
-						updateEstimate(
-							timerHabit.id,
-							value + timerHabit.estimate,
-							timerHabit.isHabit,
-						);
-					}}
-				/>
-				<nav>
-					<div className="account">
-						<AccountModalButton username={user} logout={logout} />
-					</div>
-				</nav>
+				<div className="dashboard-right">
+					<Timer
+						timerOn={timerOn}
+						setTimerOn={setTimerOn}
+						timerRunning={timerRunning}
+						setTimerRunning={setTimerRunning}
+						habitName={timerHabit.name}
+						timerEstimate={timerHabit.estimate}
+						duration={timerDuration}
+						incrementDuration={() => setTimerDuration((prev) => prev + 1)}
+						addDuration={(value) => {
+							updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
+						}}
+						addEstimate={(value) => {
+							updateEstimate(
+								timerHabit.id,
+								value + timerHabit.estimate,
+								timerHabit.isHabit,
+							);
+						}}
+					/>
+					<nav>
+						<div className="account">
+							<AccountModalButton username={user} logout={logout} />
+						</div>
+					</nav>
+				</div>
 			</div>
 		);
 	}
