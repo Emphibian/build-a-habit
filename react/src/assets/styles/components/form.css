@@ -1,0 +1,97 @@
+.form-div form {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 1rem;
+	align-items: center;
+	width: 50rem;
+	max-width: 400px;
+}
+
+.form-div label {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	width: 100%;
+	background-color: #f5f5f5;
+	position: relative;
+	border-bottom: 2px solid var(--habit-done-hover);
+}
+
+.form-div label:hover,
+.form-div label:focus-within {
+	background-color: #e6e6e6;
+}
+
+.form-div form span {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	transform-origin: left;
+	padding-left: 0.5rem;
+	transition:
+		top 0.2s ease,
+		transform 0.2s ease;
+	color: var(--habit-done-hover);
+}
+
+.form-div form label:focus-within span,
+.form-div form input:valid + span,
+.form-div form input:not([type="text"]) + span,
+.form-div form select + span {
+	top: 10%;
+	transform: scale(0.7);
+}
+
+.form-div form label:focus-within span {
+	color: var(--focus-blue);
+}
+.form-div label:focus-within {
+	border-bottom: 2px solid var(--focus-blue);
+}
+
+.form-div form button {
+	border: 2px solid #e3e3e3;
+	background: none;
+	border-radius: 3px;
+	padding: 0.3rem 0.7rem;
+	color: var(--focus-blue);
+	cursor: pointer;
+	font-weight: 500;
+	display: flex;
+	align-items: center;
+	font-size: 0.9rem;
+	gap: 0.3rem;
+}
+
+.form-div button svg {
+	width: 0.9rem;
+}
+
+.form-div form button:hover {
+	background-color: #f0f9ff;
+}
+
+.form-div input,
+.form-div select {
+	padding: 1.5rem 0 0.5rem 0.5rem;
+	outline: none;
+	border: none;
+	background: none;
+}
+
+.form-div input[type="text"] {
+	background-color: inherit;
+	border: none;
+	font-size: 1rem;
+}
+
+form div.btn-grp {
+	display: flex;
+	flex-direction: row-reverse;
+	justify-content: flex-start;
+	gap: 0.5rem;
+	width: 100%;
+	margin-top: 1rem;
+	margin-right: 1rem;
+}

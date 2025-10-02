@@ -1,0 +1,26 @@
+div.login {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	height: 100%;
+}
+
+.login .placeholder {
+	flex-grow: 0.118;
+}
+
+.placeholder-form {
+	flex-grow: 1;
+}
+
+.login .form-div {
+	padding: 1rem;
+	border-radius: 2px;
+	background-color: #ffffff;
+	border-radius: 4px;
+}
+
+.login .form-div label {
+	background-color: inherit;
+}
