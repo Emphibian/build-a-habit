@@ -17,10 +17,17 @@ div.login {
 .login .form-div {
 	padding: 1rem;
 	border-radius: 2px;
-	background-color: #ffffff;
+	background-color: var(--habit-bg);
 	border-radius: 4px;
 }
 
 .login .form-div label {
 	background-color: inherit;
+}
+
+.login .error {
+	background-color: var(--danger-red);
+	color: var(--habit-bg);
+	padding: 0.5rem;
+	margin-bottom: 0.5rem;
 }

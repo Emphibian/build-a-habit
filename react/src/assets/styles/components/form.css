@@ -37,7 +37,7 @@
 
 .form-div form label:focus-within span,
 .form-div form input:valid + span,
-.form-div form input:not([type="text"]) + span,
+.form-div form input:not([type="text"]):not([type="password"]) + span,
 .form-div form select + span {
 	top: 10%;
 	transform: scale(0.7);
@@ -80,6 +80,7 @@
 	background: none;
 }
 
+.form-div input[type="password"],
 .form-div input[type="text"] {
 	background-color: inherit;
 	border: none;
