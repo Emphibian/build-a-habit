@@ -23,7 +23,7 @@ export function Register() {
 
 		// account successfully created
 		if (response.status === 201) {
-			setResponseMessage(data.message);
+			setResponseMessage("Account created. You can now log in");
 		} else {
 			setErrorMessage(data.message);
 		}
