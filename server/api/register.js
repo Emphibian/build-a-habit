@@ -8,6 +8,12 @@ const SALT_ROUNDS = 12;
 router.post("/register", async (req, res) => {
 	try {
 		const { username, password } = req.body;
+
+		const userExists = await User.exists({ username });
+		if (userExists) {
+			return res.status(409).json({ error: "username taken" });
+		}
+
 		const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);
