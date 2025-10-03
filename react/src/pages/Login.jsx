@@ -6,14 +6,19 @@ import userAPI from "../api/userAPI.js";
 export function Login() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
-	const [responseMessage, setResponseMessage] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 	const navigate = useNavigate();
 
-	const handleLogin = async function (event) {
+	const handleLogin = async function(event) {
 		event.preventDefault();
 		const response = await userAPI.logIn(username, password);
 		const data = await response.json();
-		setResponseMessage(data.message);
+
+		setErrorMessage(null);
+		if (response.status !== 201) {
+			setErrorMessage(data.message);
+		}
+
 		if (response.ok) {
 			navigate("/home", { replace: true });
 		}
@@ -22,36 +27,38 @@ export function Login() {
 	return (
 		<>
 			<Dashboard />
-			<h1>Login</h1>
-			<form onSubmit={handleLogin}>
-				<label>
-					Username:
-					<input
-						type="text"
-						value={username}
-						onChange={(event) => setUsername(event.target.value)}
-						placeholder="Username"
-						required
-					/>
-				</label>
-				<label>
-					Password:
-					<input
-						type="text"
-						value={password}
-						onChange={(event) => setPassword(event.target.value)}
-						placeholder="Password"
-						required
-					/>
-				</label>
-				<button type="submit">Login</button>
-			</form>
-			{responseMessage && <p>Logged in successfully</p>}
-			{responseMessage && (
-				<p>
-					Proceed to <Link to="/home">Home</Link>
-				</p>
-			)}
+			<div className="login">
+				<div className="placeholder"></div>
+				<div className="placeholder-form">
+					<div className="form-div">
+						<h2 className="mb-05">Login</h2>
+						{errorMessage !== null && (
+							<div className="error">{errorMessage}</div>
+						)}
+						<form onSubmit={handleLogin}>
+							<label>
+								<input
+									type="text"
+									value={username}
+									onChange={(event) => setUsername(event.target.value)}
+									required
+								/>
+								<span>Username</span>
+							</label>
+							<label>
+								<input
+									type="password"
+									value={password}
+									onChange={(event) => setPassword(event.target.value)}
+									required
+								/>
+								<span>Password</span>
+							</label>
+							<button type="submit">Login</button>
+						</form>
+					</div>
+				</div>
+			</div>
 		</>
 	);
 }

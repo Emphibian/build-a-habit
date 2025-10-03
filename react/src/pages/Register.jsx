@@ -5,43 +5,75 @@ import userAPI from "../api/userAPI.js";
 export function Register() {
 	const [username, setUsername] = useState("");
 	const [password, setPassword] = useState("");
+	const [reenterPassword, setReenterPassword] = useState("");
 	const [responseMessage, setResponseMessage] = useState("");
+	const [errorMessage, setErrorMessage] = useState(null);
 
-	const handleRegister = async function (event) {
+	const handleRegister = async function(event) {
 		event.preventDefault();
+		// check if password is the same as re-enter password
+		if (password !== reenterPassword) {
+			setErrorMessage("Passwords do not match");
+			return;
+		}
+
+		setErrorMessage(null);
 		const response = await userAPI.register(username, password);
 		const data = await response.json();
-		setResponseMessage(data.message);
+
+		// account successfully created
+		if (response.status === 201) {
+			setResponseMessage("Account created. You can now log in");
+		} else {
+			setErrorMessage(data.message);
+		}
 	};
 
 	return (
 		<>
 			<Dashboard />
-			<h1>Register</h1>
-			<form onSubmit={handleRegister}>
-				<label>
-					Username:
-					<input
-						type="text"
-						value={username}
-						onChange={(event) => setUsername(event.target.value)}
-						placeholder="Username"
-						required
-					/>
-				</label>
-				<label>
-					Password:
-					<input
-						type="text"
-						value={password}
-						onChange={(event) => setPassword(event.target.value)}
-						placeholder="Password"
-						required
-					/>
-				</label>
-				<button type="submit">Register</button>
-			</form>
-			{responseMessage && <p>{responseMessage}</p>}
+			<div className="login">
+				<div className="placeholder"></div>
+				<div className="placeholder-form">
+					<div className="form-div">
+						<h2 className="mb-05">Register</h2>
+						{errorMessage !== null && (
+							<div className="error">{errorMessage}</div>
+						)}
+						<form onSubmit={handleRegister}>
+							<label>
+								<input
+									type="text"
+									value={username}
+									onChange={(event) => setUsername(event.target.value)}
+									required
+								/>
+								<span>Username</span>
+							</label>
+							<label>
+								<input
+									type="password"
+									value={password}
+									onChange={(event) => setPassword(event.target.value)}
+									required
+								/>
+								<span>Password</span>
+							</label>
+							<label>
+								<input
+									type="password"
+									value={reenterPassword}
+									onChange={(event) => setReenterPassword(event.target.value)}
+									required
+								/>
+								<span>Re-enter Password</span>
+							</label>
+							<button type="submit">Register</button>
+						</form>
+						{responseMessage && <p>{responseMessage}</p>}
+					</div>
+				</div>
+			</div>
 		</>
 	);
 }

@@ -2,10 +2,12 @@
 @import "./body.css";
 
 @import "./home.css";
+@import "./login.css";
 @import "./components/dashboard.css";
 @import "./components/navbar.css";
 @import "./components/sidebar.css";
 @import "./components/create-habit-button.css";
+@import "./components/form.css";
 @import "./components/habit-modal.css";
 @import "./components/habit.css";
 @import "./components/timer.css";

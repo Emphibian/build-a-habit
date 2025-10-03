@@ -12,7 +12,7 @@ router.post("/login", async (req, res) => {
 		const storedUser = await User.findOne({ username }).exec();
 
 		if (storedUser === null) {
-			res.status(401).json({ message: "No such user" });
+			res.status(401).json({ message: "Username or Password doesn't match" });
 		}
 
 		const match = await bcrypt.compare(password, storedUser.passwordHash);
@@ -35,7 +35,7 @@ router.post("/login", async (req, res) => {
 
 			res.status(201).json({ message: "Logged In" });
 		} else {
-			res.status(401).json({ message: "Password didn't match" });
+			res.status(401).json({ message: "Username or Password doesn't match" });
 		}
 	} catch (error) {
 		console.log(error);

@@ -7,3 +7,7 @@
 	display: flex;
 	justify-content: center;
 }
+
+.mb-05 {
+	margin-bottom: 0.5rem;
+}
