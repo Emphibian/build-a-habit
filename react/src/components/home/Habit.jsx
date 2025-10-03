@@ -44,13 +44,15 @@ export function Habit({
 				{prettyPrintDuration(workDuration)} /{" "}
 				{prettyPrintDuration(timeEstimate)}
 			</span>
-			<button onClick={handleTimer}>
-				{isTimerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
-			</button>
-			<button onClick={handleUpdate}>
-				<Checkmark fill={fill} />
-			</button>
-			<button onClick={openSidebar}>{sidebarIcon}</button>
+			<div className="button-hover">
+				<button onClick={handleTimer}>
+					{isTimerRunning ? <Pause fill={fill} /> : <Play fill={fill} />}
+				</button>
+				<button onClick={handleUpdate}>
+					<Checkmark fill={fill} />
+				</button>
+				<button onClick={openSidebar}>{sidebarIcon}</button>
+			</div>
 		</div>
 	);
 }

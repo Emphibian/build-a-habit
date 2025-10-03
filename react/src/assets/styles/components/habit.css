@@ -24,6 +24,7 @@
 }
 
 .habit {
+	position: relative;
 	display: flex;
 	flex-direction: row;
 	align-items: center;
@@ -42,7 +43,7 @@
 }
 
 .habit button {
-	background: inherit;
+	background: transparent;
 	border: none;
 	transition: transform 0.25s ease-in-out;
 	line-height: 0;
@@ -56,6 +57,7 @@ div.habit.timer-on.focused {
 
 div.svg-icon {
 	width: 28px;
+	height: 28px;
 	line-height: 0;
 }
 
@@ -64,7 +66,8 @@ div.svg-icon {
 }
 
 .habit button:hover {
-	transform: scale(1.2);
+	/* transform: scale(1.2); */
+	background: var(--habit-bg-hover);
 	cursor: pointer;
 }
 
@@ -85,4 +88,23 @@ button.danger {
 div.habit.focused {
 	outline: 1px solid var(--focus-blue);
 	box-shadow: 0 0 3px 0 var(--focus-blue);
+}
+
+div.button-hover {
+	display: flex;
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	right: 1rem;
+	background-color: inherit;
+	opacity: 0;
+	border-left: 2px solid #dfdfdf;
+}
+
+div.habit:hover div.button-hover {
+	opacity: 1;
+}
+
+div.button-hover button {
+	padding: 0 0.3rem;
 }
