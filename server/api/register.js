@@ -11,7 +11,7 @@ router.post("/register", async (req, res) => {
 
 		const userExists = await User.exists({ username });
 		if (userExists) {
-			return res.status(409).json({ error: "username taken" });
+			return res.status(409).json({ message: "Username already in use" });
 		}
 
 		const passwordHash = await bcrypt.hash(password, SALT_ROUNDS);

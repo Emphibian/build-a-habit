@@ -21,9 +21,6 @@ function HomeNav({ user, logout }) {
 
 	return (
 		<div className="dashboard">
-			<div className="header-name">
-				<Link to="/home">buildAhabit</Link>
-			</div>
 			<div className="dashboard-right">
 				<Timer
 					timerOn={timerOn}
@@ -58,9 +55,6 @@ function HomeNav({ user, logout }) {
 function LoginNav() {
 	return (
 		<div className="dashboard sign-in">
-			<div className="header-name">
-				<Link to="/">buildAhabit</Link>
-			</div>
 			<nav>
 				<Link to="/register">Register</Link>
 				<Link to="/login">Login</Link>
@@ -104,7 +98,7 @@ export function Dashboard() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const fetchUser = async function() {
+		const fetchUser = async function () {
 			const response = await userAPI.getUser();
 			if (response.ok) {
 				const data = await response.json();
@@ -118,7 +112,7 @@ export function Dashboard() {
 		fetchUser();
 	}, []);
 
-	const logout = async function() {
+	const logout = async function () {
 		const response = await userAPI.logOut();
 		if (!response.ok) {
 			const message = await response.text();

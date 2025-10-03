@@ -72,3 +72,12 @@
 .sidebar li svg {
 	fill: inherit;
 }
+
+.header-name {
+	padding: 1rem;
+}
+
+.header-name a {
+	text-decoration: none;
+	font-size: 25px;
+}
