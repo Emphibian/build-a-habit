@@ -1,29 +1,26 @@
 import { useState, useEffect } from "react";
-import trackAPI from "../../api/trackAPI.js";
 import { Track } from "./Track.jsx";
 import { TrackSidebar } from "./TrackSidebar.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTracks } from "../../features/tracks/tracksThunks";
 
 export function TrackContainer() {
-	const [tracks, setTracks] = useState([]);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [selectedTrack, setSelectedTrack] = useState();
 
+	const allTracks = useSelector((state) =>
+		state.tracks.allIds.map((id) => state.tracks.byId[id]),
+	);
+
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		const loadTracks = async function () {
-			const tracks = await trackAPI.getTracks();
-			setTracks(tracks);
-		};
-
-		loadTracks();
-	}, []);
-
-	const handleDelete = async function (id) {
-		setTracks(tracks.filter((track) => id !== track._id));
-	};
+		dispatch(fetchTracks());
+	}, [dispatch]);
 
 	return (
 		<div className="entries-container">
-			{tracks.map((track) => {
+			{allTracks.map((track) => {
 				return (
 					<Track
 						key={track._id}
@@ -42,7 +39,6 @@ export function TrackContainer() {
 				track={selectedTrack}
 				isOpen={sidebarOpen}
 				close={() => setSidebarOpen(false)}
-				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>
 	);
