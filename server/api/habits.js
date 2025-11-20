@@ -44,7 +44,6 @@ router.patch("/habit/completed/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 
 		if (habitInstance.goalType === "yes/no") {
@@ -60,7 +59,7 @@ router.patch("/habit/completed/:id", async (req, res) => {
 		}
 
 		await habitInstance.save();
-		res.json(habitInstance);
+		res.status(200).json(habitInstance);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });
@@ -104,7 +103,7 @@ router.patch("/habit/updateEstimate/:id", async (req, res) => {
 
 		habitInstance.timeEstimate = value;
 		await habitInstance.save();
-		res.json(habitInstance);
+		res.status(200).json(habitInstance);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });

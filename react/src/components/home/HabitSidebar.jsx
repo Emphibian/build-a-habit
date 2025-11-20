@@ -1,5 +1,9 @@
 import { DeleteButton } from "./DeleteButton.jsx";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { useDispatch } from "react-redux";
+import { updateEstimate } from "../../features/habits/habitsThunks";
+import { HabitsContext } from "../../contexts/HabitContext.jsx";
+
 import StopwatchIcon from "../../assets/svgs/timer.svg?react";
 import AlarmSnoozeIcon from "../../assets/svgs/alarm-snooze.svg?react";
 import CloseIcon from "../../assets/svgs/close.svg?react";
@@ -7,18 +11,21 @@ import CloseIcon from "../../assets/svgs/close.svg?react";
 function UpdateEstimateButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [newEstimate, setNewEstimate] = useState("");
+	const dispatch = useDispatch();
+	const { calculateEstimate } = useContext(HabitsContext);
 
-	const handleUpdate = async function(event) {
+	const handleUpdate = async function (event) {
 		event.preventDefault();
-		updateUI(id, newEstimate, isHabit);
+		dispatch(updateEstimate({ id, estimate: newEstimate }));
+		// calculateEstimate();
 		closeModal();
 	};
 
-	const openModal = function() {
+	const openModal = function () {
 		setModalOpen(true);
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setModalOpen(false);
 	};
 
@@ -62,17 +69,17 @@ function UpdateTimeSpentButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [timeSpent, setTimeSpent] = useState("");
 
-	const handleUpdate = async function(event) {
+	const handleUpdate = async function (event) {
 		event.preventDefault();
 		updateUI(id, timeSpent, isHabit);
 		closeModal();
 	};
 
-	const openModal = function() {
+	const openModal = function () {
 		setModalOpen(true);
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setModalOpen(false);
 	};
 

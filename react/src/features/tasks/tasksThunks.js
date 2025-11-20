@@ -25,16 +25,17 @@ export const createTask = createAsyncThunk(
 	},
 );
 
-export const deleteHabit = createAsyncThunk(
+export const deleteTask = createAsyncThunk(
 	"tasks/delete",
 	async (id, { rejectWithValue }) => {
-		try {
-			// TODO: Make the api return promise to get the pending state
-			const res = await habitAPI.deleteInstance(id, false);
-			return res;
-		} catch (err) {
-			return rejectWithValue(err.response?.data || err.message);
+		const res = await habitAPI.deleteInstance(id, false);
+		if (!res.ok) {
+			const err = await res.json();
+			return rejectWithValue(err.message || "Delete Failed");
 		}
+
+		// WARN: no error checking here, return response object from the API to check
+		return id;
 	},
 );
 

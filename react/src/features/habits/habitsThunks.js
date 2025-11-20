@@ -6,6 +6,7 @@ export const fetchHabits = createAsyncThunk(
 	async (_, { rejectWithValue }) => {
 		try {
 			const res = await habitAPI.getHabits();
+			console.log(res);
 			return res;
 		} catch (err) {
 			return rejectWithValue(err.response?.data || err.message);
@@ -52,14 +53,14 @@ export const markComplete = createAsyncThunk(
 export const deleteHabit = createAsyncThunk(
 	"habits/delete",
 	async (id, { rejectWithValue }) => {
-		try {
-			const res = await habitAPI.deleteInstance(id, true);
-
-			// FIXME: no error checking here, return response object from the API to check
-			return id;
-		} catch (err) {
-			return rejectWithValue(err.response?.data || err.message);
+		const res = await habitAPI.deleteInstance(id, true);
+		if (!res.ok) {
+			const err = await res.json();
+			return rejectWithValue(err.message || "Delete Failed");
 		}
+
+		// WARN: no error checking here, return response object from the API to check
+		return id;
 	},
 );
 

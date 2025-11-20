@@ -1,19 +1,22 @@
 import { useState, useEffect, useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
 import habitAPI from "../../api/habitAPI.js";
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
 import { TimerContext } from "../../contexts/TimerContext.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
+import { fetchHabits } from "../../features/habits/habitsThunks";
+import { fetchTasks } from "../../features/tasks/tasksThunks";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
-	const closeModal = function () {
+	const closeModal = function() {
 		setOpen(false);
 	};
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
 
 		closeModal();
@@ -42,19 +45,32 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
-	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
+	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => { });
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [focusedId, setFocusedId] = useState(null);
 
+	// TODO: explore memoization to avoid unnecessary rerenders
+	const allHabits = useSelector((state) =>
+		state.habits.allIds.map((id) => state.habits.byId[id]),
+	);
+
+	const allTasks = useSelector((state) =>
+		state.tasks.allIds.map((id) => state.tasks.byId[id]),
+	);
+
+	const dispatch = useDispatch();
+
 	useEffect(() => {
+		dispatch(fetchHabits());
+		dispatch(fetchTasks());
 		async function loadDuration() {
 			const response = await habitAPI.getTodayDuration();
 			setTodayDuration(response.duration);
 		}
 
 		loadDuration();
-	}, []);
+	}, [dispatch]);
 
 	const { habits, setHabits, tasks, setTasks, estimate, calculateEstimate } =
 		useContext(HabitsContext);
@@ -70,7 +86,7 @@ export function Habits() {
 		updateEstimate,
 	} = useContext(TimerContext);
 
-	const checkIfComplete = async function (value, target, type) {
+	const checkIfComplete = async function(value, target, type) {
 		if (type === "duration") {
 			return parseInt(value) >= parseInt(target);
 		} else if (type === "number") {
@@ -80,14 +96,14 @@ export function Habits() {
 		}
 	};
 
-	const handleComplete = async function (id, value, target, type) {
+	const handleComplete = async function(id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 
 		const updatedHabit = await habitAPI.markComplete(id, value);
 		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
 	};
 
-	const updateValue = function (id, value, target, type) {
+	const updateValue = function(id, value, target, type) {
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
 			return;
@@ -99,18 +115,16 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const updateTask = async function (id) {
+	const updateTask = async function(id) {
 		const updatedTask = await habitAPI.updateTask(id);
 		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
-	const handleDelete = async function (id) {
-		setHabits(habits.filter((habit) => id !== habit._id));
-		setTasks(tasks.filter((task) => id !== task._id));
+	const handleDelete = async function(id) {
 		calculateEstimate();
 	};
 
-	const updateTimeSpent = async function (id, timeSpent, isHabit) {
+	const updateTimeSpent = async function(id, timeSpent, isHabit) {
 		const updatedHabit = await habitAPI.updateTimeSpent(id, timeSpent, isHabit);
 		if (isHabit) {
 			setHabits(
@@ -126,7 +140,7 @@ export function Habits() {
 		<div className="habits-container">
 			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
 			<div className="todo-habits">
-				{habits.map((habit, index) => {
+				{allHabits.map((habit, index) => {
 					if (habit.status === "Not Completed") {
 						return (
 							<Habit
@@ -170,7 +184,7 @@ export function Habits() {
 						);
 					}
 				})}
-				{tasks.map((task, index) => {
+				{allTasks.map((task, index) => {
 					if (!task.completed) {
 						return (
 							<Habit

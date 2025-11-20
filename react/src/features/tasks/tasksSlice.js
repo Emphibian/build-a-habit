@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchTasks, createTask } from "./tasksThunks";
+import {
+	fetchTasks,
+	createTask,
+	deleteTask,
+	updateTimeSpent,
+} from "./tasksThunks";
 
 const initialState = { byId: {}, allIds: [], status: "idle", error: null };
 
@@ -36,7 +41,18 @@ const tasksSlice = createSlice({
 				state.byId[item._id] = item;
 				state.allIds.push(item._id);
 			})
-			.addCase(createTask.rejected, genericRejectReducer);
+			.addCase(createTask.rejected, genericRejectReducer)
+			.addCase(deleteTask.pending, genericPendingReducer)
+			.addCase(deleteTask.fulfilled, (state, action) => {
+				const id = action.payload;
+				delete state.byId[id];
+				const index = state.allIds.indexOf(id);
+				if (index !== -1) state.allIds.splice(index, 1);
+
+				state.status = "succeeded";
+				state.error = null;
+			})
+			.addCase(deleteTask.rejected, genericRejectReducer);
 	},
 });
 

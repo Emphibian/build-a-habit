@@ -121,7 +121,7 @@ async function deleteInstance(id, isHabit) {
 		credentials: "include",
 	});
 
-	return await response.json();
+	return response;
 }
 
 async function updateEstimate(id, newEstimate, isHabit) {

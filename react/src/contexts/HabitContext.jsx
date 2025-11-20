@@ -1,4 +1,5 @@
 import { createContext, useState, useEffect, useCallback } from "react";
+import { useSelector } from "react-redux";
 import habitAPI from "../api/habitAPI.js";
 
 export const HabitsContext = createContext();
@@ -6,6 +7,9 @@ export const HabitsContext = createContext();
 export function HabitsProvider({ children }) {
 	const [habits, setHabits] = useState([]);
 	const [tasks, setTasks] = useState([]);
+	const allHabits = useSelector((state) =>
+		state.habits.allIds.map((id) => state.habits.byId[id]),
+	);
 	const [estimate, setEstimate] = useState(0);
 
 	useEffect(() => {
@@ -34,7 +38,7 @@ export function HabitsProvider({ children }) {
 	}, []);
 
 	const calculateEstimate = useCallback(() => {
-		const habitSum = habits.reduce((sum, habit) => {
+		const habitSum = allHabits.reduce((sum, habit) => {
 			if (habit.timeEstimate <= habit.workDuration) return sum;
 			return sum + habit.timeEstimate - habit.workDuration;
 		}, 0);
@@ -43,14 +47,16 @@ export function HabitsProvider({ children }) {
 			return sum + task.timeEstimate - task.workDuration;
 		}, 0);
 
-		setEstimate(habitSum + taskSum);
-	}, [tasks, habits]);
+		if (estimate !== habitSum + taskSum) {
+			setEstimate(habitSum + taskSum);
+		}
+	}, [tasks, allHabits]);
 
 	useEffect(() => {
 		calculateEstimate();
-	}, [tasks, habits, calculateEstimate]);
+	}, [tasks, allHabits]);
 
-	const createHabit = async function(habitObj) {
+	const createHabit = async function (habitObj) {
 		const newInstance = await habitAPI.createHabit(
 			habitObj.habitName,
 			habitObj.habitFreq,
@@ -63,7 +69,7 @@ export function HabitsProvider({ children }) {
 		setHabits((habits) => [newInstance, ...habits]);
 	};
 
-	const createTask = async function(taskObj) {
+	const createTask = async function (taskObj) {
 		const task = await habitAPI.createTask(taskObj.taskName, taskObj.date);
 		setTasks((tasks) => [task, ...tasks]);
 	};
