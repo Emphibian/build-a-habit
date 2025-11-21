@@ -62,9 +62,10 @@ const habitsSlice = createSlice({
 			.addCase(deleteHabit.rejected, genericRejectReducer)
 			.addCase(deleteHabit.fulfilled, (state, action) => {
 				const id = action.payload;
-				delete state.byId[id];
-				const index = state.allIds.indexOf(id);
-				if (index !== -1) state.allIds.splice(index, 1);
+
+				state.allIds = state.allIds.filter((existingId) => existingId !== id);
+				const { [id]: deletedHabit, ...newById } = state.byId;
+				state.byId = newById;
 
 				state.status = "succeeded";
 				state.error = null;

@@ -7,7 +7,6 @@ export function DeleteButton({ id, updateUI, isHabit, closeSidebar }) {
 	const dispatch = useDispatch();
 
 	function handleClick() {
-		// HabitAPI.deleteInstance(id, isHabit);
 		if (isHabit) dispatch(deleteHabit(id));
 		else dispatch(deleteTask(id));
 		// updateUI(id);

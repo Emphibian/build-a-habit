@@ -4,6 +4,7 @@ import {
 	createTask,
 	deleteTask,
 	updateTimeSpent,
+	taskComplete,
 } from "./tasksThunks";
 
 const initialState = { byId: {}, allIds: [], status: "idle", error: null };
@@ -52,7 +53,15 @@ const tasksSlice = createSlice({
 				state.status = "succeeded";
 				state.error = null;
 			})
-			.addCase(deleteTask.rejected, genericRejectReducer);
+			.addCase(deleteTask.rejected, genericRejectReducer)
+			.addCase(taskComplete.pending, genericPendingReducer)
+			.addCase(taskComplete.rejected, genericRejectReducer)
+			.addCase(taskComplete.fulfilled, (state, action) => {
+				state.status = "succeeded";
+				state.error = null;
+				const task = action.payload;
+				state.byId[task._id] = task;
+			});
 	},
 });
 

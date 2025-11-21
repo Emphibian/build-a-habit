@@ -1,3 +1,6 @@
+import { useDispatch } from "react-redux";
+import { taskComplete } from "../../features/tasks/tasksThunks";
+
 import Checkmark from "../../assets/svgs/checkmark.svg?react";
 import Play from "../../assets/svgs/play.svg?react";
 import Pause from "../../assets/svgs/pause.svg?react";
@@ -7,8 +10,8 @@ import prettyPrintDuration from "../../utils/prettyPrintDuration";
 
 export function Habit({
 	name,
+	id,
 	workDuration,
-	handleUpdate,
 	handleTimer,
 	openSidebar,
 	timeEstimate,
@@ -16,7 +19,10 @@ export function Habit({
 	isTimerRunning,
 	setFocus,
 	focused,
+	isHabit,
 }) {
+	const dispatch = useDispatch();
+
 	let sidebarIcon;
 	if (isSidebarOpen) {
 		sidebarIcon = <SidebarOpen />;
@@ -32,6 +38,12 @@ export function Habit({
 	if (focused) {
 		outerDivClasses += " focused";
 	}
+
+	const handleUpdate = function () {
+		if (!isHabit) {
+			dispatch(taskComplete(id));
+		}
+	};
 
 	const fill = "#3B4554";
 	return (

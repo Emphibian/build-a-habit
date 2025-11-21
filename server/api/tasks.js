@@ -42,7 +42,6 @@ router.patch("/task/completed/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const taskId = req.params.id;
 		const task = await Task.findById(taskId).exec();
 		const currentDay = new Date();

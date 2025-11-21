@@ -145,6 +145,8 @@ export function Habits() {
 						return (
 							<Habit
 								key={habit._id}
+								id={habit._id}
+								isHabit={true}
 								name={habit.name}
 								workDuration={habit.workDuration}
 								timeEstimate={habit.timeEstimate}
@@ -189,6 +191,8 @@ export function Habits() {
 						return (
 							<Habit
 								key={task._id}
+								id={task._id}
+								isHabit={false}
 								name={task.name}
 								workDuration={task.workDuration}
 								timeEstimate={task.timeEstimate}
@@ -224,11 +228,12 @@ export function Habits() {
 			</div>
 			<div className="done-habits">
 				<h2>Completed</h2>
-				{habits.map((habit) => {
+				{allHabits.map((habit) => {
 					if (habit.status === "Completed") {
 						return (
 							<Habit
 								key={habit._id}
+								id={habit._id}
 								name={habit.name}
 								workDuration={habit.workDuration}
 								handleUpdate={() =>
@@ -244,15 +249,17 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
+								isHabit={true}
 							/>
 						);
 					}
 				})}
-				{tasks.map((task) => {
+				{allTasks.map((task) => {
 					if (task.completed) {
 						return (
 							<Habit
 								key={task._id}
+								id={task._id}
 								name={task.name}
 								workDuration={task.workDuration}
 								handleUpdate={() => {
@@ -263,6 +270,7 @@ export function Habits() {
 									setSidebarOpen(true);
 								}}
 								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
+								isHabit={false}
 							/>
 						);
 					}

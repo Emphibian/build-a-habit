@@ -51,3 +51,15 @@ export const updateTimeSpent = createAsyncThunk(
 		}
 	},
 );
+
+export const taskComplete = createAsyncThunk(
+	"tasks/taskComplete",
+	async (id, { rejectWithValue }) => {
+		try {
+			const res = await habitAPI.markComplete(id, 0, false);
+			return res;
+		} catch (err) {
+			return rejectWithValue(err.response?.data || err.message);
+		}
+	},
+);

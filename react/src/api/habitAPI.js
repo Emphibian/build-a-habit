@@ -71,8 +71,8 @@ async function getTasks() {
 	return data.tasks;
 }
 
-async function markComplete(id, value) {
-	const path = "/api/habit/completed/" + id;
+async function markComplete(id, value, isHabit) {
+	const path = `/api/${isHabit ? "habit" : "task"}/completed/` + id;
 	const response = await fetch(generateURL(path), {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
