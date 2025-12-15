@@ -1,5 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { HabitsContext } from "./../../contexts/HabitContext.jsx";
+import { useDispatch } from "react-redux";
+import {
+	createHabit,
+	fetchHabits,
+} from "../../features/habits/habitsThunks.js";
 import SaveIcon from "./../../assets/svgs/content-save.svg?react";
 
 function WeeklyList({ addCurrentDay, removeCurrentDay }) {
@@ -82,7 +86,7 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [target, setTarget] = useState("");
 	const [frequencyInfoHTML, setFrequencyInfoHTML] = useState("");
 
-	const { createHabit } = useContext(HabitsContext);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (habitFreq !== "weekly") {
@@ -107,13 +111,16 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 		for (const v of habitFreqInfo) frequencyString += v + ",";
 		frequencyString = frequencyString.slice(0, -1);
 
-		createHabit({
-			habitName,
-			habitFreq,
-			habitFreqInfo: frequencyString,
-			goalType,
-			target,
-		});
+		dispatch(
+			createHabit({
+				habitName,
+				habitFreq,
+				habitFreqInfo: frequencyString,
+				goalType,
+				target,
+			}),
+		);
+
 		closeModal();
 	};
 

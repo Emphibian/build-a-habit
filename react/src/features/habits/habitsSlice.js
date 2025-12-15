@@ -22,7 +22,8 @@ const genericPendingReducer = (state) => {
 
 const genericRejectReducer = (state, action) => {
 	state.status = "failed";
-	state.error = action.payload || action.error.message;
+	state.loading = false;
+	state.error = action.payload ?? action.error?.message ?? "Unknown error";
 };
 
 const habitsSlice = createSlice({

@@ -4,6 +4,7 @@ import habitAPI from "../../api/habitAPI";
 export const fetchHabits = createAsyncThunk(
 	"habits/fetch",
 	async (_, { rejectWithValue }) => {
+		console.log("fetch ran");
 		try {
 			const res = await habitAPI.getHabits();
 			console.log(res);
@@ -17,6 +18,7 @@ export const fetchHabits = createAsyncThunk(
 export const createHabit = createAsyncThunk(
 	"habits/create",
 	async (habitObj, { rejectWithValue }) => {
+		console.log("create ran");
 		try {
 			const newInstance = await habitAPI.createHabit(
 				habitObj.habitName,
@@ -30,6 +32,8 @@ export const createHabit = createAsyncThunk(
 			if (newInstance === null) return;
 			return newInstance;
 		} catch (err) {
+			console.err("error returned createHabit");
+			console.err(err);
 			return rejectWithValue(err.response?.data || err.message);
 		}
 	},
