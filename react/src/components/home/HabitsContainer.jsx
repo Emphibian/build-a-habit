@@ -6,8 +6,8 @@ import habitAPI from "../../api/habitAPI.js";
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
 import { TimerContext } from "../../contexts/TimerContext.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
-import { fetchHabits } from "../../features/habits/habitsThunks";
-import { fetchTasks } from "../../features/tasks/tasksThunks";
+import { fetchHabits, markComplete } from "../../features/habits/habitsThunks";
+import { fetchTasks, taskComplete } from "../../features/tasks/tasksThunks";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
@@ -98,9 +98,9 @@ export function Habits() {
 
 	const handleComplete = async function(id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
-
-		const updatedHabit = await habitAPI.markComplete(id, value);
-		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+		dispatch(markComplete({ id, value }));
+		// const updatedHabit = await habitAPI.markComplete(id, value);
+		// setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
 	};
 
 	const updateValue = function(id, value, target, type) {
@@ -116,8 +116,9 @@ export function Habits() {
 	};
 
 	const updateTask = async function(id) {
-		const updatedTask = await habitAPI.updateTask(id);
-		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
+		dispatch(taskComplete(id));
+		// const updatedTask = await habitAPI.updateTask(id);
+		// setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
 	const handleDelete = async function(id) {

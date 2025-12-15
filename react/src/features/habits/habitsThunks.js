@@ -41,7 +41,7 @@ export const markComplete = createAsyncThunk(
 		try {
 			const { id, value } = habitObj;
 			// TODO: Make the api return response to get the pending state
-			const res = await habitAPI.markComplete(id, value);
+			const res = await habitAPI.markComplete(id, value, true);
 			return res;
 		} catch (err) {
 			return rejectWithValue(err.response?.data || err.message);
