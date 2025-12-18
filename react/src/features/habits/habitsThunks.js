@@ -85,6 +85,7 @@ export const updateTimeSpent = createAsyncThunk(
 export const updateEstimate = createAsyncThunk(
 	"habits/updateEstimate",
 	async ({ id, estimate }, { rejectWithValue }) => {
+		console.log(estimate);
 		try {
 			const res = await habitAPI.updateEstimate(id, estimate, true);
 			return res;

@@ -1,7 +1,8 @@
 import { DeleteButton } from "./DeleteButton.jsx";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { updateEstimate } from "../../features/habits/habitsThunks";
+import { Dial } from "./Dial.jsx";
 
 import StopwatchIcon from "../../assets/svgs/timer.svg?react";
 import AlarmSnoozeIcon from "../../assets/svgs/alarm-snooze.svg?react";
@@ -9,21 +10,25 @@ import CloseIcon from "../../assets/svgs/close.svg?react";
 
 function UpdateEstimateButton({ id }) {
 	const [modalOpen, setModalOpen] = useState(false);
-	const [newEstimate, setNewEstimate] = useState("");
+	const [minutes, setMinutes] = useState(0);
 	const dispatch = useDispatch();
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
-		dispatch(updateEstimate({ id, estimate: newEstimate }));
+		dispatch(updateEstimate({ id, estimate: minutes }));
 		closeModal();
 	};
 
-	const openModal = function () {
+	const openModal = function() {
 		setModalOpen(true);
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setModalOpen(false);
+	};
+
+	const updateMinutes = function(min) {
+		setMinutes(min);
 	};
 
 	let modal = "";
@@ -32,15 +37,11 @@ function UpdateEstimateButton({ id }) {
 			<div className="habit-overlay" onClick={closeModal}>
 				<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
 					<form onSubmit={handleUpdate}>
-						<label>
-							<input
-								type="text"
-								value={newEstimate}
-								onChange={(event) => setNewEstimate(event.target.value)}
-								required
-							/>
-							<span>Estimate</span>
-						</label>
+						<Dial
+							initial={minutes}
+							onChange={updateMinutes}
+							label={"Estimate"}
+						/>
 						<div className="btn-grp">
 							<button type="submit">Update</button>
 							<button onClick={closeModal}>Cancel</button>
@@ -66,17 +67,17 @@ function UpdateTimeSpentButton({ id, updateUI, isHabit }) {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [timeSpent, setTimeSpent] = useState("");
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
 		updateUI(id, timeSpent, isHabit);
 		closeModal();
 	};
 
-	const openModal = function () {
+	const openModal = function() {
 		setModalOpen(true);
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setModalOpen(false);
 	};
 
