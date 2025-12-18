@@ -39,8 +39,20 @@ export const deleteTask = createAsyncThunk(
 	},
 );
 
-export const updateTimeSpent = createAsyncThunk(
-	"tasks/updateTime",
+export const setTaskEstimate = createAsyncThunk(
+	"tasks/setEstimate",
+	async ({ id, estimate }, { rejectWithValue }) => {
+		try {
+			const res = await habitAPI.updateEstimate(id, estimate, false);
+			return res;
+		} catch (err) {
+			return rejectWithValue(err.response?.data || err.message);
+		}
+	},
+);
+
+export const setTaskTime = createAsyncThunk(
+	"tasks/setTime",
 	async ({ id, timeSpent }, { rejectWithValue }) => {
 		try {
 			// TODO: Make the api return promise to get the pending state

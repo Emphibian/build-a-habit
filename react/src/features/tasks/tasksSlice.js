@@ -3,7 +3,8 @@ import {
 	fetchTasks,
 	createTask,
 	deleteTask,
-	updateTimeSpent,
+	setTaskTime,
+	setTaskEstimate,
 	taskComplete,
 } from "./tasksThunks";
 
@@ -57,6 +58,22 @@ const tasksSlice = createSlice({
 			.addCase(taskComplete.pending, genericPendingReducer)
 			.addCase(taskComplete.rejected, genericRejectReducer)
 			.addCase(taskComplete.fulfilled, (state, action) => {
+				state.status = "succeeded";
+				state.error = null;
+				const task = action.payload;
+				state.byId[task._id] = task;
+			})
+			.addCase(setTaskTime.rejected, genericRejectReducer)
+			.addCase(setTaskTime.pending, genericPendingReducer)
+			.addCase(setTaskTime.fulfilled, (state, action) => {
+				state.status = "succeeded";
+				state.error = null;
+				const task = action.payload;
+				state.byId[task._id] = task;
+			})
+			.addCase(setTaskEstimate.rejected, genericRejectReducer)
+			.addCase(setTaskEstimate.pending, genericPendingReducer)
+			.addCase(setTaskEstimate.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				state.error = null;
 				const task = action.payload;
