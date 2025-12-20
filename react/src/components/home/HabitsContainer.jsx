@@ -2,6 +2,7 @@ import { useState, useEffect, useContext } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
+import { DoneContainer } from "./DoneContainer.jsx";
 import habitAPI from "../../api/habitAPI.js";
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
 import { TimerContext } from "../../contexts/TimerContext.jsx";
@@ -99,11 +100,10 @@ export function Habits() {
 	const handleComplete = async function(id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 		dispatch(markComplete({ id, value }));
-		// const updatedHabit = await habitAPI.markComplete(id, value);
-		// setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
 	};
 
 	const updateValue = function(id, value, target, type) {
+		// skip done modal if type is yes/no
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
 			return;
@@ -117,11 +117,9 @@ export function Habits() {
 
 	const updateTask = async function(id) {
 		dispatch(taskComplete(id));
-		// const updatedTask = await habitAPI.updateTask(id);
-		// setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
 	};
 
-	const handleDelete = async function(id) {
+	const handleDelete = async function() {
 		calculateEstimate();
 	};
 
@@ -227,56 +225,15 @@ export function Habits() {
 					}
 				})}
 			</div>
-			<div className="done-habits">
-				<h2>Completed</h2>
-				{allHabits.map((habit) => {
-					if (habit.status === "Completed") {
-						return (
-							<Habit
-								key={habit._id}
-								id={habit._id}
-								name={habit.name}
-								workDuration={habit.workDuration}
-								handleUpdate={() =>
-									updateValue(
-										habit._id,
-										habit.goalValue,
-										habit.goalTarget,
-										habit.goalType,
-									)
-								}
-								openSidebar={() => {
-									setSidebarHabit({ id: habit._id, isHabit: true });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
-								isHabit={true}
-							/>
-						);
-					}
-				})}
-				{allTasks.map((task) => {
-					if (task.completed) {
-						return (
-							<Habit
-								key={task._id}
-								id={task._id}
-								name={task.name}
-								workDuration={task.workDuration}
-								handleUpdate={() => {
-									updateTask(task._id);
-								}}
-								openSidebar={() => {
-									setSidebarHabit({ id: task._id, isHabit: false });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
-								isHabit={false}
-							/>
-						);
-					}
-				})}
-			</div>
+			<div className="done-habits"></div>
+			<DoneContainer
+				updateValue={updateValue}
+				setSidebarHabit={setSidebarHabit}
+				setSidebarOpen={setSidebarOpen}
+				sidebarOpen={sidebarOpen}
+				sidebarHabit={sidebarHabit}
+				updateTask={updateTask}
+			/>
 			<DoneModal
 				isOpen={doneModalOpen}
 				setOpen={setDoneModalOpen}

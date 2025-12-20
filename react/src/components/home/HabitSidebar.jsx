@@ -66,6 +66,7 @@ function UpdateEstimateButton({ id, isHabit }) {
 		modal = (
 			<div className="habit-overlay" onClick={closeModal}>
 				<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
+					<h3>Duration</h3>
 					<form onSubmit={handleUpdate}>
 						<div className="justify-center gap-15">
 							<Dial

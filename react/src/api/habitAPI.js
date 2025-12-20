@@ -15,7 +15,6 @@ async function createTask(taskName, date) {
 	});
 
 	const data = await response.json();
-	console.log(data);
 	return data.task;
 }
 

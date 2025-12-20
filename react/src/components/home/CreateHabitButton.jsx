@@ -62,8 +62,6 @@ function GoalSelect({ goalType, setGoalType }) {
 
 function TargetTextBox({ goalType, target, setTarget }) {
 	if (goalType !== "yes/no" && goalType !== "") {
-		console.log(goalType);
-		console.log(goalType === "yes/no");
 		return (
 			<label>
 				<input

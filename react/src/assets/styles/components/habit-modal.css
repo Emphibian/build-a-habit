@@ -8,7 +8,7 @@
 	justify-content: center;
 	align-items: center;
 	z-index: 100;
-	background-color: rgba(0, 0, 0, 0.1);
+	background-color: rgba(0, 0, 0, 0.3);
 	color: #000;
 }
 
@@ -136,4 +136,24 @@ form div.btn-grp {
 	width: 100%;
 	margin-top: 1rem;
 	margin-right: 1rem;
+}
+
+.done-habits h3 {
+	font-weight: 500;
+	font-size: 16px;
+	font-family: Roboto, "sans";
+	display: flex;
+	align-items: center;
+}
+
+.done-habits div.collapsible {
+	cursor: pointer;
+	width: 100%;
+	height: 1rem;
+	margin-bottom: 1rem;
+	display: flex;
+	justify-content: center;
+}
+.done-habits svg {
+	width: 30px;
 }
