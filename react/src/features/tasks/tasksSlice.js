@@ -17,7 +17,7 @@ const genericPendingReducer = (state) => {
 
 const genericRejectReducer = (state, action) => {
 	state.status = "failed";
-	state.error = action.payload || action.error.message;
+	state.error = action?.payload || action?.error?.message;
 };
 
 const tasksSlice = createSlice({
@@ -40,6 +40,9 @@ const tasksSlice = createSlice({
 			.addCase(createTask.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				const item = action.payload;
+
+				// if task is not scheduled today or earlier
+				if (item === null) return;
 				state.byId[item._id] = item;
 				state.allIds.push(item._id);
 			})

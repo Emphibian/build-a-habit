@@ -47,6 +47,9 @@ const habitsSlice = createSlice({
 			.addCase(createHabit.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				const instance = action.payload;
+				if (instance === null) return;
+
+				console.log(instance);
 				state.byId[instance._id] = instance;
 				state.allIds.push(instance._id);
 			})
@@ -64,7 +67,7 @@ const habitsSlice = createSlice({
 				const id = action.payload;
 
 				state.allIds = state.allIds.filter((existingId) => existingId !== id);
-				const { [id]: deletedHabit, ...newById } = state.byId;
+				const { [id]: _deletedHabit, ...newById } = state.byId;
 				state.byId = newById;
 
 				state.status = "succeeded";
