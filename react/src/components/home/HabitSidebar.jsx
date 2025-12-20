@@ -34,7 +34,7 @@ function UpdateEstimateButton({ id, isHabit }) {
 		setTimeSpent(initialTimeSpent);
 	}, []);
 
-	const handleUpdate = async function(event) {
+	const handleUpdate = async function (event) {
 		event.preventDefault();
 		if (isHabit) {
 			if (initialEstimate != estimate) {
@@ -53,11 +53,11 @@ function UpdateEstimateButton({ id, isHabit }) {
 		closeModal();
 	};
 
-	const openModal = function() {
+	const openModal = function () {
 		setModalOpen(true);
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setModalOpen(false);
 	};
 
@@ -110,28 +110,17 @@ function CloseButton({ close }) {
 	);
 }
 
-export function HabitSidebar({
-	instance,
-	open,
-	close,
-	handleDelete,
-	updateEstimate,
-}) {
+export function HabitSidebar({ instance, open, close }) {
 	if (open)
 		return (
 			<div className="sidebar sidebar-right">
 				<ul>
 					<li>
-						<UpdateEstimateButton
-							id={instance.id}
-							updateUI={updateEstimate}
-							isHabit={instance.isHabit}
-						/>
+						<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
 					</li>
 					<li>
 						<DeleteButton
 							id={instance.id}
-							updateUI={handleDelete}
 							isHabit={instance.isHabit}
 							closeSidebar={close}
 						/>

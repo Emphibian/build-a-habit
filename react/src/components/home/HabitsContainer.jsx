@@ -73,8 +73,7 @@ export function Habits() {
 		loadDuration();
 	}, [dispatch]);
 
-	const { habits, setHabits, tasks, setTasks, estimate, calculateEstimate } =
-		useContext(HabitsContext);
+	const { estimate } = useContext(HabitsContext);
 
 	const {
 		habitTimerStart,
@@ -84,7 +83,6 @@ export function Habits() {
 		timerRunning,
 		todayDuration,
 		setTodayDuration,
-		updateEstimate,
 	} = useContext(TimerContext);
 
 	const checkIfComplete = async function(value, target, type) {
@@ -117,22 +115,6 @@ export function Habits() {
 
 	const updateTask = async function(id) {
 		dispatch(taskComplete(id));
-	};
-
-	const handleDelete = async function() {
-		calculateEstimate();
-	};
-
-	const updateTimeSpent = async function(id, timeSpent, isHabit) {
-		const updatedHabit = await habitAPI.updateTimeSpent(id, timeSpent, isHabit);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
-		calculateEstimate();
 	};
 
 	return (
@@ -245,9 +227,6 @@ export function Habits() {
 				close={() => {
 					setSidebarOpen(false);
 				}}
-				updateEstimate={updateEstimate}
-				updateTimeSpent={updateTimeSpent}
-				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>
 	);

@@ -56,8 +56,6 @@ const habitsSlice = createSlice({
 				state.status = "succeeded";
 				state.error = null;
 				const instance = action.payload;
-				console.log("inside slice: ");
-				console.log(instance);
 				state.byId[instance._id] = instance;
 			})
 			.addCase(deleteHabit.pending, genericPendingReducer)
