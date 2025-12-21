@@ -30,7 +30,7 @@ router.get("/tasks", async (req, res) => {
 
 		res.status(201).json({ tasks });
 	} catch (error) {
-		console.log(error);
+		console.err(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
@@ -82,6 +82,33 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
+router.patch("/task/updateName/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const id = req.params.id;
+		const newName = req.body.value;
+
+		const task = await Task.findById(id).exec();
+		if (task) {
+			task.name = newName;
+			await task.save();
+			res.status(200).json(task);
+		} else {
+			res.status(404).json({
+				message: "Not task found for the given ID",
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			message: "Internal Server Error",
+		});
 	}
 });
 

@@ -75,3 +75,15 @@ export const taskComplete = createAsyncThunk(
 		}
 	},
 );
+
+export const updateTaskName = createAsyncThunk(
+	"tasks/updateName",
+	async ({ id, name }, { rejectWithValue }) => {
+		try {
+			const res = await habitAPI.updateName(id, name, false);
+			return res;
+		} catch (err) {
+			return rejectWithValue(err.response?.data || err.message);
+		}
+	},
+);

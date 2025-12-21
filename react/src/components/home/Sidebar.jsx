@@ -15,9 +15,6 @@ export function Sidebar({ tab, setTab }) {
 
 	return (
 		<div className="navbar">
-			<div className="header-name">
-				<Link to="/home">buildAhabit</Link>
-			</div>
 			<ul>
 				{tabs.map((curTab) => {
 					if (tab === curTab.name) {

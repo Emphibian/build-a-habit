@@ -89,3 +89,15 @@ export const updateEstimate = createAsyncThunk(
 		}
 	},
 );
+
+export const updateHabitName = createAsyncThunk(
+	"habits/updateName",
+	async ({ id, name }, { rejectWithValue }) => {
+		try {
+			const res = await habitAPI.updateName(id, name, true);
+			return res;
+		} catch (err) {
+			rejectWithValue(err.response?.data || err.message);
+		}
+	},
+);

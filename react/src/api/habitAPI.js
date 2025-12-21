@@ -157,6 +157,21 @@ async function getTodayDuration() {
 	return await response.json();
 }
 
+async function updateName(id, name, isHabit) {
+	console.log({ name });
+	const path = `/api/${isHabit ? "habit" : "task"}/updateName/` + id;
+	const response = await fetch(generateURL(path), {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			value: name,
+		}),
+		credentials: "include",
+	});
+
+	return await response.json();
+}
+
 export default {
 	getHabits,
 	getTasks,
@@ -169,4 +184,5 @@ export default {
 	updateEstimate,
 	updateTimeSpent,
 	getTodayDuration,
+	updateName,
 };

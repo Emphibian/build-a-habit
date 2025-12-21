@@ -5,6 +5,7 @@ import {
 	deleteTask,
 	setTaskTime,
 	setTaskEstimate,
+	updateTaskName,
 	taskComplete,
 } from "./tasksThunks";
 
@@ -77,6 +78,14 @@ const tasksSlice = createSlice({
 			.addCase(setTaskEstimate.rejected, genericRejectReducer)
 			.addCase(setTaskEstimate.pending, genericPendingReducer)
 			.addCase(setTaskEstimate.fulfilled, (state, action) => {
+				state.status = "succeeded";
+				state.error = null;
+				const task = action.payload;
+				state.byId[task._id] = task;
+			})
+			.addCase(updateTaskName.rejected, genericRejectReducer)
+			.addCase(updateTaskName.pending, genericPendingReducer)
+			.addCase(updateTaskName.fulfilled, (state, action) => {
 				state.status = "succeeded";
 				state.error = null;
 				const task = action.payload;

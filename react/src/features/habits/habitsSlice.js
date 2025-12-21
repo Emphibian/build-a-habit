@@ -6,6 +6,7 @@ import {
 	deleteHabit,
 	updateTimeSpent,
 	updateEstimate,
+	updateHabitName,
 } from "./habitsThunks";
 
 const initialState = {
@@ -84,6 +85,14 @@ const habitsSlice = createSlice({
 			.addCase(updateEstimate.pending, genericPendingReducer)
 			.addCase(updateEstimate.rejected, genericRejectReducer)
 			.addCase(updateEstimate.fulfilled, (state, action) => {
+				const instance = action.payload;
+				state.byId[instance._id] = instance;
+				state.status = "succeeded";
+				state.error = null;
+			})
+			.addCase(updateHabitName.pending, genericPendingReducer)
+			.addCase(updateHabitName.rejected, genericRejectReducer)
+			.addCase(updateHabitName.fulfilled, (state, action) => {
 				const instance = action.payload;
 				state.byId[instance._id] = instance;
 				state.status = "succeeded";

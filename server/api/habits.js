@@ -66,6 +66,34 @@ router.patch("/habit/completed/:id", async (req, res) => {
 	}
 });
 
+router.patch("/habit/updateName/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const id = req.params.id;
+		const newName = req.body.value;
+		console.log({ newName });
+
+		const habit = await Instance.findById(id).exec();
+		if (habit) {
+			habit.name = newName;
+			await habit.save();
+			res.status(200).json(habit);
+		} else {
+			res.status(404).json({
+				message: "Not instance found for the given ID",
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			message: "Internal Server Error",
+		});
+	}
+});
+
 router.patch("/habit/addDuration/:id", async (req, res) => {
 	try {
 		if (!req.session.user) {

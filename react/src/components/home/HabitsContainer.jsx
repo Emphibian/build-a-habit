@@ -13,11 +13,11 @@ import { fetchTasks, taskComplete } from "../../features/tasks/tasksThunks";
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
-	const closeModal = function() {
+	const closeModal = function () {
 		setOpen(false);
 	};
 
-	const handleUpdate = async function(event) {
+	const handleUpdate = async function (event) {
 		event.preventDefault();
 
 		closeModal();
@@ -46,7 +46,7 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
-	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => { });
+	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [focusedId, setFocusedId] = useState(null);
@@ -85,7 +85,7 @@ export function Habits() {
 		setTodayDuration,
 	} = useContext(TimerContext);
 
-	const checkIfComplete = async function(value, target, type) {
+	const checkIfComplete = async function (value, target, type) {
 		if (type === "duration") {
 			return parseInt(value) >= parseInt(target);
 		} else if (type === "number") {
@@ -95,12 +95,12 @@ export function Habits() {
 		}
 	};
 
-	const handleComplete = async function(id, value, target, type) {
+	const handleComplete = async function (id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 		dispatch(markComplete({ id, value }));
 	};
 
-	const updateValue = function(id, value, target, type) {
+	const updateValue = function (id, value, target, type) {
 		// skip done modal if type is yes/no
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
@@ -113,7 +113,7 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const updateTask = async function(id) {
+	const updateTask = async function (id) {
 		dispatch(taskComplete(id));
 	};
 
