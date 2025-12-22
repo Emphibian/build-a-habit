@@ -84,7 +84,7 @@ export function Habit({
 			<textarea
 				ref={textRef}
 				tabIndex={0}
-				contentEditable={editing}
+				readOnly={!editing}
 				className={`
 					habit-name
 					${editing ? "edit-mode" : "display-mode"}
