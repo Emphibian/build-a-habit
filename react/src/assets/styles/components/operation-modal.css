@@ -2,38 +2,46 @@ div.operation-modal {
 	background-color: white;
 	min-width: 112px;
 	max-width: 280px;
-	width: min-content;
+	width: fit-content;
 	box-sizing: border-box;
 	outline: 0;
 	position: absolute;
-
-	/* animation: _mat-menu-enter 120ms cubic-bezier(0, 0, 0.2, 1); */
+	border-radius: 4px;
+	overflow: hidden;
 	box-shadow:
-		0px 5px 5px -3px rgba(0, 0, 0, 0.2),
 		0px 8px 10px 1px rgba(0, 0, 0, 0.14),
 		0px 3px 14px 2px rgba(0, 0, 0, 0.12),
-		0px 3px 1px -2px rgba(0, 0, 0, 0.2),
-		0px 2px 2px 0px rgba(0, 0, 0, 0.14),
-		0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+		0px 5px 5px -3px rgba(0, 0, 0, 0.2);
 }
 
-.operation-modal button {
+.operation-modal > button {
 	display: flex;
+	width: 100%;
 	justify-content: flex-start;
 	align-items: center;
-	min-height: 36px;
+	min-height: 40px;
 	border: none;
 	background: inherit;
 	color: black;
 	padding: 0 16px;
 	font-family: Roboto, sans-serif;
-	font-size: 14px;
+	font-size: 0.8rem;
+	text-align: left;
+}
+
+.operation-modal button:hover {
+	background-color: rgba(0, 0, 0, 0.04);
 }
 
 .operation-modal button svg {
-	margin-right: 16px;
-	width: 24px;
-	height: 24px;
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+	flex-grow: 0;
+}
+
+.operation-modal button span {
+	flex-grow: 1;
 }
 
 .operation-modal-overlay {

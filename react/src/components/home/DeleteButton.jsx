@@ -15,7 +15,7 @@ export function DeleteButton({ id, isHabit, closeSidebar }) {
 	return (
 		<button className="danger" onClick={handleClick}>
 			<DeleteIcon />
-			Delete
+			<span>Delete</span>
 		</button>
 	);
 }
