@@ -11,6 +11,7 @@ export function DoneContainer({
   sidebarOpen,
   sidebarHabit,
   updateTask,
+  setOperationModalOpen,
 }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
@@ -46,6 +47,10 @@ export function DoneContainer({
                 setSidebarHabit({ id: habit._id, isHabit: true });
                 setSidebarOpen(true);
               }}
+              openOperationModal={() => {
+                setSidebarHabit({ id: habit._id, isHabit: true });
+                setOperationModalOpen(true);
+              }}
               isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
               isHabit={true}
             />
@@ -65,6 +70,10 @@ export function DoneContainer({
               openSidebar={() => {
                 setSidebarHabit({ id: task._id, isHabit: false });
                 setSidebarOpen(true);
+              }}
+              openOperationModal={() => {
+                setSidebarHabit({ id: task._id, isHabit: false });
+                setOperationModalOpen(true);
               }}
               isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
               isHabit={false}

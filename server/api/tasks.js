@@ -30,7 +30,7 @@ router.get("/tasks", async (req, res) => {
 
 		res.status(201).json({ tasks });
 	} catch (error) {
-		console.err(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
@@ -128,7 +128,7 @@ router.patch("/task/updateEstimate/:id", async (req, res) => {
 		await task.save();
 		res.status(200).json(task);
 	} catch (error) {
-		console.err(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
@@ -148,7 +148,7 @@ router.patch("/task/updateTimeSpent/:id", async (req, res) => {
 		await task.save();
 		res.status(200).json(task);
 	} catch (error) {
-		console.err(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });

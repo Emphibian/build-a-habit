@@ -75,7 +75,6 @@ router.patch("/habit/updateName/:id", async (req, res) => {
 
 		const id = req.params.id;
 		const newName = req.body.value;
-		console.log({ newName });
 
 		const habit = await Instance.findById(id).exec();
 		if (habit) {

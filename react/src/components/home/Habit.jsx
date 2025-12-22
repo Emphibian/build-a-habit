@@ -23,6 +23,7 @@ export function Habit({
 	handleUpdate,
 	id,
 	isHabit,
+	openOperationModal,
 }) {
 	const [value, setValue] = useState(name);
 	const [editing, setEditing] = useState(false);
@@ -59,6 +60,11 @@ export function Habit({
 		}
 	};
 
+	const handleRightClick = (e) => {
+		e.preventDefault();
+		openOperationModal();
+	};
+
 	let sidebarIcon;
 	if (isSidebarOpen) {
 		sidebarIcon = <SidebarOpen />;
@@ -77,7 +83,11 @@ export function Habit({
 
 	const fill = "#3B4554";
 	return (
-		<div onClick={setFocus} className={outerDivClasses}>
+		<div
+			onClick={setFocus}
+			className={outerDivClasses}
+			onContextMenu={handleRightClick}
+		>
 			<div className="svg-icon">
 				{isTimerRunning && <Play fill="#ff4081" />}
 			</div>

@@ -1,23 +1,27 @@
 import { useState, useEffect, useContext } from "react";
+
+import { HabitsContext } from "../../contexts/HabitContext.jsx";
+import { TimerContext } from "../../contexts/TimerContext.jsx";
+
 import { useDispatch, useSelector } from "react-redux";
+import { fetchHabits, markComplete } from "../../features/habits/habitsThunks";
+import { fetchTasks, taskComplete } from "../../features/tasks/tasksThunks";
+
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
 import { DoneContainer } from "./DoneContainer.jsx";
-import habitAPI from "../../api/habitAPI.js";
-import { HabitsContext } from "../../contexts/HabitContext.jsx";
-import { TimerContext } from "../../contexts/TimerContext.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
-import { fetchHabits, markComplete } from "../../features/habits/habitsThunks";
-import { fetchTasks, taskComplete } from "../../features/tasks/tasksThunks";
+import { OperationModal } from "./OperationModal.jsx";
+import habitAPI from "../../api/habitAPI.js";
 
 function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 	const [inputValue, setInputValue] = useState("");
 	if (!isOpen) return null;
-	const closeModal = function () {
+	const closeModal = function() {
 		setOpen(false);
 	};
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = async function(event) {
 		event.preventDefault();
 
 		closeModal();
@@ -46,10 +50,11 @@ function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
 
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
-	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => {});
+	const [doneModalUpdate, setDoneModalUpdate] = useState(() => () => { });
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [focusedId, setFocusedId] = useState(null);
+	const [operationModalOpen, setOperationModalOpen] = useState(false);
 
 	// TODO: explore memoization to avoid unnecessary rerenders
 	const allHabits = useSelector((state) =>
@@ -85,7 +90,7 @@ export function Habits() {
 		setTodayDuration,
 	} = useContext(TimerContext);
 
-	const checkIfComplete = async function (value, target, type) {
+	const checkIfComplete = async function(value, target, type) {
 		if (type === "duration") {
 			return parseInt(value) >= parseInt(target);
 		} else if (type === "number") {
@@ -95,12 +100,12 @@ export function Habits() {
 		}
 	};
 
-	const handleComplete = async function (id, value, target, type) {
+	const handleComplete = async function(id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
 		dispatch(markComplete({ id, value }));
 	};
 
-	const updateValue = function (id, value, target, type) {
+	const updateValue = function(id, value, target, type) {
 		// skip done modal if type is yes/no
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
@@ -113,7 +118,7 @@ export function Habits() {
 		setDoneModalOpen(true);
 	};
 
-	const updateTask = async function (id) {
+	const updateTask = async function(id) {
 		dispatch(taskComplete(id));
 	};
 
@@ -161,6 +166,10 @@ export function Habits() {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setSidebarOpen(true);
 								}}
+								openOperationModal={() => {
+									setSidebarHabit({ id: habit._id, isHabit: true });
+									setOperationModalOpen(true);
+								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
 								isTimerRunning={timerRunning && habit._id === timerHabit?.id}
 							/>
@@ -200,6 +209,10 @@ export function Habits() {
 									setSidebarHabit({ id: task._id, isHabit: false });
 									setSidebarOpen(true);
 								}}
+								openOperationModal={() => {
+									setSidebarHabit({ id: task._id, isHabit: false });
+									setOperationModalOpen(true);
+								}}
 								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
 								isTimerRunning={timerRunning && task._id === timerHabit?.id}
 							/>
@@ -215,6 +228,7 @@ export function Habits() {
 				sidebarOpen={sidebarOpen}
 				sidebarHabit={sidebarHabit}
 				updateTask={updateTask}
+				setOperationModalOpen={setOperationModalOpen}
 			/>
 			<DoneModal
 				isOpen={doneModalOpen}
@@ -227,6 +241,11 @@ export function Habits() {
 				close={() => {
 					setSidebarOpen(false);
 				}}
+			/>
+			<OperationModal
+				instance={sidebarHabit}
+				open={operationModalOpen}
+				close={() => setOperationModalOpen(false)}
 			/>
 		</div>
 	);
