@@ -62,7 +62,9 @@ export function Habit({
 
 	const handleRightClick = (e) => {
 		e.preventDefault();
-		openOperationModal();
+		const position = { x: e.clientX, y: e.clientY };
+
+		openOperationModal(position);
 	};
 
 	let sidebarIcon;

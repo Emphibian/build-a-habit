@@ -22,6 +22,7 @@ export function Habits() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [focusedId, setFocusedId] = useState(null);
 	const [operationModalOpen, setOperationModalOpen] = useState(false);
+	const [operationModalPos, setOperationModalPos] = useState(null);
 
 	// TODO: explore memoization to avoid unnecessary rerenders
 	const allHabits = useSelector((state) =>
@@ -133,9 +134,10 @@ export function Habits() {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setSidebarOpen(true);
 								}}
-								openOperationModal={() => {
+								openOperationModal={(position) => {
 									setSidebarHabit({ id: habit._id, isHabit: true });
 									setOperationModalOpen(true);
+									setOperationModalPos(position);
 								}}
 								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
 								isTimerRunning={timerRunning && habit._id === timerHabit?.id}
@@ -176,9 +178,10 @@ export function Habits() {
 									setSidebarHabit({ id: task._id, isHabit: false });
 									setSidebarOpen(true);
 								}}
-								openOperationModal={() => {
+								openOperationModal={(position) => {
 									setSidebarHabit({ id: task._id, isHabit: false });
 									setOperationModalOpen(true);
+									setOperationModalPos(position);
 								}}
 								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
 								isTimerRunning={timerRunning && task._id === timerHabit?.id}
@@ -196,6 +199,7 @@ export function Habits() {
 				sidebarHabit={sidebarHabit}
 				updateTask={updateTask}
 				setOperationModalOpen={setOperationModalOpen}
+				setOperationModalPos={setOperationModalPos}
 			/>
 			<DoneModal
 				isOpen={doneModalOpen}
@@ -212,6 +216,7 @@ export function Habits() {
 			<OperationModal
 				instance={sidebarHabit}
 				open={operationModalOpen}
+				position={operationModalPos}
 				close={() => setOperationModalOpen(false)}
 			/>
 		</div>
