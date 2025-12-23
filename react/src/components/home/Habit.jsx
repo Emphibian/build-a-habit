@@ -42,7 +42,7 @@ export function Habit({
 	const startEdit = () => setEditing(true);
 	const finishEdit = async () => {
 		setEditing(false);
-		await updateName(value);
+		await updateName(value.trim());
 	};
 
 	const handleKeyDown = (e) => {
@@ -53,6 +53,7 @@ export function Habit({
 	};
 
 	const updateName = async (value) => {
+		if (value == name) return;
 		if (isHabit) {
 			await dispatch(updateHabitName({ id, name: value }));
 		} else {

@@ -103,7 +103,7 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 
 	if (!isOpen) return null;
 
-	const handleCreation = async function(event) {
+	const handleCreation = async function (event) {
 		event.preventDefault();
 		let frequencyString = "";
 		for (const v of habitFreqInfo) frequencyString += v + ",";
@@ -111,7 +111,7 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 
 		dispatch(
 			createHabit({
-				habitName,
+				habitName: habitName.trim(),
 				habitFreq,
 				habitFreqInfo: frequencyString,
 				goalType,
@@ -122,17 +122,17 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 		closeModal();
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setOpen(false);
 		setButtonDisplay(false);
 	};
 
-	const addCurrentDay = function(day) {
+	const addCurrentDay = function (day) {
 		habitFreqInfo.add(day);
 		setHabitFreqInfo(new Set(habitFreqInfo));
 	};
 
-	const removeCurrentDay = function(day) {
+	const removeCurrentDay = function (day) {
 		if (habitFreqInfo.has(day)) {
 			habitFreqInfo.delete(day);
 			setHabitFreqInfo(new Set(habitFreqInfo));
