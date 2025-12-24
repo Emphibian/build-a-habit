@@ -1,10 +1,19 @@
 .navbar {
-	width: 250px;
+	width: max(200px, 15%);
 	height: 100vh;
 	flex: 0 0 auto;
 	background-color: var(--navbar-bg);
 	z-index: 1;
 	border-right: 1px solid var(--navbar-border);
+	position: absolute;
+}
+
+.navbar.opened {
+	transform: none;
+}
+
+.navbar.closed {
+	transform: translate3d(-100%, 0, 0);
 }
 
 .navbar ul {
