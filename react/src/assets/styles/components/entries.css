@@ -8,15 +8,16 @@
 
 .entry {
 	display: flex;
+	width: min(95%, 700px);
 	flex-direction: row;
 	align-items: center;
-	width: 700px;
 	gap: 0.8rem;
 	background-color: var(--habit-bg);
 	color: var(--habit-fg);
 	padding: 0.3rem 1rem;
 	box-shadow: 0 1px 20px 0 rgb(69, 90, 100, 0.08);
 	border-radius: 4px;
+	overflow: auto;
 }
 
 .entry-name {

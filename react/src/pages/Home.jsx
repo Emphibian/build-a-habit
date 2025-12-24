@@ -86,10 +86,16 @@ export function Home() {
 
 	return (
 		<div className="home">
-			<Sidebar tab={tab} setTab={setTab} />
+			<Sidebar tab={tab} setTab={setTab} sidebarOpen={navbarOpen} />
 			<HabitsProvider>
 				<TimerProvider>
 					<div className="main-container" ref={mainContainerRef}>
+						<button
+							onClick={() => setNavbarOpen((prev) => !prev)}
+							className="svg-icon"
+						>
+							<DehazeIcon />
+						</button>
 						<Dashboard />
 						<TrackContainer />
 					</div>
