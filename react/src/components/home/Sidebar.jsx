@@ -6,7 +6,7 @@ function Tab({ name, handleClick }) {
 	return <button onClick={handleClick}>{name}</button>;
 }
 
-export function Sidebar({ tab, setTab, sidebarOpen }) {
+export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 	const fill = "#e3e3e3";
 	const tabs = [
 		{ name: "Today", icon: <TodayIcon fill={fill} /> },
@@ -18,6 +18,11 @@ export function Sidebar({ tab, setTab, sidebarOpen }) {
 	useEffect(() => {
 		if (sidebarRef.current) {
 			if (sidebarOpen) {
+				if (window.innerWidth <= 500) {
+					document.addEventListener("click", handleClick);
+					document.addEventListener("touch", handleClick);
+				}
+
 				sidebarRef.current.classList.add("opened");
 				sidebarRef.current.classList.remove("closed");
 			} else {
@@ -25,7 +30,19 @@ export function Sidebar({ tab, setTab, sidebarOpen }) {
 				sidebarRef.current.classList.remove("opened");
 			}
 		}
+
+		return () => {
+			document.removeEventListener("click", handleClick);
+			document.removeEventListener("touch", handleClick);
+		};
 	}, [sidebarOpen]);
+
+	const handleClick = (e) => {
+		e.stopPropagation();
+		if (!sidebarRef.current.contains(e.target)) {
+			setSidebarOpen(false);
+		}
+	};
 
 	return (
 		<div className="navbar" ref={sidebarRef}>

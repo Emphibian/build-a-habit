@@ -64,12 +64,20 @@ export function Home() {
 	if (tab === "Today") {
 		return (
 			<div className="home">
-				<Sidebar tab={tab} setTab={setTab} sidebarOpen={navbarOpen} />
+				<Sidebar
+					tab={tab}
+					setTab={setTab}
+					sidebarOpen={navbarOpen}
+					setSidebarOpen={setNavbarOpen}
+				/>
 				<HabitsProvider>
 					<TimerProvider>
 						<div className="main-container" ref={mainContainerRef}>
 							<button
-								onClick={() => setNavbarOpen((prev) => !prev)}
+								onClick={(e) => {
+									e.stopPropagation();
+									setNavbarOpen((prev) => !prev);
+								}}
 								className="svg-icon"
 							>
 								<DehazeIcon />
@@ -86,7 +94,12 @@ export function Home() {
 
 	return (
 		<div className="home">
-			<Sidebar tab={tab} setTab={setTab} sidebarOpen={navbarOpen} />
+			<Sidebar
+				tab={tab}
+				setTab={setTab}
+				sidebarOpen={navbarOpen}
+				setSidebarOpen={setNavbarOpen}
+			/>
 			<HabitsProvider>
 				<TimerProvider>
 					<div className="main-container" ref={mainContainerRef}>

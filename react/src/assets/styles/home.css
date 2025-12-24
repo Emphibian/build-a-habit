@@ -16,6 +16,12 @@
 	margin-left: max(200px, 15%);
 }
 
+@media (max-width: 501px) {
+	.main-container.shrink {
+		margin-left: 0;
+	}
+}
+
 .main-container button.svg-icon {
 	margin-left: 10px;
 	margin-top: 10px;
