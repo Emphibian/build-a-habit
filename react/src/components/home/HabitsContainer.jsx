@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
 
 import { HabitsContext } from "../../contexts/HabitContext.jsx";
 import { TimerContext } from "../../contexts/TimerContext.jsx";
@@ -24,6 +24,8 @@ export function Habits() {
 	const [operationModalOpen, setOperationModalOpen] = useState(false);
 	const [operationModalPos, setOperationModalPos] = useState(null);
 
+	const habitContainerRef = useRef(null);
+
 	// TODO: explore memoization to avoid unnecessary rerenders
 	const allHabits = useSelector((state) =>
 		state.habits.allIds.map((id) => state.habits.byId[id]),
@@ -45,6 +47,14 @@ export function Habits() {
 
 		loadDuration();
 	}, [dispatch]);
+
+	useEffect(() => {
+		if (sidebarOpen) {
+			habitContainerRef.current.classList.add("shrink");
+		} else {
+			habitContainerRef.current.classList.remove("shrink");
+		}
+	}, [sidebarOpen]);
 
 	const { estimate } = useContext(HabitsContext);
 
@@ -91,7 +101,7 @@ export function Habits() {
 	};
 
 	return (
-		<div className="habits-container">
+		<div className="habits-container" ref={habitContainerRef}>
 			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
 			<div className="todo-habits">
 				{allHabits.map((habit, index) => {

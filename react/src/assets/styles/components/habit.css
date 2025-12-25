@@ -1,3 +1,17 @@
+.habits-container {
+	transition: margin 300ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.habits-container.shrink {
+	margin-right: max(300px, 15%);
+}
+
+@media (max-width: 501px) {
+	.habits-container.shrink {
+		margin-right: 0;
+	}
+}
+
 .todo-habits,
 .done-habits {
 	padding: 1rem;
@@ -124,7 +138,6 @@ textarea {
 	padding: 0.2rem 0.2rem;
 }
 
-/* ---------- DISPLAY MODE (looks like plain text) ---------- */
 .display-mode {
 	background: transparent;
 	color: inherit;
@@ -134,12 +147,10 @@ textarea {
 	caret-color: transparent;
 }
 
-/* hide the caret when not editing */
 .display-mode::selection {
 	background: transparent;
 }
 
-/* ---------- EDIT MODE (normal textarea UI) ---------- */
 .edit-mode {
 	border: 1px solid var(--timer-bg);
 	border-radius: 3px;
