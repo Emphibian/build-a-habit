@@ -1,5 +1,7 @@
 import { useDispatch } from "react-redux";
 import { deleteTrack } from "../../features/tracks/tracksThunks";
+import CloseIcon from "../../assets/svgs/close.svg?react";
+import DeleteIcon from "../../assets/svgs/delete.svg?react";
 
 function DeleteButton({ id, closeSidebar }) {
 	const dispatch = useDispatch();
@@ -10,7 +12,8 @@ function DeleteButton({ id, closeSidebar }) {
 
 	return (
 		<button className="danger" onClick={handleClick}>
-			Delete
+			<DeleteIcon />
+			<span>Delete</span>
 		</button>
 	);
 }
@@ -24,7 +27,10 @@ export function TrackSidebar({ track, isOpen, close }) {
 						<DeleteButton id={track.id} closeSidebar={close} />
 					</li>
 					<li>
-						<button onClick={close}>Close</button>
+						<button onClick={close}>
+							<CloseIcon />
+							<span>Close</span>
+						</button>
 					</li>
 				</ul>
 			</div>

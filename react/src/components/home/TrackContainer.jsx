@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Track } from "./Track.jsx";
 import { TrackSidebar } from "./TrackSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +7,8 @@ import { fetchTracks } from "../../features/tracks/tracksThunks";
 export function TrackContainer() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [selectedTrack, setSelectedTrack] = useState();
+
+	const trackContainerRef = useRef(null);
 
 	const allTracks = useSelector((state) =>
 		state.tracks.allIds.map((id) => state.tracks.byId[id]),
@@ -18,8 +20,16 @@ export function TrackContainer() {
 		dispatch(fetchTracks());
 	}, [dispatch]);
 
+	useEffect(() => {
+		if (sidebarOpen) {
+			trackContainerRef.current.classList.add("shrink");
+		} else {
+			trackContainerRef.current.classList.remove("shrink");
+		}
+	}, [sidebarOpen]);
+
 	return (
-		<div className="entries-container">
+		<div className="entries-container" ref={trackContainerRef}>
 			{allTracks.map((track) => {
 				return (
 					<Track
