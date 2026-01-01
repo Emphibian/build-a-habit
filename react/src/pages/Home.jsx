@@ -48,7 +48,7 @@ export function Home() {
 
 	useEffect(() => {
 		try {
-			const redirectIfNotLoggedIn = async function() {
+			const redirectIfNotLoggedIn = async function () {
 				const response = await userAPI.getUser();
 				const data = await response.json();
 				if (data.message === "Not Logged In")
@@ -104,7 +104,10 @@ export function Home() {
 				<TimerProvider>
 					<div className="main-container" ref={mainContainerRef}>
 						<button
-							onClick={() => setNavbarOpen((prev) => !prev)}
+							onClick={(e) => {
+								e.stopPropagation();
+								setNavbarOpen((prev) => !prev);
+							}}
 							className="svg-icon"
 						>
 							<DehazeIcon />
