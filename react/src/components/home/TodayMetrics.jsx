@@ -1,3 +1,7 @@
+import { useSelector } from "react-redux";
+import { selectHabitsRemainingTime } from "../../features/habits/habitsSelectors";
+import { selectTasksRemainingTime } from "../../features/tasks/tasksSelectors";
+
 import prettyPrintDuration from "../../utils/prettyPrintDuration";
 import WorkingTodayIcon from "../../assets/svgs/clock-check-outline.svg?react";
 import EstimateRemainingIcon from "../../assets/svgs/progress-clock.svg?react";
@@ -15,11 +19,14 @@ function WorkingToday({ todayDuration }) {
 }
 
 function EstimateRemaining({ estimate }) {
+	const habitTime = useSelector(selectHabitsRemainingTime);
+	const taskTime = useSelector(selectTasksRemainingTime);
+
 	return (
 		<div className="today-metric justify-center align-center">
 			<span>Estimate remaining:</span>
 			<span className="align-center">
-				<strong>~{prettyPrintDuration(estimate)}</strong>
+				<strong>~{prettyPrintDuration(habitTime + taskTime)}</strong>
 				<EstimateRemainingIcon />
 			</span>
 		</div>
