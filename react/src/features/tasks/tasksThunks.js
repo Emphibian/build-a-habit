@@ -76,6 +76,18 @@ export const taskComplete = createAsyncThunk(
 	},
 );
 
+export const updateTaskDuration = createAsyncThunk(
+	"tasks/updateDuration",
+	async ({ id, value }, { rejectWithValue }) => {
+		try {
+			const res = await habitAPI.updateHabitDuration(id, value, false);
+			return res;
+		} catch (err) {
+			return rejectWithValue(err.response?.data || err.message);
+		}
+	},
+);
+
 export const updateTaskName = createAsyncThunk(
 	"tasks/updateName",
 	async ({ id, name }, { rejectWithValue }) => {

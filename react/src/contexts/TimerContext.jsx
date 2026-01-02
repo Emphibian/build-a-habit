@@ -1,6 +1,9 @@
 import { createContext, useState, useContext } from "react";
 import habitAPI from "../api/habitAPI";
 import { HabitsContext } from "../contexts/HabitContext";
+import { useDispatch } from "react-redux";
+import { updateHabitDuration } from "../features/habits/habitsThunks";
+import { updateTaskDuration } from "../features/tasks/tasksThunks";
 
 export const TimerContext = createContext();
 
@@ -10,6 +13,8 @@ export function TimerProvider({ children }) {
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [todayDuration, setTodayDuration] = useState(0);
+
+	const dispatch = useDispatch();
 
 	const { habits, tasks, setHabits, setTasks, calculateEstimate } =
 		useContext(HabitsContext);
@@ -24,18 +29,14 @@ export function TimerProvider({ children }) {
 		setTimerRunning(false);
 	};
 
-	const updateHabitDuration = async function(id, value, isHabit) {
+	const updateEntryDuration = async function(id, value, isHabit) {
 		setTodayDuration((prev) => prev + value);
-		const updatedHabit = await habitAPI.updateHabitDuration(id, value, isHabit);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
 
-		calculateEstimate();
+		if (isHabit) {
+			dispatch(updateHabitDuration({ id, value }));
+		} else {
+			dispatch(updateTaskDuration({ id, value }));
+		}
 	};
 
 	const updateEstimate = async function(id, newEstimate, isHabit) {
@@ -70,7 +71,7 @@ export function TimerProvider({ children }) {
 				setTimerDuration,
 				todayDuration,
 				setTodayDuration,
-				updateHabitDuration,
+				updateHabitDuration: updateEntryDuration,
 				updateEstimate,
 			}}
 		>

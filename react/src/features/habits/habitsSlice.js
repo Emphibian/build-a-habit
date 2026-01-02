@@ -7,6 +7,7 @@ import {
 	updateTimeSpent,
 	updateEstimate,
 	updateHabitName,
+	updateHabitDuration,
 } from "./habitsThunks";
 
 const initialState = {
@@ -50,7 +51,6 @@ const habitsSlice = createSlice({
 				const instance = action.payload;
 				if (instance === null) return;
 
-				console.log(instance);
 				state.byId[instance._id] = instance;
 				state.allIds.push(instance._id);
 			})
@@ -93,6 +93,14 @@ const habitsSlice = createSlice({
 			.addCase(updateHabitName.pending, genericPendingReducer)
 			.addCase(updateHabitName.rejected, genericRejectReducer)
 			.addCase(updateHabitName.fulfilled, (state, action) => {
+				const instance = action.payload;
+				state.byId[instance._id] = instance;
+				state.status = "succeeded";
+				state.error = null;
+			})
+			.addCase(updateHabitDuration.rejected, genericRejectReducer)
+			.addCase(updateHabitDuration.pending, genericPendingReducer)
+			.addCase(updateHabitDuration.fulfilled, (state, action) => {
 				const instance = action.payload;
 				state.byId[instance._id] = instance;
 				state.status = "succeeded";
