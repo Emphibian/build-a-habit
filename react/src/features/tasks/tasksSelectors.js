@@ -1,11 +1,23 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-const selectTasks = (state) => state.tasks;
-export const selectDueTasks = createSelector([selectTasks], (tasks) => {
-	return tasks.allIds
-		.map((id) => tasks.byId[id])
-		.filter((task) => !task.completed);
-});
+const selectTaskObject = (state) => state.tasks;
+export const selectDueTasks = createSelector(
+	[selectTaskObject],
+	(taskObject) => {
+		return taskObject.allIds
+			.map((id) => taskObject.byId[id])
+			.filter((task) => !task.completed);
+	},
+);
+
+export const selectCompletedTasks = createSelector(
+	[selectTaskObject],
+	(taskObject) => {
+		return taskObject.allIds
+			.map((id) => taskObject.byId[id])
+			.filter((task) => task.completed);
+	},
+);
 
 export const selectTasksRemainingTime = createSelector(
 	[selectDueTasks],
