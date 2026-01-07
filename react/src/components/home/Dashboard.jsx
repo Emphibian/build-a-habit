@@ -6,6 +6,10 @@ import AccountSvg from "../../assets/svgs/account.svg?react";
 import { Timer } from "./Timer";
 import { TimerContext } from "../../contexts/TimerContext";
 
+import { updateEstimate } from "../../features/habits/habitsThunks";
+import { setTaskEstimate } from "../../features/tasks/tasksThunks";
+import { useDispatch } from "react-redux";
+
 function HomeNav({ user, logout }) {
 	const {
 		timerHabit,
@@ -15,9 +19,10 @@ function HomeNav({ user, logout }) {
 		setTimerRunning,
 		timerDuration,
 		setTimerDuration,
-		updateHabitDuration,
-		updateEstimate,
+		updateEntryDuration,
 	} = useContext(TimerContext);
+
+	const dispatch = useDispatch();
 
 	return (
 		<div className="dashboard">
@@ -32,14 +37,17 @@ function HomeNav({ user, logout }) {
 					duration={timerDuration}
 					incrementDuration={() => setTimerDuration((prev) => prev + 1)}
 					addDuration={(value) => {
-						updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
+						updateEntryDuration(timerHabit.id, value, timerHabit.isHabit);
 					}}
 					addEstimate={(value) => {
-						updateEstimate(
-							timerHabit.id,
-							value + timerHabit.estimate,
-							timerHabit.isHabit,
-						);
+						if (timerHabit.isHabit)
+							dispatch(
+								updateEstimate(timerHabit.id, value + timerHabit.estimate),
+							);
+						else
+							dispatch(
+								setTaskEstimate(timerHabit.id, value + timerHabit.estimate),
+							);
 					}}
 				/>
 				<nav>

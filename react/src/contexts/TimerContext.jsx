@@ -19,17 +19,17 @@ export function TimerProvider({ children }) {
 	const { habits, tasks, setHabits, setTasks, calculateEstimate } =
 		useContext(HabitsContext);
 
-	const habitTimerStart = function(id, name, isHabit) {
+	const habitTimerStart = function (id, name, isHabit) {
 		if (timerHabit.id !== id) setTimerDuration(0);
 		setTimerHabit({ id, name, isHabit });
 		setTimerRunning(true);
 	};
 
-	const habitTimerStop = function() {
+	const habitTimerStop = function () {
 		setTimerRunning(false);
 	};
 
-	const updateEntryDuration = async function(id, value, isHabit) {
+	const updateEntryDuration = async function (id, value, isHabit) {
 		setTodayDuration((prev) => prev + value);
 
 		if (isHabit) {
@@ -39,7 +39,7 @@ export function TimerProvider({ children }) {
 		}
 	};
 
-	const updateEstimate = async function(id, newEstimate, isHabit) {
+	const updateEstimate = async function (id, newEstimate, isHabit) {
 		const updatedHabit = await habitAPI.updateEstimate(
 			id,
 			newEstimate,
@@ -71,7 +71,7 @@ export function TimerProvider({ children }) {
 				setTimerDuration,
 				todayDuration,
 				setTodayDuration,
-				updateHabitDuration: updateEntryDuration,
+				updateEntryDuration,
 				updateEstimate,
 			}}
 		>
