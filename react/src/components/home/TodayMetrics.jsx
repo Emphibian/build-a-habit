@@ -18,7 +18,7 @@ function WorkingToday({ todayDuration }) {
 	);
 }
 
-function EstimateRemaining({ estimate }) {
+function EstimateRemaining() {
 	const habitTime = useSelector(selectHabitsRemainingTime);
 	const taskTime = useSelector(selectTasksRemainingTime);
 

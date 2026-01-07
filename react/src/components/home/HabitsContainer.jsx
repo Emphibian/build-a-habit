@@ -1,6 +1,5 @@
 import { useState, useEffect, useContext, useRef } from "react";
 
-import { HabitsContext } from "../../contexts/HabitContext.jsx";
 import { TimerContext } from "../../contexts/TimerContext.jsx";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -52,8 +51,6 @@ export function Habits() {
 		}
 	}, [sidebarOpen]);
 
-	const { estimate } = useContext(HabitsContext);
-
 	const {
 		habitTimerStart,
 		habitTimerStop,
@@ -98,7 +95,7 @@ export function Habits() {
 
 	return (
 		<div className="habits-container" ref={habitContainerRef}>
-			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
+			<TodayMetrics todayDuration={todayDuration} />
 			<div className="todo-habits">
 				{allHabits.map((habit, index) => {
 					return (

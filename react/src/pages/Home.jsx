@@ -5,7 +5,6 @@ import { CreateButton } from "../components/home/CreateButton.jsx";
 import { Habits } from "../components/home/HabitsContainer";
 import { Sidebar } from "../components/home/Sidebar.jsx";
 import userAPI from "../api/userAPI.js";
-import { HabitsProvider } from "../contexts/HabitContext.jsx";
 import { TimerProvider } from "../contexts/TimerContext.jsx";
 import { TrackContainer } from "../components/home/TrackContainer.jsx";
 
@@ -70,37 +69,6 @@ export function Home() {
 					sidebarOpen={navbarOpen}
 					setSidebarOpen={setNavbarOpen}
 				/>
-				<HabitsProvider>
-					<TimerProvider>
-						<div className="main-container" ref={mainContainerRef}>
-							<button
-								onClick={(e) => {
-									e.stopPropagation();
-									setNavbarOpen((prev) => !prev);
-								}}
-								className="svg-icon"
-							>
-								<DehazeIcon />
-							</button>
-							<Dashboard />
-							<Habits />
-							<CreateButton />
-						</div>
-					</TimerProvider>
-				</HabitsProvider>
-			</div>
-		);
-	}
-
-	return (
-		<div className="home">
-			<Sidebar
-				tab={tab}
-				setTab={setTab}
-				sidebarOpen={navbarOpen}
-				setSidebarOpen={setNavbarOpen}
-			/>
-			<HabitsProvider>
 				<TimerProvider>
 					<div className="main-container" ref={mainContainerRef}>
 						<button
@@ -113,10 +81,37 @@ export function Home() {
 							<DehazeIcon />
 						</button>
 						<Dashboard />
-						<TrackContainer />
+						<Habits />
+						<CreateButton />
 					</div>
 				</TimerProvider>
-			</HabitsProvider>
+			</div>
+		);
+	}
+
+	return (
+		<div className="home">
+			<Sidebar
+				tab={tab}
+				setTab={setTab}
+				sidebarOpen={navbarOpen}
+				setSidebarOpen={setNavbarOpen}
+			/>
+			<TimerProvider>
+				<div className="main-container" ref={mainContainerRef}>
+					<button
+						onClick={(e) => {
+							e.stopPropagation();
+							setNavbarOpen((prev) => !prev);
+						}}
+						className="svg-icon"
+					>
+						<DehazeIcon />
+					</button>
+					<Dashboard />
+					<TrackContainer />
+				</div>
+			</TimerProvider>
 		</div>
 	);
 }
