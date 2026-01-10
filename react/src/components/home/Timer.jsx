@@ -24,7 +24,8 @@ export function Timer({
 	duration,
 	incrementDuration,
 	habitName,
-	timeEstimate,
+	timerEstimate,
+	setTimerEstimate,
 	addDuration,
 	addEstimate,
 	timerRunning,
@@ -52,20 +53,20 @@ export function Timer({
 	}, [timerRunning]);
 
 	useEffect(() => {
-		console.log(`duration: ${duration}`);
-		console.log(`timeEstimate: ${timeEstimate}`);
-
-		if (timeEstimate > 0 && timeEstimate < duration) {
+		if (timerEstimate > 0 && timerEstimate < duration) {
 			setNotificationModalOpen(true);
 		}
-	}, [duration, timeEstimate]);
+	}, [duration, timerEstimate]);
 
 	let notificationModal = "";
 	if (notificationModalOpen) {
 		notificationModal = (
 			<NotificationModal
 				message={"You have exceeded the estimate!"}
-				handleButton={() => addEstimate(30)}
+				handleButton={() => {
+					addEstimate(30);
+					setTimerEstimate((prev) => prev + 30);
+				}}
 				buttonMessage={"Add 30 min"}
 				closeModal={() => setNotificationModalOpen(false)}
 			/>

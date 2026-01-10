@@ -20,11 +20,11 @@ function HomeNav({ user, logout }) {
 		timerDuration,
 		setTimerDuration,
 		updateEntryDuration,
+		timerEstimate,
+		setTimerEstimate,
 	} = useContext(TimerContext);
 
 	const dispatch = useDispatch();
-	console.log("timerHabit: ");
-	console.log(timerHabit !== null ? timerHabit : null);
 	return (
 		<div className="dashboard">
 			<div className="dashboard-right">
@@ -34,7 +34,8 @@ function HomeNav({ user, logout }) {
 					timerRunning={timerRunning}
 					setTimerRunning={setTimerRunning}
 					habitName={timerHabit.name}
-					timeEstimate={timerHabit.estimate}
+					timerEstimate={timerEstimate}
+					setTimerEstimate={setTimerEstimate}
 					duration={timerDuration}
 					incrementDuration={() => setTimerDuration((prev) => prev + 1)}
 					addDuration={(value) => {
@@ -45,14 +46,14 @@ function HomeNav({ user, logout }) {
 							dispatch(
 								updateEstimate({
 									id: timerHabit.id,
-									estimate: value + timerHabit.estimate,
+									estimate: value + timerEstimate,
 								}),
 							);
 						else
 							dispatch(
 								setTaskEstimate({
 									id: timerHabit.id,
-									estimate: value + timerHabit.estimate,
+									estimate: value + timerEstimate,
 								}),
 							);
 					}}

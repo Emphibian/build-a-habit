@@ -124,6 +124,7 @@ export function Habits() {
 										habit.name,
 										true,
 										habit.timeEstimate,
+										habit.workDuration,
 									);
 								}
 							}}
@@ -164,6 +165,7 @@ export function Habits() {
 										task.name,
 										false,
 										task.timeEstimate,
+										task.workDuration,
 									);
 								}
 							}}

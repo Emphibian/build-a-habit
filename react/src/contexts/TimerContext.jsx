@@ -15,13 +15,16 @@ export function TimerProvider({ children }) {
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [todayDuration, setTodayDuration] = useState(0);
+	const [timerEstimate, setTimerEstimate] = useState(0);
 
 	const dispatch = useDispatch();
 
-	const habitTimerStart = function (id, name, isHabit, estimate) {
+	const habitTimerStart = function (id, name, isHabit, estimate, duration) {
 		if (timerHabit.id !== id) setTimerDuration(0);
 		setTimerHabit({ id, name, isHabit, estimate });
 		setTimerRunning(true);
+		setTimerDuration(duration);
+		setTimerEstimate(estimate);
 	};
 
 	const habitTimerStop = function () {
@@ -54,6 +57,8 @@ export function TimerProvider({ children }) {
 				todayDuration,
 				setTodayDuration,
 				updateEntryDuration,
+				timerEstimate,
+				setTimerEstimate,
 			}}
 		>
 			{children}
