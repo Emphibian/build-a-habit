@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { TimerContext } from "../../contexts/TimerContext";
+
 import Play from "../../assets/svgs/play.svg?react";
 import Pause from "../../assets/svgs/pause.svg?react";
 
@@ -20,24 +22,29 @@ function NotificationModal({
 	);
 }
 
-export function Timer({
-	duration,
-	incrementDuration,
-	habitName,
-	timerEstimate,
-	setTimerEstimate,
-	addDuration,
-	addEstimate,
-	timerRunning,
-	setTimerRunning,
-}) {
+export function Timer({ habitName, addEstimate }) {
 	const [counter, setCounter] = useState();
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
+	const {
+		timerDuration,
+		setTimerDuration,
+		timerEstimate,
+		setTimerEstimate,
+		timerRunning,
+		setTimerRunning,
+		updateEntryDuration,
+		timerHabit,
+	} = useContext(TimerContext);
+
 	const ONE_MINUTE = 1000;
 	const durationUpdate = function () {
-		addDuration(1);
 		incrementDuration();
+	};
+
+	const incrementDuration = () => {
+		setTimerDuration((prev) => prev + 1);
+		updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit);
 	};
 
 	useEffect(() => {
@@ -53,10 +60,10 @@ export function Timer({
 	}, [timerRunning]);
 
 	useEffect(() => {
-		if (timerEstimate > 0 && timerEstimate < duration) {
+		if (timerEstimate > 0 && timerEstimate < timerDuration) {
 			setNotificationModalOpen(true);
 		}
-	}, [duration, timerEstimate]);
+	}, [timerDuration, timerEstimate]);
 
 	let notificationModal = "";
 	if (notificationModalOpen) {

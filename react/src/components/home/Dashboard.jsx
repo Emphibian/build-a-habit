@@ -11,36 +11,14 @@ import { setTaskEstimate } from "../../features/tasks/tasksThunks";
 import { useDispatch } from "react-redux";
 
 function HomeNav({ user, logout }) {
-	const {
-		timerHabit,
-		timerOn,
-		setTimerOn,
-		timerRunning,
-		setTimerRunning,
-		timerDuration,
-		setTimerDuration,
-		updateEntryDuration,
-		timerEstimate,
-		setTimerEstimate,
-	} = useContext(TimerContext);
+	const { timerHabit, timerEstimate } = useContext(TimerContext);
 
 	const dispatch = useDispatch();
 	return (
 		<div className="dashboard">
 			<div className="dashboard-right">
 				<Timer
-					timerOn={timerOn}
-					setTimerOn={setTimerOn}
-					timerRunning={timerRunning}
-					setTimerRunning={setTimerRunning}
 					habitName={timerHabit.name}
-					timerEstimate={timerEstimate}
-					setTimerEstimate={setTimerEstimate}
-					duration={timerDuration}
-					incrementDuration={() => setTimerDuration((prev) => prev + 1)}
-					addDuration={(value) => {
-						updateEntryDuration(timerHabit.id, value, timerHabit.isHabit);
-					}}
 					addEstimate={(value) => {
 						if (timerHabit.isHabit)
 							dispatch(
