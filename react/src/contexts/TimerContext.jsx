@@ -6,7 +6,11 @@ import { updateTaskDuration } from "../features/tasks/tasksThunks";
 export const TimerContext = createContext();
 
 export function TimerProvider({ children }) {
-	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
+	const [timerHabit, setTimerHabit] = useState({
+		id: null,
+		name: "",
+		estimate: 0,
+	});
 	const [timerOn, setTimerOn] = useState(false);
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(0);
@@ -14,9 +18,9 @@ export function TimerProvider({ children }) {
 
 	const dispatch = useDispatch();
 
-	const habitTimerStart = function (id, name, isHabit) {
+	const habitTimerStart = function (id, name, isHabit, estimate) {
 		if (timerHabit.id !== id) setTimerDuration(0);
-		setTimerHabit({ id, name, isHabit });
+		setTimerHabit({ id, name, isHabit, estimate });
 		setTimerRunning(true);
 	};
 

@@ -7,4 +7,5 @@
 	background: white;
 	padding: 3rem;
 	border: 3px solid var(--timer-bg);
+	z-index: 1;
 }

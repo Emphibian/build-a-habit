@@ -55,7 +55,6 @@ export function Habits() {
 		habitTimerStart,
 		habitTimerStop,
 		timerHabit,
-		setTimerHabit,
 		timerRunning,
 		todayDuration,
 		setTodayDuration,
@@ -120,14 +119,12 @@ export function Habits() {
 								// update the previous running instance
 								habitTimerStop();
 								if (!timerRunning || timerHabit.id !== habit._id) {
-									setTimerHabit({
-										id: habit._id,
-										name: habit.name,
-										isHabit: true,
-										estimate:
-											habit.timeEstimate === undefined ? 0 : habit.timeEstimate,
-									});
-									habitTimerStart(habit._id, habit.name, true);
+									habitTimerStart(
+										habit._id,
+										habit.name,
+										true,
+										habit.timeEstimate,
+									);
 								}
 							}}
 							openSidebar={() => {
@@ -162,14 +159,12 @@ export function Habits() {
 								// update the previous running instance
 								habitTimerStop();
 								if (!timerRunning || timerHabit.id !== task._id) {
-									setTimerHabit({
-										id: task._id,
-										name: task.name,
-										isHabit: false,
-										estimate:
-											task.timeEstimate === undefined ? 0 : task.timeEstimate,
-									});
-									habitTimerStart(task._id, task.name, false);
+									habitTimerStart(
+										task._id,
+										task.name,
+										false,
+										task.timeEstimate,
+									);
 								}
 							}}
 							openSidebar={() => {

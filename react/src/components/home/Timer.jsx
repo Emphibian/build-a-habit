@@ -33,7 +33,7 @@ export function Timer({
 	const [counter, setCounter] = useState();
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
-	const ONE_MINUTE = 10000;
+	const ONE_MINUTE = 1000;
 	const durationUpdate = function () {
 		addDuration(1);
 		incrementDuration();
@@ -52,6 +52,9 @@ export function Timer({
 	}, [timerRunning]);
 
 	useEffect(() => {
+		console.log(`duration: ${duration}`);
+		console.log(`timeEstimate: ${timeEstimate}`);
+
 		if (timeEstimate > 0 && timeEstimate < duration) {
 			setNotificationModalOpen(true);
 		}
@@ -94,12 +97,12 @@ export function Timer({
 		);
 	};
 
+	// TODO: add duration below the timer
 	return (
 		<>
 			<div className="timer">
 				<p>{habitName}</p>
 				{timerRunning ? <PauseButton /> : <PlayButton />}
-				{/*<p>{duration}m</p> */}
 			</div>
 			{notificationModal}
 		</>
