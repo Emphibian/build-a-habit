@@ -175,4 +175,25 @@ router.delete("/task/delete/:id", async (req, res) => {
 	}
 });
 
+router.get("/tasks/upcoming", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const userId = req.session.user.id;
+		const upcomingTasks = await Task.find({
+			userId,
+			scheduledOn: { $gt: new Date() },
+		}).exec();
+		console.log("this is running");
+
+		return res.status(200).json({ tasks: upcomingTasks });
+	} catch (error) {
+		console.log(error);
+		return res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 module.exports = router;
