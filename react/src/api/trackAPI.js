@@ -21,11 +21,7 @@ async function deleteTrack(id) {
 		credentials: "include",
 	});
 
-	if (!response.ok) {
-		return null;
-	}
-
-	return await response.json();
+	return response;
 }
 
 export default {

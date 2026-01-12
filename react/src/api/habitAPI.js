@@ -15,7 +15,6 @@ async function createTask(taskName, date) {
 	});
 
 	const data = await response.json();
-	console.log(data);
 	return data.task;
 }
 
@@ -71,8 +70,8 @@ async function getTasks() {
 	return data.tasks;
 }
 
-async function markComplete(id, value) {
-	const path = "/api/habit/completed/" + id;
+async function markComplete(id, value, isHabit) {
+	const path = `/api/${isHabit ? "habit" : "task"}/completed/` + id;
 	const response = await fetch(generateURL(path), {
 		method: "PATCH",
 		headers: { "Content-Type": "application/json" },
@@ -121,7 +120,7 @@ async function deleteInstance(id, isHabit) {
 		credentials: "include",
 	});
 
-	return await response.json();
+	return response;
 }
 
 async function updateEstimate(id, newEstimate, isHabit) {
@@ -158,6 +157,21 @@ async function getTodayDuration() {
 	return await response.json();
 }
 
+async function updateName(id, name, isHabit) {
+	console.log({ name });
+	const path = `/api/${isHabit ? "habit" : "task"}/updateName/` + id;
+	const response = await fetch(generateURL(path), {
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			value: name,
+		}),
+		credentials: "include",
+	});
+
+	return await response.json();
+}
+
 export default {
 	getHabits,
 	getTasks,
@@ -170,4 +184,5 @@ export default {
 	updateEstimate,
 	updateTimeSpent,
 	getTodayDuration,
+	updateName,
 };

@@ -1,21 +1,22 @@
-import { useState, useContext } from "react";
-import { HabitsContext } from "../../contexts/HabitContext.jsx";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { createTask } from "../../features/tasks/tasksThunks";
 import SaveIcon from "./../../assets/svgs/content-save.svg?react";
 
 function CreateTaskModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [taskName, setTaskName] = useState("");
 	const [date, setDate] = useState("");
-	const { createTask } = useContext(HabitsContext);
+	const dispatch = useDispatch();
 
 	if (!isOpen) return null;
 
-	const handleCreation = async function (event) {
+	const handleCreation = async function(event) {
 		event.preventDefault();
-		createTask({ taskName, date });
+		dispatch(createTask({ taskName, date }));
 		closeModal();
 	};
 
-	const closeModal = function () {
+	const closeModal = function() {
 		setOpen(false);
 		setButtonDisplay(false);
 	};

@@ -34,7 +34,9 @@ router.delete("/track/delete/:id", async (req, res) => {
 		if (track) {
 			const result = await track.deleteOne().exec();
 			if (result.deletedCount === 1) {
-				res.status(201).json({ message: "Track successfully deleted" });
+				res
+					.status(201)
+					.json({ success: "true", message: "Track successfully deleted" });
 			}
 		} else {
 			res.status(404).json({ message: "Couldn't find the track" });

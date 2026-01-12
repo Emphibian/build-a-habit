@@ -1,44 +1,20 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, useContext, useRef } from "react";
+
+import { TimerContext } from "../../contexts/TimerContext.jsx";
+
+import { useDispatch, useSelector } from "react-redux";
+import { fetchHabits, markComplete } from "../../features/habits/habitsThunks";
+import { fetchTasks, taskComplete } from "../../features/tasks/tasksThunks";
+import { selectDueHabits } from "../../features/habits/habitsSelectors";
+import { selectDueTasks } from "../../features/tasks/tasksSelectors";
+
 import { Habit } from "./Habit";
 import { HabitSidebar } from "./HabitSidebar.jsx";
-import habitAPI from "../../api/habitAPI.js";
-import { HabitsContext } from "../../contexts/HabitContext.jsx";
-import { TimerContext } from "../../contexts/TimerContext.jsx";
+import { DoneContainer } from "./DoneContainer.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
-
-function DoneModal({ isOpen, setOpen, handleHabitUpdate }) {
-	const [inputValue, setInputValue] = useState("");
-	if (!isOpen) return null;
-	const closeModal = function () {
-		setOpen(false);
-	};
-
-	const handleUpdate = async function (event) {
-		event.preventDefault();
-
-		closeModal();
-		handleHabitUpdate(inputValue);
-	};
-
-	return (
-		<div className="habit-overlay" onClick={closeModal}>
-			<div className="main-habit-form" onClick={(e) => e.stopPropagation()}>
-				<form onSubmit={handleUpdate}>
-					<label>
-						<input
-							type="text"
-							value={inputValue}
-							onChange={(event) => setInputValue(event.target.value)}
-							required
-						/>
-						<span>Value</span>
-					</label>
-					<button type="submit">Update</button>
-				</form>
-			</div>
-		</div>
-	);
-}
+import { OperationModal } from "./OperationModal.jsx";
+import { DoneModal } from "./DoneModal.jsx";
+import habitAPI from "../../api/habitAPI.js";
 
 export function Habits() {
 	const [doneModalOpen, setDoneModalOpen] = useState(false);
@@ -46,28 +22,42 @@ export function Habits() {
 	const [sidebarHabit, setSidebarHabit] = useState(null);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [focusedId, setFocusedId] = useState(null);
+	const [operationModalOpen, setOperationModalOpen] = useState(false);
+	const [operationModalPos, setOperationModalPos] = useState(null);
+
+	const habitContainerRef = useRef(null);
+
+	const allHabits = useSelector(selectDueHabits);
+	const allTasks = useSelector(selectDueTasks);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
+		dispatch(fetchHabits());
+		dispatch(fetchTasks());
 		async function loadDuration() {
 			const response = await habitAPI.getTodayDuration();
 			setTodayDuration(response.duration);
 		}
 
 		loadDuration();
-	}, []);
+	}, [dispatch]);
 
-	const { habits, setHabits, tasks, setTasks, estimate, calculateEstimate } =
-		useContext(HabitsContext);
+	useEffect(() => {
+		if (sidebarOpen) {
+			habitContainerRef.current.classList.add("shrink");
+		} else {
+			habitContainerRef.current.classList.remove("shrink");
+		}
+	}, [sidebarOpen]);
 
 	const {
 		habitTimerStart,
 		habitTimerStop,
 		timerHabit,
-		setTimerHabit,
 		timerRunning,
 		todayDuration,
 		setTodayDuration,
-		updateEstimate,
 	} = useContext(TimerContext);
 
 	const checkIfComplete = async function (value, target, type) {
@@ -82,12 +72,11 @@ export function Habits() {
 
 	const handleComplete = async function (id, value, target, type) {
 		if (!checkIfComplete(value, target, type)) return;
-
-		const updatedHabit = await habitAPI.markComplete(id, value);
-		setHabits(habits.map((habit) => (id === habit._id ? updatedHabit : habit)));
+		dispatch(markComplete({ id, value }));
 	};
 
 	const updateValue = function (id, value, target, type) {
+		// skip done modal if type is yes/no
 		if (type === "yes/no") {
 			handleComplete(id, value, target, type);
 			return;
@@ -100,160 +89,112 @@ export function Habits() {
 	};
 
 	const updateTask = async function (id) {
-		const updatedTask = await habitAPI.updateTask(id);
-		setTasks(tasks.map((task) => (id === task._id ? updatedTask : task)));
-	};
-
-	const handleDelete = async function (id) {
-		setHabits(habits.filter((habit) => id !== habit._id));
-		setTasks(tasks.filter((task) => id !== task._id));
-		calculateEstimate();
-	};
-
-	const updateTimeSpent = async function (id, timeSpent, isHabit) {
-		const updatedHabit = await habitAPI.updateTimeSpent(id, timeSpent, isHabit);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
-		calculateEstimate();
+		dispatch(taskComplete(id));
 	};
 
 	return (
-		<div className="habits-container">
-			<TodayMetrics todayDuration={todayDuration} estimate={estimate} />
+		<div className="habits-container" ref={habitContainerRef}>
+			<TodayMetrics todayDuration={todayDuration} />
 			<div className="todo-habits">
-				{habits.map((habit, index) => {
-					if (habit.status === "Not Completed") {
-						return (
-							<Habit
-								key={habit._id}
-								name={habit.name}
-								workDuration={habit.workDuration}
-								timeEstimate={habit.timeEstimate}
-								setFocus={() => setFocusedId("h" + index)}
-								focused={focusedId === "h" + index}
-								handleUpdate={() =>
-									updateValue(
+				{allHabits.map((habit, index) => {
+					return (
+						<Habit
+							key={habit._id}
+							id={habit._id}
+							isHabit={true}
+							name={habit.name}
+							workDuration={habit.workDuration}
+							timeEstimate={habit.timeEstimate}
+							setFocus={() => setFocusedId("h" + index)}
+							focused={focusedId === "h" + index}
+							handleUpdate={() =>
+								updateValue(
+									habit._id,
+									habit.goalValue,
+									habit.goalTarget,
+									habit.goalType,
+								)
+							}
+							handleTimer={() => {
+								// update the previous running instance
+								habitTimerStop();
+								if (!timerRunning || timerHabit.id !== habit._id) {
+									habitTimerStart(
 										habit._id,
-										habit.goalValue,
-										habit.goalTarget,
-										habit.goalType,
-									)
+										habit.name,
+										true,
+										habit.timeEstimate,
+										habit.workDuration,
+									);
 								}
-								handleTimer={() => {
-									// update the previous running instance
-									habitTimerStop();
-									if (!timerRunning || timerHabit.id !== habit._id) {
-										setTimerHabit({
-											id: habit._id,
-											name: habit.name,
-											isHabit: true,
-											estimate:
-												habit.timeEstimate === undefined
-													? 0
-													: habit.timeEstimate,
-										});
-										habitTimerStart(habit._id, habit.name, true);
-									}
-								}}
-								openSidebar={() => {
-									setSidebarHabit({ id: habit._id, isHabit: true });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
-								isTimerRunning={timerRunning && habit._id === timerHabit?.id}
-							/>
-						);
-					}
+							}}
+							openSidebar={() => {
+								setSidebarHabit({ id: habit._id, isHabit: true });
+								setSidebarOpen(true);
+							}}
+							openOperationModal={(position) => {
+								setSidebarHabit({ id: habit._id, isHabit: true });
+								setOperationModalOpen(true);
+								setOperationModalPos(position);
+							}}
+							isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
+							isTimerRunning={timerRunning && habit._id === timerHabit?.id}
+						/>
+					);
 				})}
-				{tasks.map((task, index) => {
-					if (!task.completed) {
-						return (
-							<Habit
-								key={task._id}
-								name={task.name}
-								workDuration={task.workDuration}
-								timeEstimate={task.timeEstimate}
-								setFocus={() => setFocusedId("t" + index)}
-								focused={focusedId === "t" + index}
-								handleUpdate={() => {
-									updateTask(task._id);
-								}}
-								handleTimer={() => {
-									// update the previous running instance
-									habitTimerStop();
-									if (!timerRunning || timerHabit.id !== task._id) {
-										setTimerHabit({
-											id: task._id,
-											name: task.name,
-											isHabit: false,
-											estimate:
-												task.timeEstimate === undefined ? 0 : task.timeEstimate,
-										});
-										habitTimerStart(task._id, task.name, false);
-									}
-								}}
-								openSidebar={() => {
-									setSidebarHabit({ id: task._id, isHabit: false });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
-								isTimerRunning={timerRunning && task._id === timerHabit?.id}
-							/>
-						);
-					}
+				{allTasks.map((task, index) => {
+					return (
+						<Habit
+							key={task._id}
+							id={task._id}
+							isHabit={false}
+							name={task.name}
+							workDuration={task.workDuration}
+							timeEstimate={task.timeEstimate}
+							setFocus={() => setFocusedId("t" + index)}
+							focused={focusedId === "t" + index}
+							handleUpdate={() => {
+								updateTask(task._id);
+							}}
+							handleTimer={() => {
+								// update the previous running instance
+								habitTimerStop();
+								if (!timerRunning || timerHabit.id !== task._id) {
+									habitTimerStart(
+										task._id,
+										task.name,
+										false,
+										task.timeEstimate,
+										task.workDuration,
+									);
+								}
+							}}
+							openSidebar={() => {
+								setSidebarHabit({ id: task._id, isHabit: false });
+								setSidebarOpen(true);
+							}}
+							openOperationModal={(position) => {
+								setSidebarHabit({ id: task._id, isHabit: false });
+								setOperationModalOpen(true);
+								setOperationModalPos(position);
+							}}
+							isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
+							isTimerRunning={timerRunning && task._id === timerHabit?.id}
+						/>
+					);
 				})}
 			</div>
-			<div className="done-habits">
-				<h2>Completed</h2>
-				{habits.map((habit) => {
-					if (habit.status === "Completed") {
-						return (
-							<Habit
-								key={habit._id}
-								name={habit.name}
-								workDuration={habit.workDuration}
-								handleUpdate={() =>
-									updateValue(
-										habit._id,
-										habit.goalValue,
-										habit.goalTarget,
-										habit.goalType,
-									)
-								}
-								openSidebar={() => {
-									setSidebarHabit({ id: habit._id, isHabit: true });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && habit._id === sidebarHabit?.id}
-							/>
-						);
-					}
-				})}
-				{tasks.map((task) => {
-					if (task.completed) {
-						return (
-							<Habit
-								key={task._id}
-								name={task.name}
-								workDuration={task.workDuration}
-								handleUpdate={() => {
-									updateTask(task._id);
-								}}
-								openSidebar={() => {
-									setSidebarHabit({ id: task._id, isHabit: false });
-									setSidebarOpen(true);
-								}}
-								isSidebarOpen={sidebarOpen && task._id === sidebarHabit?.id}
-							/>
-						);
-					}
-				})}
-			</div>
+			<div className="done-habits"></div>
+			<DoneContainer
+				updateValue={updateValue}
+				setSidebarHabit={setSidebarHabit}
+				setSidebarOpen={setSidebarOpen}
+				sidebarOpen={sidebarOpen}
+				sidebarHabit={sidebarHabit}
+				updateTask={updateTask}
+				setOperationModalOpen={setOperationModalOpen}
+				setOperationModalPos={setOperationModalPos}
+			/>
 			<DoneModal
 				isOpen={doneModalOpen}
 				setOpen={setDoneModalOpen}
@@ -265,9 +206,12 @@ export function Habits() {
 				close={() => {
 					setSidebarOpen(false);
 				}}
-				updateEstimate={updateEstimate}
-				updateTimeSpent={updateTimeSpent}
-				handleDelete={(id) => handleDelete(id)}
+			/>
+			<OperationModal
+				instance={sidebarHabit}
+				open={operationModalOpen}
+				position={operationModalPos}
+				close={() => setOperationModalOpen(false)}
 			/>
 		</div>
 	);

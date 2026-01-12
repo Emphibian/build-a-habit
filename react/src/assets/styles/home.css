@@ -5,4 +5,37 @@
 
 .main-container {
 	flex: 1 1 auto;
+	transition: margin 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.main-container.expand {
+	margin-left: 0;
+}
+
+.main-container.shrink {
+	margin-left: max(200px, 15%);
+}
+
+@media (max-width: 501px) {
+	.main-container.shrink {
+		margin-left: 0;
+	}
+}
+
+.main-container button.svg-icon {
+	margin-left: 10px;
+	margin-top: 10px;
+	position: absolute;
+	border-radius: 10px;
+	padding: 7px;
+	display: flex;
+	outline: none;
+}
+
+.main-container button.svg-icon:hover {
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+.main-container button.svg-icon:active {
+	background-color: rgba(0, 0, 0, 0.09);
 }

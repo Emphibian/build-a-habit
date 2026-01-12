@@ -39,3 +39,8 @@ body {
 button {
 	cursor: pointer;
 }
+
+button.svg-icon {
+	background: inherit;
+	border: none;
+}

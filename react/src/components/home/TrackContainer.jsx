@@ -1,29 +1,36 @@
-import { useState, useEffect } from "react";
-import trackAPI from "../../api/trackAPI.js";
+import { useState, useEffect, useRef } from "react";
 import { Track } from "./Track.jsx";
 import { TrackSidebar } from "./TrackSidebar.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchTracks } from "../../features/tracks/tracksThunks";
 
 export function TrackContainer() {
-	const [tracks, setTracks] = useState([]);
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [selectedTrack, setSelectedTrack] = useState();
 
+	const trackContainerRef = useRef(null);
+
+	const allTracks = useSelector((state) =>
+		state.tracks.allIds.map((id) => state.tracks.byId[id]),
+	);
+
+	const dispatch = useDispatch();
+
 	useEffect(() => {
-		const loadTracks = async function () {
-			const tracks = await trackAPI.getTracks();
-			setTracks(tracks);
-		};
+		dispatch(fetchTracks());
+	}, [dispatch]);
 
-		loadTracks();
-	}, []);
-
-	const handleDelete = async function (id) {
-		setTracks(tracks.filter((track) => id !== track._id));
-	};
+	useEffect(() => {
+		if (sidebarOpen) {
+			trackContainerRef.current.classList.add("shrink");
+		} else {
+			trackContainerRef.current.classList.remove("shrink");
+		}
+	}, [sidebarOpen]);
 
 	return (
-		<div className="entries-container">
-			{tracks.map((track) => {
+		<div className="entries-container" ref={trackContainerRef}>
+			{allTracks.map((track) => {
 				return (
 					<Track
 						key={track._id}
@@ -42,7 +49,6 @@ export function TrackContainer() {
 				track={selectedTrack}
 				isOpen={sidebarOpen}
 				close={() => setSidebarOpen(false)}
-				handleDelete={(id) => handleDelete(id)}
 			/>
 		</div>
 	);

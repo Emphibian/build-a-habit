@@ -6,40 +6,34 @@ import AccountSvg from "../../assets/svgs/account.svg?react";
 import { Timer } from "./Timer";
 import { TimerContext } from "../../contexts/TimerContext";
 
-function HomeNav({ user, logout }) {
-	const {
-		timerHabit,
-		timerOn,
-		setTimerOn,
-		timerRunning,
-		setTimerRunning,
-		timerDuration,
-		setTimerDuration,
-		updateHabitDuration,
-		updateEstimate,
-	} = useContext(TimerContext);
+import { updateEstimate } from "../../features/habits/habitsThunks";
+import { setTaskEstimate } from "../../features/tasks/tasksThunks";
+import { useDispatch } from "react-redux";
 
+function HomeNav({ user, logout }) {
+	const { timerHabit, timerEstimate } = useContext(TimerContext);
+
+	const dispatch = useDispatch();
 	return (
 		<div className="dashboard">
 			<div className="dashboard-right">
 				<Timer
-					timerOn={timerOn}
-					setTimerOn={setTimerOn}
-					timerRunning={timerRunning}
-					setTimerRunning={setTimerRunning}
 					habitName={timerHabit.name}
-					timerEstimate={timerHabit.estimate}
-					duration={timerDuration}
-					incrementDuration={() => setTimerDuration((prev) => prev + 1)}
-					addDuration={(value) => {
-						updateHabitDuration(timerHabit.id, value, timerHabit.isHabit);
-					}}
 					addEstimate={(value) => {
-						updateEstimate(
-							timerHabit.id,
-							value + timerHabit.estimate,
-							timerHabit.isHabit,
-						);
+						if (timerHabit.isHabit)
+							dispatch(
+								updateEstimate({
+									id: timerHabit.id,
+									estimate: value + timerEstimate,
+								}),
+							);
+						else
+							dispatch(
+								setTaskEstimate({
+									id: timerHabit.id,
+									estimate: value + timerEstimate,
+								}),
+							);
 					}}
 				/>
 				<nav>

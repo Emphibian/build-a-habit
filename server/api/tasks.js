@@ -30,7 +30,7 @@ router.get("/tasks", async (req, res) => {
 
 		res.status(201).json({ tasks });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
@@ -42,7 +42,6 @@ router.patch("/task/completed/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const taskId = req.params.id;
 		const task = await Task.findById(taskId).exec();
 		const currentDay = new Date();
@@ -86,6 +85,33 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 	}
 });
 
+router.patch("/task/updateName/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const id = req.params.id;
+		const newName = req.body.value;
+
+		const task = await Task.findById(id).exec();
+		if (task) {
+			task.name = newName;
+			await task.save();
+			res.status(200).json(task);
+		} else {
+			res.status(404).json({
+				message: "Not task found for the given ID",
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			message: "Internal Server Error",
+		});
+	}
+});
+
 router.patch("/task/updateEstimate/:id", async (req, res) => {
 	try {
 		if (!req.session.user) {
@@ -93,7 +119,6 @@ router.patch("/task/updateEstimate/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const taskId = req.params.id;
 
 		const task = await Task.findById(taskId).exec();
@@ -101,9 +126,29 @@ router.patch("/task/updateEstimate/:id", async (req, res) => {
 
 		task.timeEstimate = value;
 		await task.save();
-		res.status(201).json(task);
+		res.status(200).json(task);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
+router.patch("/task/updateTimeSpent/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const taskId = req.params.id;
+		const task = await Task.findById(taskId).exec();
+		const value = parseInt(req.body.value);
+
+		task.workDuration = value;
+		await task.save();
+		res.status(200).json(task);
+	} catch (error) {
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
@@ -115,12 +160,11 @@ router.delete("/task/delete/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const task = await Task.findById(req.params.id).exec();
 		if (task) {
 			const result = await task.deleteOne().exec();
 			if (result.deletedCount === 1) {
-				res.status(201).json({ message: "Task successfully deleted" });
+				res.status(204).json({ message: "Task successfully deleted" });
 			}
 		} else {
 			res.status(404).json({ message: "Couldn't find the task" });

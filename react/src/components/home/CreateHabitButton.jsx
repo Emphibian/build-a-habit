@@ -1,5 +1,9 @@
 import { useState, useEffect, useContext } from "react";
-import { HabitsContext } from "./../../contexts/HabitContext.jsx";
+import { useDispatch } from "react-redux";
+import {
+	createHabit,
+	fetchHabits,
+} from "../../features/habits/habitsThunks.js";
 import SaveIcon from "./../../assets/svgs/content-save.svg?react";
 
 function WeeklyList({ addCurrentDay, removeCurrentDay }) {
@@ -58,8 +62,6 @@ function GoalSelect({ goalType, setGoalType }) {
 
 function TargetTextBox({ goalType, target, setTarget }) {
 	if (goalType !== "yes/no" && goalType !== "") {
-		console.log(goalType);
-		console.log(goalType === "yes/no");
 		return (
 			<label>
 				<input
@@ -82,7 +84,7 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 	const [target, setTarget] = useState("");
 	const [frequencyInfoHTML, setFrequencyInfoHTML] = useState("");
 
-	const { createHabit } = useContext(HabitsContext);
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (habitFreq !== "weekly") {
@@ -101,33 +103,36 @@ function CreateHabitModal({ isOpen, setOpen, setButtonDisplay }) {
 
 	if (!isOpen) return null;
 
-	const handleCreation = async function(event) {
+	const handleCreation = async function (event) {
 		event.preventDefault();
 		let frequencyString = "";
 		for (const v of habitFreqInfo) frequencyString += v + ",";
 		frequencyString = frequencyString.slice(0, -1);
 
-		createHabit({
-			habitName,
-			habitFreq,
-			habitFreqInfo: frequencyString,
-			goalType,
-			target,
-		});
+		dispatch(
+			createHabit({
+				habitName: habitName.trim(),
+				habitFreq,
+				habitFreqInfo: frequencyString,
+				goalType,
+				target,
+			}),
+		);
+
 		closeModal();
 	};
 
-	const closeModal = function() {
+	const closeModal = function () {
 		setOpen(false);
 		setButtonDisplay(false);
 	};
 
-	const addCurrentDay = function(day) {
+	const addCurrentDay = function (day) {
 		habitFreqInfo.add(day);
 		setHabitFreqInfo(new Set(habitFreqInfo));
 	};
 
-	const removeCurrentDay = function(day) {
+	const removeCurrentDay = function (day) {
 		if (habitFreqInfo.has(day)) {
 			habitFreqInfo.delete(day);
 			setHabitFreqInfo(new Set(habitFreqInfo));

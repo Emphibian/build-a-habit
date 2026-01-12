@@ -44,7 +44,6 @@ router.patch("/habit/completed/:id", async (req, res) => {
 			return;
 		}
 
-		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 
 		if (habitInstance.goalType === "yes/no") {
@@ -60,10 +59,37 @@ router.patch("/habit/completed/:id", async (req, res) => {
 		}
 
 		await habitInstance.save();
-		res.json(habitInstance);
+		res.status(200).json(habitInstance);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
+router.patch("/habit/updateName/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const id = req.params.id;
+		const newName = req.body.value;
+
+		const habit = await Instance.findById(id).exec();
+		if (habit) {
+			habit.name = newName;
+			await habit.save();
+			res.status(200).json(habit);
+		} else {
+			res.status(404).json({
+				message: "Not instance found for the given ID",
+			});
+		}
+	} catch (err) {
+		res.status(500).json({
+			message: "Internal Server Error",
+		});
 	}
 });
 
@@ -104,7 +130,7 @@ router.patch("/habit/updateEstimate/:id", async (req, res) => {
 
 		habitInstance.timeEstimate = value;
 		await habitInstance.save();
-		res.json(habitInstance);
+		res.status(200).json(habitInstance);
 	} catch (error) {
 		console.log(error);
 		res.status(500).json({ message: "Internal Server Error" });

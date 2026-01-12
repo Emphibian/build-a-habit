@@ -5,10 +5,14 @@ import SidebarOpen from "../../assets/svgs/menu-open.svg?react";
 import SidebarClose from "../../assets/svgs/menu-close.svg?react";
 import prettyPrintDuration from "../../utils/prettyPrintDuration";
 
+import { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateHabitName } from "../../features/habits/habitsThunks";
+import { updateTaskName } from "../../features/tasks/tasksThunks";
+
 export function Habit({
 	name,
 	workDuration,
-	handleUpdate,
 	handleTimer,
 	openSidebar,
 	timeEstimate,
@@ -16,7 +20,54 @@ export function Habit({
 	isTimerRunning,
 	setFocus,
 	focused,
+	handleUpdate,
+	id,
+	isHabit,
+	openOperationModal,
 }) {
+	const [value, setValue] = useState(name);
+	const [editing, setEditing] = useState(false);
+	const textRef = useRef(null);
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		if (editing && textRef.current) {
+			textRef.current.focus();
+			const len = textRef.current.value.length;
+			textRef.current.setSelectionRange(len, len);
+		}
+	}, [editing]);
+
+	const startEdit = () => setEditing(true);
+	const finishEdit = async () => {
+		setEditing(false);
+		await updateName(value.trim());
+	};
+
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter") {
+			e.preventDefault();
+			finishEdit();
+		}
+	};
+
+	const updateName = async (value) => {
+		if (value == name) return;
+		if (isHabit) {
+			await dispatch(updateHabitName({ id, name: value }));
+		} else {
+			await dispatch(updateTaskName({ id, name: value }));
+		}
+	};
+
+	const handleRightClick = (e) => {
+		e.preventDefault();
+		const position = { x: e.clientX, y: e.clientY };
+
+		openOperationModal(position);
+	};
+
 	let sidebarIcon;
 	if (isSidebarOpen) {
 		sidebarIcon = <SidebarOpen />;
@@ -35,11 +86,30 @@ export function Habit({
 
 	const fill = "#3B4554";
 	return (
-		<div onClick={setFocus} className={outerDivClasses}>
+		<div
+			onClick={setFocus}
+			className={outerDivClasses}
+			onContextMenu={handleRightClick}
+		>
 			<div className="svg-icon">
 				{isTimerRunning && <Play fill="#ff4081" />}
 			</div>
-			<p className="habit-name">{name}</p>
+			<textarea
+				ref={textRef}
+				tabIndex={0}
+				readOnly={!editing}
+				className={`
+					habit-name
+					${editing ? "edit-mode" : "display-mode"}
+				`}
+				suppressContentEditableWarning
+				onClick={!editing ? startEdit : undefined}
+				onBlur={finishEdit}
+				onChange={(e) => setValue(e.target.value)}
+				onKeyDown={handleKeyDown}
+				value={value}
+				rows={1}
+			/>
 			<span>
 				{prettyPrintDuration(workDuration)} /{" "}
 				{prettyPrintDuration(timeEstimate)}

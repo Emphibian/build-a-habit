@@ -1,57 +1,44 @@
-import { createContext, useState, useContext } from "react";
-import habitAPI from "../api/habitAPI";
-import { HabitsContext } from "../contexts/HabitContext";
+import { createContext, useState } from "react";
+import { useDispatch } from "react-redux";
+import { updateHabitDuration } from "../features/habits/habitsThunks";
+import { updateTaskDuration } from "../features/tasks/tasksThunks";
 
 export const TimerContext = createContext();
 
 export function TimerProvider({ children }) {
-	const [timerHabit, setTimerHabit] = useState({ id: null, name: "" });
+	const [timerHabit, setTimerHabit] = useState({
+		id: null,
+		name: "",
+		estimate: 0,
+	});
 	const [timerOn, setTimerOn] = useState(false);
 	const [timerRunning, setTimerRunning] = useState(false);
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [todayDuration, setTodayDuration] = useState(0);
+	const [timerEstimate, setTimerEstimate] = useState(0);
 
-	const { habits, tasks, setHabits, setTasks, calculateEstimate } =
-		useContext(HabitsContext);
+	const dispatch = useDispatch();
 
-	const habitTimerStart = function (id, name, isHabit) {
+	const habitTimerStart = function (id, name, isHabit, estimate, duration) {
 		if (timerHabit.id !== id) setTimerDuration(0);
-		setTimerHabit({ id, name, isHabit });
+		setTimerHabit({ id, name, isHabit, estimate });
 		setTimerRunning(true);
+		setTimerDuration(duration);
+		setTimerEstimate(estimate);
 	};
 
 	const habitTimerStop = function () {
 		setTimerRunning(false);
 	};
 
-	const updateHabitDuration = async function (id, value, isHabit) {
+	const updateEntryDuration = async function (id, value, isHabit) {
 		setTodayDuration((prev) => prev + value);
-		const updatedHabit = await habitAPI.updateHabitDuration(id, value, isHabit);
-		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
-		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
-		}
-		calculateEstimate();
-	};
 
-	const updateEstimate = async function (id, newEstimate, isHabit) {
-		const updatedHabit = await habitAPI.updateEstimate(
-			id,
-			newEstimate,
-			isHabit,
-		);
 		if (isHabit) {
-			setHabits(
-				habits.map((habit) => (id === habit._id ? updatedHabit : habit)),
-			);
+			dispatch(updateHabitDuration({ id, value }));
 		} else {
-			setTasks(tasks.map((task) => (id === task._id ? updatedHabit : task)));
+			dispatch(updateTaskDuration({ id, value }));
 		}
-
-		calculateEstimate();
 	};
 
 	return (
@@ -69,8 +56,9 @@ export function TimerProvider({ children }) {
 				setTimerDuration,
 				todayDuration,
 				setTodayDuration,
-				updateHabitDuration,
-				updateEstimate,
+				updateEntryDuration,
+				timerEstimate,
+				setTimerEstimate,
 			}}
 		>
 			{children}

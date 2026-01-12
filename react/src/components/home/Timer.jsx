@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
+import { TimerContext } from "../../contexts/TimerContext";
+
 import Play from "../../assets/svgs/play.svg?react";
 import Pause from "../../assets/svgs/pause.svg?react";
 
@@ -20,23 +22,29 @@ function NotificationModal({
 	);
 }
 
-export function Timer({
-	duration,
-	incrementDuration,
-	habitName,
-	timeEstimate,
-	addDuration,
-	addEstimate,
-	timerRunning,
-	setTimerRunning,
-}) {
+export function Timer({ habitName, addEstimate }) {
 	const [counter, setCounter] = useState();
 	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
-	const ONE_MINUTE = 10000;
+	const {
+		timerDuration,
+		setTimerDuration,
+		timerEstimate,
+		setTimerEstimate,
+		timerRunning,
+		setTimerRunning,
+		updateEntryDuration,
+		timerHabit,
+	} = useContext(TimerContext);
+
+	const ONE_MINUTE = 1000;
 	const durationUpdate = function () {
-		addDuration(1);
 		incrementDuration();
+	};
+
+	const incrementDuration = () => {
+		setTimerDuration((prev) => prev + 1);
+		updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit);
 	};
 
 	useEffect(() => {
@@ -52,17 +60,20 @@ export function Timer({
 	}, [timerRunning]);
 
 	useEffect(() => {
-		if (timeEstimate > 0 && timeEstimate < duration) {
+		if (timerEstimate > 0 && timerEstimate < timerDuration) {
 			setNotificationModalOpen(true);
 		}
-	}, [duration, timeEstimate]);
+	}, [timerDuration, timerEstimate]);
 
 	let notificationModal = "";
 	if (notificationModalOpen) {
 		notificationModal = (
 			<NotificationModal
 				message={"You have exceeded the estimate!"}
-				handleButton={() => addEstimate(30)}
+				handleButton={() => {
+					addEstimate(30);
+					setTimerEstimate((prev) => prev + 30);
+				}}
 				buttonMessage={"Add 30 min"}
 				closeModal={() => setNotificationModalOpen(false)}
 			/>
@@ -94,12 +105,12 @@ export function Timer({
 		);
 	};
 
+	// TODO: add duration below the timer
 	return (
 		<>
 			<div className="timer">
 				<p>{habitName}</p>
 				{timerRunning ? <PauseButton /> : <PlayButton />}
-				{/*<p>{duration}m</p> */}
 			</div>
 			{notificationModal}
 		</>
