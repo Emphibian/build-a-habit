@@ -7,6 +7,7 @@ import { Sidebar } from "../components/home/Sidebar.jsx";
 import userAPI from "../api/userAPI.js";
 import { TimerProvider } from "../contexts/TimerContext.jsx";
 import { TrackContainer } from "../components/home/TrackContainer.jsx";
+import { UpcomingTasksContainer } from "../components/home/UpcomingTasksContainer";
 
 import DehazeIcon from "../assets/svgs/dehaze.svg?react";
 
@@ -60,33 +61,20 @@ export function Home() {
 		}
 	}, [navigate]);
 
-	if (tab === "Today") {
-		return (
-			<div className="home">
-				<Sidebar
-					tab={tab}
-					setTab={setTab}
-					sidebarOpen={navbarOpen}
-					setSidebarOpen={setNavbarOpen}
-				/>
-				<TimerProvider>
-					<div className="main-container" ref={mainContainerRef}>
-						<button
-							onClick={(e) => {
-								e.stopPropagation();
-								setNavbarOpen((prev) => !prev);
-							}}
-							className="svg-icon"
-						>
-							<DehazeIcon />
-						</button>
-						<Dashboard />
-						<Habits />
-						<CreateButton />
-					</div>
-				</TimerProvider>
-			</div>
+	// TODO: refactor this functionality into a function
+	let innerComponent = "";
+
+	if (tab == "Today") {
+		innerComponent = (
+			<>
+				<Habits />
+				<CreateButton />
+			</>
 		);
+	} else if (tab == "Tracks") {
+		innerComponent = <TrackContainer />;
+	} else if (tab == "Upcoming Tasks") {
+		innerComponent = <UpcomingTasksContainer />;
 	}
 
 	return (
@@ -109,7 +97,7 @@ export function Home() {
 						<DehazeIcon />
 					</button>
 					<Dashboard />
-					<TrackContainer />
+					{innerComponent}
 				</div>
 			</TimerProvider>
 		</div>

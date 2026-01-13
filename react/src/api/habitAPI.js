@@ -172,9 +172,19 @@ async function updateName(id, name, isHabit) {
 	return await response.json();
 }
 
+async function getUpcomingTasks() {
+	const path = "/api/tasks/upcoming";
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+	});
+
+	return await response.json();
+}
+
 export default {
 	getHabits,
 	getTasks,
+	getUpcomingTasks,
 	markComplete,
 	updateTask,
 	updateHabitDuration,
