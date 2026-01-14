@@ -7,7 +7,7 @@ import { Sidebar } from "../components/home/Sidebar.jsx";
 import userAPI from "../api/userAPI.js";
 import { TimerProvider } from "../contexts/TimerContext.jsx";
 import { TrackContainer } from "../components/home/TrackContainer.jsx";
-import { UpcomingTasksContainer } from "../components/home/UpcomingTasksContainer";
+import { UpcomingTasksContainer } from "../components/home/upcomingTask/UpcomingTasksContainer.jsx";
 
 import DehazeIcon from "../assets/svgs/dehaze.svg?react";
 
@@ -48,7 +48,7 @@ export function Home() {
 
 	useEffect(() => {
 		try {
-			const redirectIfNotLoggedIn = async function () {
+			const redirectIfNotLoggedIn = async function() {
 				const response = await userAPI.getUser();
 				const data = await response.json();
 				if (data.message === "Not Logged In")

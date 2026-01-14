@@ -45,13 +45,17 @@
 }
 
 .entry button {
-	width: 1.7rem;
 	background: inherit;
 	border: none;
+	line-height: 0;
 	transition: transform 0.25s ease-in-out;
 }
 
 .entry button:hover {
 	transform: scale(1.2);
 	cursor: pointer;
+}
+
+.entry button svg {
+	width: 28px;
 }

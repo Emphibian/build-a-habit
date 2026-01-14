@@ -187,7 +187,6 @@ router.get("/tasks/upcoming", async (req, res) => {
 			userId,
 			scheduledOn: { $gt: new Date() },
 		}).exec();
-		console.log("this is running");
 
 		return res.status(200).json({ tasks: upcomingTasks });
 	} catch (error) {
