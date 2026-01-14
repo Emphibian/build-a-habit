@@ -178,7 +178,8 @@ async function getUpcomingTasks() {
 		credentials: "include",
 	});
 
-	return await response.json();
+	const data = await response.json();
+	return data.tasks;
 }
 
 export default {
