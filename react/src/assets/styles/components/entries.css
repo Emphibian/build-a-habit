@@ -49,13 +49,29 @@
 	border: none;
 	line-height: 0;
 	transition: transform 0.25s ease-in-out;
+	position: relative;
+	padding: 4px 8px;
 }
 
 .entry button:hover {
-	transform: scale(1.2);
+	background: var(--habit-bg-hover);
 	cursor: pointer;
 }
 
 .entry button svg {
 	width: 28px;
+}
+
+.entry div.time-badge {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	margin-top: 10px;
+	z-index: 10;
+	background: #fff;
+	border: 1px solid #ddd;
+	padding: 1px 2px;
+	line-height: 1;
+	font-size: 12px;
 }

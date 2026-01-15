@@ -18,7 +18,7 @@ export function UpcomingTasksContainer() {
 	return (
 		<div className="entries-container">
 			{upcomingTasks.map((task) => {
-				return <UpcomingTask name={task.name} />;
+				return <UpcomingTask name={task.name} scheduledOn={task.scheduledOn} />;
 			})}
 		</div>
 	);
