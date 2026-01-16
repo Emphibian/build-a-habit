@@ -12,3 +12,16 @@ export const fetchUpcomingTasks = createAsyncThunk(
 		}
 	},
 );
+
+export const rescheduleUpcomingTasks = createAsyncThunk(
+	"upcomingTasks/reschedule",
+	async ({ id, date }, { rejectWithValue }) => {
+		try {
+			console.log({ id });
+			const res = await habitAPI.rescheduleTask(id, date);
+			return res;
+		} catch (err) {
+			return rejectWithValue(err.message || "Couldn't reschedule");
+		}
+	},
+);

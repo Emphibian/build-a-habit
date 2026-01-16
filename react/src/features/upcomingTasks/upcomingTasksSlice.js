@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchUpcomingTasks } from "./upcomingTasksThunks.js";
+import {
+	fetchUpcomingTasks,
+	rescheduleUpcomingTasks,
+} from "./upcomingTasksThunks.js";
 
 const initialState = {
 	byId: {},
@@ -34,6 +37,13 @@ const upcomingSlice = createSlice({
 					state.byId[t._id] = t;
 					state.allIds.push(t._id);
 				});
+			})
+			.addCase(rescheduleUpcomingTasks.pending, genericPendingReducer)
+			.addCase(rescheduleUpcomingTasks.rejected, genericRejectReducer)
+			.addCase(rescheduleUpcomingTasks.fulfilled, (state, action) => {
+				state.status = "succeeded'";
+				const task = action.payload;
+				state.byId[task._id] = task;
 			});
 	},
 });

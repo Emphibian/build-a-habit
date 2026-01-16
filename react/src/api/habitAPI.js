@@ -182,6 +182,21 @@ async function getUpcomingTasks() {
 	return data.tasks;
 }
 
+async function rescheduleTask(id, date) {
+	const path = `/api/tasks/reschedule/${id}`;
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			date,
+		}),
+	});
+
+	const data = await response.json();
+	return data.task;
+}
+
 export default {
 	getHabits,
 	getTasks,
@@ -196,4 +211,5 @@ export default {
 	updateTimeSpent,
 	getTodayDuration,
 	updateName,
+	rescheduleTask,
 };
