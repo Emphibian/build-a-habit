@@ -9,13 +9,13 @@ function prettyPrintDate(date) {
 	return `${dayOfMonth}/${month}`;
 }
 
-export function UpcomingTask({ name, scheduledOn }) {
+export function UpcomingTask({ name, scheduledOn, openModal }) {
 	return (
 		<div className="entry">
 			<p className="entry-name">{name}</p>
-			<button>
+			<button onClick={openModal}>
 				<CalendarMonth />
-				<div class="time-badge">{prettyPrintDate(scheduledOn)}</div>
+				<div className="time-badge">{prettyPrintDate(scheduledOn)}</div>
 			</button>
 		</div>
 	);
