@@ -195,4 +195,27 @@ router.get("/tasks/upcoming", async (req, res) => {
 	}
 });
 
+router.patch("/tasks/reschedule/:id", async (req, res) => {
+	try {
+		if (!req.session.user) {
+			res.status(401).json({ message: "Not Logged In" });
+			return;
+		}
+
+		const taskId = req.params.id;
+
+		const rescheduleTask = await Task.findById(taskId).exec();
+		const newDate = new Date(req.body.date);
+		newDate.setHours(0, 0, 0, 0);
+
+		rescheduleTask.scheduledOn = newDate;
+		await rescheduleTask.save();
+
+		res.status(201).json({ task: rescheduleTask });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 module.exports = router;
