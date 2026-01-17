@@ -2,6 +2,7 @@ import { useRef } from "react";
 
 import { DeleteButton } from "./DeleteButton";
 import { UpdateEstimateButton } from "./UpdateEstimateButton";
+import { RescheduleButton } from "./today/RescheduleButton";
 
 export function OperationModal({ position, instance, open, close }) {
   const menuRef = useRef(null);
@@ -28,6 +29,7 @@ export function OperationModal({ position, instance, open, close }) {
         style={{ left: `${left}px`, top: `${top}px` }}
       >
         <UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
+        <RescheduleButton id={instance.id} isHabit={instance.isHabit} />
         <DeleteButton
           id={instance.id}
           isHabit={instance.isHabit}
