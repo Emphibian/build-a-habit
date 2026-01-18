@@ -43,7 +43,17 @@ const upcomingSlice = createSlice({
 			.addCase(rescheduleUpcomingTasks.fulfilled, (state, action) => {
 				state.status = "succeeded'";
 				const task = action.payload;
-				state.byId[task._id] = task;
+				const currentDay = new Date();
+				currentDay.setHours(0, 0, 0, 0);
+				const taskDate = new Date(task.scheduledOn);
+
+				if (taskDate.getTime() <= currentDay.getTime()) {
+					delete state.byId[task._id];
+					const index = state.allIds.indexOf(task._id);
+					state.allIds.splice(index, 1);
+				} else {
+					state.byId[task._id] = task;
+				}
 			});
 	},
 });
