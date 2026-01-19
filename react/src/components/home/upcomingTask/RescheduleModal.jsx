@@ -1,15 +1,25 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { rescheduleUpcomingTasks } from "../../../features/upcomingTasks/upcomingTasksThunks";
+import { rescheduleTask } from "../../../features/tasks/tasksThunks";
 import SaveIcon from "../../../assets/svgs/content-save.svg?react";
 
-export function RescheduleModal({ isOpen, setOpen, id }) {
+export function RescheduleModal({ isOpen, setOpen, id, curDate }) {
 	const [date, setDate] = useState("");
 	const dispatch = useDispatch();
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
-		dispatch(rescheduleUpcomingTasks({ id, date }));
+		const currentDate = new Date(curDate);
+		currentDate.setHours(0, 0, 0, 0);
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+
+		if (currentDate.getTime() == today.getTime()) {
+			dispatch(rescheduleTask({ id, date }));
+		} else {
+			dispatch(rescheduleUpcomingTasks({ id, date }));
+		}
 		closeModal();
 	};
 

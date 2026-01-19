@@ -19,14 +19,14 @@ export function UpdateEstimateButton({ id, isHabit }) {
 
 	const initialEstimate = useSelector((state) =>
 		isHabit
-			? state.habits.byId[id].timeEstimate
-			: state.tasks.byId[id].timeEstimate,
+			? state.habits.byId[id]?.timeEstimate
+			: state.tasks.byId[id]?.timeEstimate,
 	);
 
 	const initialTimeSpent = useSelector((state) =>
 		isHabit
-			? state.habits.byId[id].workDuration
-			: state.tasks.byId[id].workDuration,
+			? state.habits.byId[id]?.workDuration
+			: state.tasks.byId[id]?.workDuration,
 	);
 
 	useEffect(() => {

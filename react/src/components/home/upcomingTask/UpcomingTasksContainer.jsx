@@ -37,6 +37,7 @@ export function UpcomingTasksContainer() {
 				isOpen={modalOpen}
 				setOpen={setModalOpen}
 				id={currentTask?._id}
+				curDate={currentTask?.scheduledOn}
 			/>
 		</div>
 	);

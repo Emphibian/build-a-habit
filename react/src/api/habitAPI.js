@@ -42,7 +42,6 @@ async function createHabit(
 	});
 
 	const data = await response.json();
-	console.log(data);
 	return data.instance;
 }
 
@@ -158,7 +157,6 @@ async function getTodayDuration() {
 }
 
 async function updateName(id, name, isHabit) {
-	console.log({ name });
 	const path = `/api/${isHabit ? "habit" : "task"}/updateName/` + id;
 	const response = await fetch(generateURL(path), {
 		method: "PATCH",
