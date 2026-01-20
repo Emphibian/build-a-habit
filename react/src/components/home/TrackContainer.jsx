@@ -10,6 +10,7 @@ export function TrackContainer() {
 
 	const trackContainerRef = useRef(null);
 
+	// OPTIMIZE: memoize this selector
 	const allTracks = useSelector((state) =>
 		state.tracks.allIds.map((id) => state.tracks.byId[id]),
 	);

@@ -86,7 +86,6 @@ div.svg-icon {
 }
 
 .habit button:hover {
-	/* transform: scale(1.2); */
 	background: var(--habit-bg-hover);
 	cursor: pointer;
 }

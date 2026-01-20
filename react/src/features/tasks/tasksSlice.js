@@ -8,6 +8,7 @@ import {
 	updateTaskName,
 	updateTaskDuration,
 	taskComplete,
+	rescheduleTask,
 } from "./tasksThunks";
 
 const initialState = { byId: {}, allIds: [], status: "idle", error: null };
@@ -99,6 +100,23 @@ const tasksSlice = createSlice({
 				state.error = null;
 				const task = action.payload;
 				state.byId[task._id] = task;
+			})
+			.addCase(rescheduleTask.pending, genericPendingReducer)
+			.addCase(rescheduleTask.rejected, genericRejectReducer)
+			.addCase(rescheduleTask.fulfilled, (state, action) => {
+				state.status = "succeeded'";
+				const task = action.payload;
+				const currentDay = new Date();
+				currentDay.setHours(0, 0, 0, 0);
+				const taskDate = new Date(task.scheduledOn);
+
+				if (taskDate.getTime() > currentDay.getTime()) {
+					delete state.byId[task._id];
+					const index = state.allIds.indexOf(task._id);
+					state.allIds.splice(index, 1);
+				} else {
+					state.byId[task._id] = task;
+				}
 			});
 	},
 });

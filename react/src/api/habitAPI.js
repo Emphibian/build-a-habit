@@ -42,7 +42,6 @@ async function createHabit(
 	});
 
 	const data = await response.json();
-	console.log(data);
 	return data.instance;
 }
 
@@ -158,7 +157,6 @@ async function getTodayDuration() {
 }
 
 async function updateName(id, name, isHabit) {
-	console.log({ name });
 	const path = `/api/${isHabit ? "habit" : "task"}/updateName/` + id;
 	const response = await fetch(generateURL(path), {
 		method: "PATCH",
@@ -172,9 +170,35 @@ async function updateName(id, name, isHabit) {
 	return await response.json();
 }
 
+async function getUpcomingTasks() {
+	const path = "/api/tasks/upcoming";
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+	});
+
+	const data = await response.json();
+	return data.tasks;
+}
+
+async function rescheduleTask(id, date) {
+	const path = `/api/tasks/reschedule/${id}`;
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+		method: "PATCH",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			date,
+		}),
+	});
+
+	const data = await response.json();
+	return data.task;
+}
+
 export default {
 	getHabits,
 	getTasks,
+	getUpcomingTasks,
 	markComplete,
 	updateTask,
 	updateHabitDuration,
@@ -185,4 +209,5 @@ export default {
 	updateTimeSpent,
 	getTodayDuration,
 	updateName,
+	rescheduleTask,
 };

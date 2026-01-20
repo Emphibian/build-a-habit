@@ -11,6 +11,7 @@ export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 	const tabs = [
 		{ name: "Today", icon: <TodayIcon fill={fill} /> },
 		{ name: "Tracks", icon: <TrackIcon fill={fill} /> },
+		{ name: "Upcoming Tasks", icon: <TrackIcon fill={fill} /> },
 	];
 
 	const sidebarRef = useRef(null);
