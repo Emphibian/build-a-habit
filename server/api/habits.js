@@ -3,18 +3,14 @@ const router = express.Router();
 
 const generateInstances = require("../utils/generateInstances.js");
 const generateDayString = require("../utils/generateDayString.js");
+const verifyToken = require("../utils/verifyToken.js");
 const Instance = require("../models/habitInstanceModel.js");
 const User = require("../models/usersModel.js");
 
-router.get("/habitsInstances", async (req, res) => {
+router.get("/habitsInstances", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
-		const lastAccess = new Date(req.session.user.lastAccess);
+		const userId = req.id;
+		const lastAccess = new Date(req.lastAccess);
 		lastAccess.setHours(0, 0, 0, 0);
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);
@@ -37,13 +33,8 @@ router.get("/habitsInstances", async (req, res) => {
 	}
 });
 
-router.patch("/habit/completed/:id", async (req, res) => {
+router.patch("/habit/completed/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const habitInstance = await Instance.findById(req.params.id).exec();
 
 		if (habitInstance.goalType === "yes/no") {
@@ -66,13 +57,8 @@ router.patch("/habit/completed/:id", async (req, res) => {
 	}
 });
 
-router.patch("/habit/updateName/:id", async (req, res) => {
+router.patch("/habit/updateName/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const id = req.params.id;
 		const newName = req.body.value;
 
@@ -93,14 +79,9 @@ router.patch("/habit/updateName/:id", async (req, res) => {
 	}
 });
 
-router.patch("/habit/addDuration/:id", async (req, res) => {
+router.patch("/habit/addDuration/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 		const user = await User.findById(userId);
 		const value = parseInt(req.body.value);
@@ -112,19 +93,13 @@ router.patch("/habit/addDuration/:id", async (req, res) => {
 		await user.save();
 		res.json(habitInstance);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.patch("/habit/updateEstimate/:id", async (req, res) => {
+router.patch("/habit/updateEstimate/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 		const value = parseInt(req.body.value);
 
@@ -132,19 +107,13 @@ router.patch("/habit/updateEstimate/:id", async (req, res) => {
 		await habitInstance.save();
 		res.status(200).json(habitInstance);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.patch("/habit/updateTimeSpent/:id", async (req, res) => {
+router.patch("/habit/updateTimeSpent/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 		const value = parseInt(req.body.value);
 
@@ -152,19 +121,13 @@ router.patch("/habit/updateTimeSpent/:id", async (req, res) => {
 		await habitInstance.save();
 		res.json(habitInstance);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.delete("/habitInstances/delete/:id", async (req, res) => {
+router.delete("/habitInstances/delete/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
 		const habitInstance = await Instance.findById(req.params.id).exec();
 		if (habitInstance) {
 			const result = await habitInstance.deleteOne().exec();
@@ -175,7 +138,7 @@ router.delete("/habitInstances/delete/:id", async (req, res) => {
 			res.status(404).json({ message: "Couldn't find the instance" });
 		}
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });

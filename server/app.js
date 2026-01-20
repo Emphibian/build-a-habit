@@ -4,6 +4,7 @@ const cors = require("cors");
 const path = require("path");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const cookieParser = require("cookie-parser");
 
 mongoose.set("strictQuery", false);
 if (!process.env.MONGODB_URL) {
@@ -24,6 +25,7 @@ if (process.env.NODE_ENV === "development") {
 
 app.use(express.static(path.join(__dirname, "/dist")));
 app.use(express.json());
+app.use(cookieParser());
 app.use(
 	session({
 		secret: "Temp Secret",
