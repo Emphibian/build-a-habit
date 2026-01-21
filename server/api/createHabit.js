@@ -5,15 +5,11 @@ const User = require("../models/usersModel.js");
 const Habit = require("../models/habitModel.js");
 const generateSingleInstance = require("../utils/generateSingleInstance.js");
 const checkIfInstanceRequired = require("../utils/checkIfInstanceRequired.js");
+const verifyToken = require("../utils/verifyToken.js");
 
-router.post("/createHabit", async (req, res) => {
+router.post("/createHabit", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const storedUser = await User.findById(userId).exec();
 		if (!storedUser) {
 			res.status(401).json({ message: "Error in Session" });

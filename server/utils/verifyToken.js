@@ -13,7 +13,6 @@ const verifyToken = (req, res, next) => {
     }
 
     req.id = decoded.id;
-    req.lastAccess = decoded.lastAccess;
     next();
   });
 };

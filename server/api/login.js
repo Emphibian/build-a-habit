@@ -31,7 +31,7 @@ router.post("/login", async (req, res) => {
 
 		// make a jwt token for this sign up
 		const token = jwt.sign(
-			{ id: storedUser._id, lastAccess: generateDayString(currentDay) },
+			{ id: storedUser._id },
 			"secret", // WARNING: too simple of a secret
 			{ expiresIn: "8h" },
 		);

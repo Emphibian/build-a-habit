@@ -3,18 +3,14 @@ const router = express.Router();
 
 const Task = require("../models/taskModel.js");
 const User = require("../models/usersModel.js");
+const verifyToken = require("../utils/verifyToken.js");
 
-router.get("/tasks", async (req, res) => {
+router.get("/tasks", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);
 
-		const userId = req.session.user.id;
+		const userId = req.id;
 		let tasks = await Task.find({ userId, completed: false }).exec();
 		tasks = tasks.filter((task) => {
 			return task.scheduledOn.getTime() <= currentDay.getTime();
@@ -35,13 +31,8 @@ router.get("/tasks", async (req, res) => {
 	}
 });
 
-router.patch("/task/completed/:id", async (req, res) => {
+router.patch("/task/completed/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged in" });
-			return;
-		}
-
 		const taskId = req.params.id;
 		const task = await Task.findById(taskId).exec();
 		const currentDay = new Date();
@@ -54,19 +45,14 @@ router.patch("/task/completed/:id", async (req, res) => {
 		await task.save();
 		res.status(201).json(task);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.patch("/task/addDuration/:id", async (req, res) => {
+router.patch("/task/addDuration/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const taskId = req.params.id;
 
 		const task = await Task.findById(taskId).exec();
@@ -80,18 +66,13 @@ router.patch("/task/addDuration/:id", async (req, res) => {
 		await user.save();
 		res.status(201).json(task);
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.patch("/task/updateName/:id", async (req, res) => {
+router.patch("/task/updateName/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const id = req.params.id;
 		const newName = req.body.value;
 
@@ -112,13 +93,8 @@ router.patch("/task/updateName/:id", async (req, res) => {
 	}
 });
 
-router.patch("/task/updateEstimate/:id", async (req, res) => {
+router.patch("/task/updateEstimate/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const taskId = req.params.id;
 
 		const task = await Task.findById(taskId).exec();
@@ -133,13 +109,8 @@ router.patch("/task/updateEstimate/:id", async (req, res) => {
 	}
 });
 
-router.patch("/task/updateTimeSpent/:id", async (req, res) => {
+router.patch("/task/updateTimeSpent/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const taskId = req.params.id;
 		const task = await Task.findById(taskId).exec();
 		const value = parseInt(req.body.value);
@@ -153,13 +124,8 @@ router.patch("/task/updateTimeSpent/:id", async (req, res) => {
 	}
 });
 
-router.delete("/task/delete/:id", async (req, res) => {
+router.delete("/task/delete/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const task = await Task.findById(req.params.id).exec();
 		if (task) {
 			const result = await task.deleteOne().exec();
@@ -170,19 +136,14 @@ router.delete("/task/delete/:id", async (req, res) => {
 			res.status(404).json({ message: "Couldn't find the task" });
 		}
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.get("/tasks/upcoming", async (req, res) => {
+router.get("/tasks/upcoming", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const upcomingTasks = await Task.find({
 			userId,
 			scheduledOn: { $gt: new Date() },
@@ -195,13 +156,8 @@ router.get("/tasks/upcoming", async (req, res) => {
 	}
 });
 
-router.patch("/tasks/reschedule/:id", async (req, res) => {
+router.patch("/tasks/reschedule/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const taskId = req.params.id;
 
 		const rescheduleTask = await Task.findById(taskId).exec();

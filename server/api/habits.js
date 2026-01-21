@@ -10,7 +10,7 @@ const User = require("../models/usersModel.js");
 router.get("/habitsInstances", verifyToken, async (req, res) => {
 	try {
 		const userId = req.id;
-		const lastAccess = new Date(req.lastAccess);
+		const lastAccess = new Date(req.session.user.lastAccess);
 		lastAccess.setHours(0, 0, 0, 0);
 		const currentDay = new Date();
 		currentDay.setHours(0, 0, 0, 0);

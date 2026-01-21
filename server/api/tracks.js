@@ -1,35 +1,25 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
+const verifyToken = require("../utils/verifyToken.js");
 
 const Habit = require("../models/habitModel.js");
 
-router.get("/tracks", async (req, res) => {
+router.get("/tracks", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const habits = await Habit.find({
 			userId,
 		}).exec();
 
 		res.json({ tracks: habits });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
 
-router.delete("/track/delete/:id", async (req, res) => {
+router.delete("/track/delete/:id", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
 		const track = await Habit.findById(req.params.id).exec();
 		if (track) {
 			const result = await track.deleteOne().exec();
@@ -42,6 +32,7 @@ router.delete("/track/delete/:id", async (req, res) => {
 			res.status(404).json({ message: "Couldn't find the track" });
 		}
 	} catch (error) {
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });

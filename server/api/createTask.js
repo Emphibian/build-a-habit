@@ -3,15 +3,11 @@ const router = express.Router();
 
 const User = require("../models/usersModel.js");
 const Task = require("../models/taskModel.js");
+const verifyToken = require("../utils/verifyToken.js");
 
-router.post("/createTask", async (req, res) => {
+router.post("/createTask", verifyToken, async (req, res) => {
 	try {
-		if (!req.session.user) {
-			res.status(401).json({ message: "Not Logged In" });
-			return;
-		}
-
-		const userId = req.session.user.id;
+		const userId = req.id;
 		const storedUser = await User.findById(userId).exec();
 		if (!storedUser) {
 			res.status(401).json({ message: "Error in Session" });
@@ -35,7 +31,7 @@ router.post("/createTask", async (req, res) => {
 		await task.save();
 		res.status(201).json({ task });
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		res.status(500).json({ message: "Internal Server Error" });
 	}
 });
