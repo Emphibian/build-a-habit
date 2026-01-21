@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 
-// TODO: Delete the jwt token from client side
 router.get("/logout", (req, res) => {
 	req.session.destroy((err) => {
 		if (err) {
@@ -9,6 +8,7 @@ router.get("/logout", (req, res) => {
 		}
 
 		res.clearCookie("connect.sid", { path: "/" });
+		res.clearCookie("token");
 		res.status(201).send("Logged out");
 	});
 });
