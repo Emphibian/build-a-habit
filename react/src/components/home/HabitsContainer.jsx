@@ -43,6 +43,35 @@ export function Habits() {
 		loadDuration();
 	}, [dispatch]);
 
+	// set a default habit for timer
+	useEffect(() => {
+		if (timerHabit.id != null) return;
+
+		if (allHabits.length != 0) {
+			const defaultHabit = allHabits[0];
+
+			setTimerHabit({
+				id: defaultHabit._id,
+				name: defaultHabit.name,
+				isHabit: true,
+				estimate: defaultHabit.timeEstimate,
+			});
+			setTimerDuration(defaultHabit.workDuration);
+			setTimerEstimate(defaultHabit.estimate);
+		} else if (allTasks.length != 0) {
+			const defaultTask = allTasks[0];
+
+			setTimerHabit({
+				id: defaultTask._id,
+				name: defaultTask.name,
+				isHabit: true,
+				estimate: defaultTask.timeEstimate,
+			});
+			setTimerDuration(defaultTask.workDuration);
+			setTimerEstimate(defaultTask.estimate);
+		}
+	}, [allHabits, allTasks]);
+
 	useEffect(() => {
 		if (sidebarOpen) {
 			habitContainerRef.current.classList.add("shrink");
@@ -55,6 +84,9 @@ export function Habits() {
 		habitTimerStart,
 		habitTimerStop,
 		timerHabit,
+		setTimerHabit,
+		setTimerDuration,
+		setTimerEstimate,
 		timerRunning,
 		todayDuration,
 		setTodayDuration,
