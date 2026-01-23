@@ -16,6 +16,7 @@ export function TimerProvider({ children }) {
 	const [timerDuration, setTimerDuration] = useState(0);
 	const [todayDuration, setTodayDuration] = useState(0);
 	const [timerEstimate, setTimerEstimate] = useState(0);
+	const [exceededModalOpen, setExceededModalOpen] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -59,6 +60,8 @@ export function TimerProvider({ children }) {
 				updateEntryDuration,
 				timerEstimate,
 				setTimerEstimate,
+				exceededModalOpen,
+				setExceededModalOpen,
 			}}
 		>
 			{children}

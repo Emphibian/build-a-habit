@@ -14,6 +14,7 @@ import { DoneContainer } from "./DoneContainer.jsx";
 import { TodayMetrics } from "./TodayMetrics.jsx";
 import { OperationModal } from "./OperationModal.jsx";
 import { DoneModal } from "./DoneModal.jsx";
+import { TimeExceededModal } from "./today/TimeExceededModal.jsx";
 import habitAPI from "../../api/habitAPI.js";
 
 export function Habits() {
@@ -126,6 +127,7 @@ export function Habits() {
 
 	return (
 		<div className="habits-container" ref={habitContainerRef}>
+			<TimeExceededModal />
 			<TodayMetrics todayDuration={todayDuration} />
 			<div className="todo-habits">
 				{allHabits.map((habit, index) => {

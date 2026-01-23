@@ -22,15 +22,14 @@ function NotificationModal({
 	);
 }
 
-export function Timer({ habitName, addEstimate }) {
+export function Timer({ habitName }) {
 	const [counter, setCounter] = useState();
-	const [notificationModalOpen, setNotificationModalOpen] = useState(false);
 
 	const {
 		timerDuration,
 		setTimerDuration,
 		timerEstimate,
-		setTimerEstimate,
+		setExceededModalOpen,
 		timerRunning,
 		setTimerRunning,
 		updateEntryDuration,
@@ -61,24 +60,24 @@ export function Timer({ habitName, addEstimate }) {
 
 	useEffect(() => {
 		if (timerEstimate > 0 && timerEstimate < timerDuration) {
-			setNotificationModalOpen(true);
+			setExceededModalOpen(true);
 		}
 	}, [timerDuration, timerEstimate]);
 
-	let notificationModal = "";
-	if (notificationModalOpen) {
-		notificationModal = (
-			<NotificationModal
-				message={"You have exceeded the estimate!"}
-				handleButton={() => {
-					addEstimate(30);
-					setTimerEstimate((prev) => prev + 30);
-				}}
-				buttonMessage={"Add 30 min"}
-				closeModal={() => setNotificationModalOpen(false)}
-			/>
-		);
-	}
+	// if (notificationModalOpen) {
+	// 	notificationModal = (
+	// 		<NotificationModal
+	// 			message={"You have exceeded the estimate!"}
+	// 			handleButton={() => {
+	// 				addEstimate(30);
+	// 				setTimerEstimate((prev) => prev + 30);
+	// 			}}
+	// 			buttonMessage={"Add 30 min"}
+	// 			closeModal={() => setNotificationModalOpen(false)}
+	// 		/>
+	// 	);
+	// }
+	//
 
 	const PauseButton = function () {
 		return (
@@ -112,7 +111,6 @@ export function Timer({ habitName, addEstimate }) {
 				<p>{habitName}</p>
 				{timerRunning ? <PauseButton /> : <PlayButton />}
 			</div>
-			{notificationModal}
 		</>
 	);
 }

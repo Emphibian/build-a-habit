@@ -41,3 +41,40 @@ div.timer button.running {
 div.timer svg {
 	width: 1rem;
 }
+
+div.exceeded-area-outer {
+	background: var(--habit-bg);
+}
+
+div.exceeded-area-inner {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 650px;
+	margin: auto;
+	padding: 8px 16px;
+	margin-bottom: 1rem;
+}
+
+div.exceeded-area-inner span {
+	display: flex;
+	align-items: center;
+}
+
+.exceeded-area-inner button {
+	border: none;
+	padding: 0.5rem;
+	background: inherit;
+	color: var(--focus-blue);
+	cursor: pointer;
+}
+
+.exceeded-area-inner button:hover {
+	background-color: #f9fdff;
+}
+
+.exceeded-area-inner svg {
+	width: 20px;
+	height: 20px;
+	margin-right: 5px;
+}
