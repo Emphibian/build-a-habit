@@ -3,9 +3,10 @@ import { TimerContext } from "../../../contexts/TimerContext";
 import StopwatchIcon from "../../../assets/svgs/timer.svg?react";
 
 export const TimeExceededModal = () => {
-	const { exceededModalOpen } = useContext(TimerContext);
+	const { exceededModalOpen, dismissed, setDismissed } =
+		useContext(TimerContext);
 
-	if (!exceededModalOpen) return null;
+	if (!exceededModalOpen || dismissed) return null;
 
 	return (
 		<div className="exceeded-area-outer">
@@ -15,7 +16,7 @@ export const TimeExceededModal = () => {
 					Time exceeded for habit ""
 				</span>
 				<div>
-					<button>Dismiss</button>
+					<button onClick={() => setDismissed(true)}>Dismiss</button>
 					<button>Add 1/2 hour</button>
 				</div>
 			</div>

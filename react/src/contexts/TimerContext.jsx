@@ -17,22 +17,27 @@ export function TimerProvider({ children }) {
 	const [todayDuration, setTodayDuration] = useState(0);
 	const [timerEstimate, setTimerEstimate] = useState(0);
 	const [exceededModalOpen, setExceededModalOpen] = useState(false);
+	const [dismissed, setDismissed] = useState(false);
 
 	const dispatch = useDispatch();
 
-	const habitTimerStart = function (id, name, isHabit, estimate, duration) {
+	const habitTimerStart = function(id, name, isHabit, estimate, duration) {
 		if (timerHabit.id !== id) setTimerDuration(0);
 		setTimerHabit({ id, name, isHabit, estimate });
 		setTimerRunning(true);
 		setTimerDuration(duration);
 		setTimerEstimate(estimate);
+		setExceededModalOpen(false);
+		setDismissed(false);
 	};
 
-	const habitTimerStop = function () {
+	const habitTimerStop = function() {
 		setTimerRunning(false);
+		setExceededModalOpen(false);
+		setDismissed(false);
 	};
 
-	const updateEntryDuration = async function (id, value, isHabit) {
+	const updateEntryDuration = async function(id, value, isHabit) {
 		setTodayDuration((prev) => prev + value);
 
 		if (isHabit) {
@@ -62,6 +67,8 @@ export function TimerProvider({ children }) {
 				setTimerEstimate,
 				exceededModalOpen,
 				setExceededModalOpen,
+				dismissed,
+				setDismissed,
 			}}
 		>
 			{children}
