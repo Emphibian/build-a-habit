@@ -48,8 +48,12 @@ export function Home() {
 
 	useEffect(() => {
 		try {
-			const redirectIfNotLoggedIn = async function() {
+			const redirectIfNotLoggedIn = async function () {
 				const response = await userAPI.getUser();
+				if (response.status == 403) {
+					navigate("/login", { replace: true });
+				}
+
 				const data = await response.json();
 				if (data.message === "Not Logged In")
 					navigate("/login", { replace: true });
