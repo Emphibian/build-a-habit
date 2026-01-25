@@ -29,6 +29,7 @@ export function Timer({ habitName }) {
 		timerDuration,
 		setTimerDuration,
 		timerEstimate,
+		exceededModalOpen,
 		setExceededModalOpen,
 		timerRunning,
 		setTimerRunning,
@@ -36,7 +37,7 @@ export function Timer({ habitName }) {
 		timerHabit,
 	} = useContext(TimerContext);
 
-	const ONE_MINUTE = 1000;
+	const ONE_MINUTE = 10000;
 	const durationUpdate = function () {
 		incrementDuration();
 	};
@@ -61,6 +62,8 @@ export function Timer({ habitName }) {
 	useEffect(() => {
 		if (timerEstimate > 0 && timerEstimate < timerDuration) {
 			setExceededModalOpen(true);
+		} else if (exceededModalOpen) {
+			setExceededModalOpen(false);
 		}
 	}, [timerDuration, timerEstimate]);
 
