@@ -44,6 +44,8 @@ div.timer svg {
 
 div.exceeded-area-outer {
 	background: var(--habit-bg);
+	overflow: clip;
+	margin-bottom: 1rem;
 }
 
 div.exceeded-area-inner {
@@ -53,7 +55,6 @@ div.exceeded-area-inner {
 	max-width: 650px;
 	margin: auto;
 	padding: 8px 16px;
-	margin-bottom: 1rem;
 }
 
 div.exceeded-area-inner span {
@@ -77,4 +78,30 @@ div.exceeded-area-inner span {
 	width: 20px;
 	height: 20px;
 	margin-right: 5px;
+}
+
+.exceed-enter {
+	max-height: 0;
+	margin-bottom: 0;
+}
+
+.exceed-enter-active {
+	max-height: 200px;
+	margin-bottom: 1rem;
+	transition:
+		max-height 500ms ease-in,
+		margin 500ms ease-in;
+}
+
+.exceed-exit {
+	max-height: 200px;
+	margin-bottom: 1rem;
+}
+
+.exceed-exit-active {
+	transition:
+		max-height 500ms ease-out,
+		margin 500ms ease-out;
+	margin-bottom: 0;
+	max-height: 0;
 }
