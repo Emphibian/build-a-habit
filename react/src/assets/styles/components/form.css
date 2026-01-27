@@ -50,7 +50,8 @@
 	border-bottom: 2px solid var(--focus-blue);
 }
 
-.form-div form button {
+.form-div form button,
+.button-blue {
 	border: 2px solid #e3e3e3;
 	background: none;
 	border-radius: 3px;
@@ -87,7 +88,7 @@
 	font-size: 1rem;
 }
 
-form div.btn-grp {
+div.btn-grp {
 	display: flex;
 	flex-direction: row-reverse;
 	justify-content: flex-start;

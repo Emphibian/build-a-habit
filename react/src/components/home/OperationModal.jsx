@@ -3,6 +3,7 @@ import { useRef } from "react";
 import { DeleteButton } from "./DeleteButton";
 import { UpdateEstimateButton } from "./UpdateEstimateButton";
 import { RescheduleButton } from "./today/RescheduleButton";
+import { FocusSessionButton } from "./operations/FocusSessionButton";
 
 export function OperationModal({ position, instance, open, close }) {
 	const menuRef = useRef(null);
@@ -42,6 +43,7 @@ export function OperationModal({ position, instance, open, close }) {
 					isHabit={instance.isHabit}
 					closeSidebar={close}
 				/>
+				<FocusSessionButton />
 			</div>
 		</div>
 	);
