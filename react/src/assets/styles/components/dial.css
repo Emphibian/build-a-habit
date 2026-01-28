@@ -6,6 +6,12 @@
 	border-radius: 50%;
 }
 
+.focus-modal .dial {
+	width: 200px;
+	height: 200px;
+	font-size: 1.6rem;
+}
+
 .dial::after {
 	content: "";
 	position: absolute;

@@ -19,7 +19,8 @@ body {
 	background-color: var(--body-bg);
 }
 
-body {
+body,
+div.focus-modal {
 	background-image: linear-gradient(
 		180deg,
 		hsl(292deg 73% 85%) 0%,

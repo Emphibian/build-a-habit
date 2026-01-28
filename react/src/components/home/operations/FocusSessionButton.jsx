@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 
 import { Dial } from "../Dial";
 import StopwatchIcon from "../../../assets/svgs/timer.svg?react";
+import CloseIcon from "../../../assets/svgs/close.svg?react";
 
 const FocusModal = ({ closeModal }) => {
   const [duration, setDuration] = useState(25);
@@ -20,7 +21,7 @@ const FocusModal = ({ closeModal }) => {
         </div>
       </div>
       <button onClick={() => closeModal()} className="focus-close">
-        X
+        <CloseIcon />
       </button>
     </div>
   );

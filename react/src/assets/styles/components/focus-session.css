@@ -8,7 +8,6 @@ div.focus-modal {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	background: var(--habit-bg);
 	z-index: 100;
 }
 
@@ -16,7 +15,7 @@ div.focus-div {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
-	gap: 1.3rem;
+	gap: 3.3rem;
 }
 
 button.focus-close {
@@ -25,5 +24,19 @@ button.focus-close {
 	top: 0;
 
 	border: none;
+	border-radius: 50%;
+	height: 2rem;
+	width: 2rem;
+	line-height: 0;
+	padding: 0.2rem;
+	background-color: inherit;
 	font-size: 1.5rem;
+}
+
+button.focus-close:hover {
+	background-color: rgba(0, 0, 0, 0.1);
+}
+
+button.focus-close svg {
+	width: 25px;
 }

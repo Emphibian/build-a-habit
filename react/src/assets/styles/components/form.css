@@ -69,7 +69,8 @@
 	width: 0.9rem;
 }
 
-.form-div form button:hover {
+.form-div form button:hover,
+.button-blue:hover {
 	background-color: #f0f9ff;
 }
 

@@ -1,7 +1,7 @@
 :root {
 	--dashboard: #f4f7fa;
 	--habit-bg: hsl(0 0 100%);
-	--habit-bg-hover: hsl(0 0 calc(100% - 3%));
+	--habit-bg-hover: hsl(0 0 calc(100% - 5%));
 	--habit-fg: #28303a;
 	--habit-fg-completed: #bfbfbf;
 	--habit-done-hover: #40455d;
