@@ -105,3 +105,9 @@ div.exceeded-area-inner span {
 	margin-bottom: 0;
 	max-height: 0;
 }
+
+.focus-time {
+	font-size: 2rem;
+	font-weight: bold;
+	text-align: center;
+}
