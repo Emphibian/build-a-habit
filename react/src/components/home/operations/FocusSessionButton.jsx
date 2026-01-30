@@ -1,8 +1,10 @@
-import { useState, useEffect, useContext, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
+import { useDispatch } from "react-redux";
 
-import { TimerContext } from "../../../contexts/TimerContext";
 import { Dial } from "../Dial";
+import { markComplete } from "../../../features/habits/habitsThunks";
+import { taskComplete } from "../../../features/tasks/tasksThunks";
 import StopwatchIcon from "../../../assets/svgs/timer.svg?react";
 import CloseIcon from "../../../assets/svgs/close.svg?react";
 
@@ -27,9 +29,11 @@ const prettyPrintTime = (time) => {
 	return `${minutes}:${seconds}`;
 };
 
-const TimerScreen = ({ duration }) => {
+const TimerScreen = ({ duration, closeModal, timerHabit }) => {
 	const [timeLeft, setTimeLeft] = useState(duration * 60);
 	const intervalRef = useRef(null);
+
+	const dispatch = useDispatch();
 
 	useEffect(() => {
 		if (!intervalRef.current) {
@@ -44,18 +48,34 @@ const TimerScreen = ({ duration }) => {
 		};
 	}, [timeLeft]);
 
+	const { id, isHabit, value } = timerHabit;
+	const handleFinish = () => {
+		closeModal();
+		handleComplete();
+	};
+
+	const handleComplete = () => {
+		if (isHabit) {
+			dispatch(markComplete(id, value));
+		} else {
+			dispatch(taskComplete(id));
+		}
+	};
+
 	return (
 		<>
 			<div className="focus-time">
 				<p>Time Left</p>
 				<span>{prettyPrintTime(timeLeft)}</span>
 			</div>
-			<button className="button-blue">Finish Task</button>
+			<button className="button-blue" onClick={handleFinish}>
+				Finish Task
+			</button>
 		</>
 	);
 };
 
-const FocusModal = ({ closeModal }) => {
+const FocusModal = ({ closeModal, timerHabit }) => {
 	const [duration, setDuration] = useState(1);
 	const [currentScreen, setCurrentScreen] = useState("initial");
 
@@ -69,7 +89,13 @@ const FocusModal = ({ closeModal }) => {
 			/>
 		);
 	} else if (currentScreen == "timer") {
-		modal = <TimerScreen duration={duration} />;
+		modal = (
+			<TimerScreen
+				duration={duration}
+				closeModal={() => closeModal()}
+				timerHabit={timerHabit}
+			/>
+		);
 	}
 
 	return (
@@ -82,7 +108,7 @@ const FocusModal = ({ closeModal }) => {
 	);
 };
 
-export const FocusSessionButton = () => {
+export const FocusSessionButton = ({ timerHabit }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	const openModal = () => {
@@ -95,7 +121,9 @@ export const FocusSessionButton = () => {
 
 	let modal = "";
 	if (modalOpen) {
-		let domElement = <FocusModal closeModal={closeModal} />;
+		let domElement = (
+			<FocusModal closeModal={closeModal} timerHabit={timerHabit} />
+		);
 		modal = createPortal(domElement, document.getElementById("modal-root"));
 	}
 

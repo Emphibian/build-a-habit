@@ -43,7 +43,7 @@ export function OperationModal({ position, instance, open, close }) {
 					isHabit={instance.isHabit}
 					closeSidebar={close}
 				/>
-				<FocusSessionButton />
+				<FocusSessionButton timerHabit={instance} />
 			</div>
 		</div>
 	);

@@ -167,7 +167,11 @@ export function Habits() {
 								setSidebarOpen(true);
 							}}
 							openOperationModal={(position) => {
-								setSidebarHabit({ id: habit._id, isHabit: true });
+								setSidebarHabit({
+									id: habit._id,
+									isHabit: true,
+									value: habit.goalValue,
+								});
 								setOperationModalOpen(true);
 								setOperationModalPos(position);
 							}}
