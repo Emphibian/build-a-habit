@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 
 import { Dial } from "../Dial";
 import { markComplete } from "../../../features/habits/habitsThunks";
 import { taskComplete } from "../../../features/tasks/tasksThunks";
-import StopwatchIcon from "../../../assets/svgs/timer.svg?react";
+import { TimerContext } from "../../../contexts/TimerContext";
+import FocusIcon from "../../../assets/svgs/focus.svg?react";
 import CloseIcon from "../../../assets/svgs/close.svg?react";
 
 const InitialScreen = ({ duration, setDuration, start }) => {
@@ -29,22 +30,31 @@ const prettyPrintTime = (time) => {
 	return `${minutes}:${seconds}`;
 };
 
-const TimerScreen = ({ duration, closeModal, timerHabit }) => {
+const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	const [timeLeft, setTimeLeft] = useState(duration * 60);
-	const intervalRef = useRef(null);
 
 	const dispatch = useDispatch();
+	const ONE_MINUTE = 60000;
+
+	const { updateEntryDuration } = useContext(TimerContext);
 
 	useEffect(() => {
-		if (!intervalRef.current) {
-			intervalRef.current = setInterval(
-				() => setTimeLeft((prev) => prev - 1),
-				1000,
+		if (!timerRef.current) {
+			timerRef.current = {};
+			timerRef.current.timer = setInterval(() => {
+				setTimeLeft((prev) => prev - 1);
+			}, 1000);
+
+			timerRef.current.minute = setInterval(
+				() => updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit),
+				ONE_MINUTE,
 			);
 		}
 
 		return () => {
-			if (timeLeft <= 1) clearInterval(intervalRef.current);
+			if (timeLeft <= 1) {
+				closeModal();
+			}
 		};
 	}, [timeLeft]);
 
@@ -75,8 +85,8 @@ const TimerScreen = ({ duration, closeModal, timerHabit }) => {
 	);
 };
 
-const FocusModal = ({ closeModal, timerHabit }) => {
-	const [duration, setDuration] = useState(1);
+const FocusModal = ({ closeModal, timerHabit, timerRef }) => {
+	const [duration, setDuration] = useState(25);
 	const [currentScreen, setCurrentScreen] = useState("initial");
 
 	let modal = "";
@@ -94,6 +104,7 @@ const FocusModal = ({ closeModal, timerHabit }) => {
 				duration={duration}
 				closeModal={() => closeModal()}
 				timerHabit={timerHabit}
+				timerRef={timerRef}
 			/>
 		);
 	}
@@ -110,19 +121,30 @@ const FocusModal = ({ closeModal, timerHabit }) => {
 
 export const FocusSessionButton = ({ timerHabit }) => {
 	const [modalOpen, setModalOpen] = useState(false);
+	const timerRef = useRef(null);
 
 	const openModal = () => {
 		setModalOpen(true);
 	};
 
 	const closeModal = () => {
+		if (timerRef.current) {
+			clearInterval(timerRef.current.timer);
+			clearInterval(timerRef.current.minute);
+		}
 		setModalOpen(false);
 	};
 
 	let modal = "";
 	if (modalOpen) {
 		let domElement = (
-			<FocusModal closeModal={closeModal} timerHabit={timerHabit} />
+			<FocusModal
+				closeModal={() => {
+					closeModal();
+				}}
+				timerHabit={timerHabit}
+				timerRef={timerRef}
+			/>
 		);
 		modal = createPortal(domElement, document.getElementById("modal-root"));
 	}
@@ -131,8 +153,7 @@ export const FocusSessionButton = ({ timerHabit }) => {
 		<>
 			{modal}
 			<button onClick={openModal}>
-				{/* TODO: change this icon */}
-				<StopwatchIcon />
+				<FocusIcon />
 				<span>Start Focus Session</span>
 			</button>
 		</>

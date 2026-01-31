@@ -32,6 +32,7 @@ export function OperationModal({ position, instance, open, close }) {
 				onClick={(e) => e.stopPropagation()}
 				style={{ left: `${left}px`, top: `${top}px` }}
 			>
+				<FocusSessionButton timerHabit={instance} />
 				<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
 				<RescheduleButton
 					id={instance.id}
@@ -43,7 +44,6 @@ export function OperationModal({ position, instance, open, close }) {
 					isHabit={instance.isHabit}
 					closeSidebar={close}
 				/>
-				<FocusSessionButton timerHabit={instance} />
 			</div>
 		</div>
 	);

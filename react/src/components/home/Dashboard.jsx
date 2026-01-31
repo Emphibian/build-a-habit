@@ -60,11 +60,11 @@ function LoginNav() {
 function AccountModal({ username, modalOpen, logout }) {
 	if (modalOpen) {
 		return (
-			<div class="account-modal">
-				<div class="user-div">
+			<div className="account-modal">
+				<div className="user-div">
 					<span>{username}</span>
 				</div>
-				<div class="user-options">
+				<div className="user-options">
 					<button onClick={() => logout()}>
 						<Logout /> Logout
 					</button>
@@ -92,7 +92,7 @@ export function Dashboard() {
 	const navigate = useNavigate();
 
 	useEffect(() => {
-		const fetchUser = async function () {
+		const fetchUser = async function() {
 			const response = await userAPI.getUser();
 			if (response.ok) {
 				const data = await response.json();
@@ -106,7 +106,7 @@ export function Dashboard() {
 		fetchUser();
 	}, []);
 
-	const logout = async function () {
+	const logout = async function() {
 		const response = await userAPI.logOut();
 		if (!response.ok) {
 			const message = await response.text();
