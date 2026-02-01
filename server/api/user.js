@@ -21,7 +21,7 @@ router.get("/user", verifyToken, async (req, res) => {
 			await storedUser.save();
 		}
 
-		res.json({ user: storedUser.username });
+		res.status(200).json({ user: storedUser.username });
 	} catch (error) {
 		res.status(500).json({ message: "Internal Server Error" });
 	}
