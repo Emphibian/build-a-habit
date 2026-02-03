@@ -10,7 +10,7 @@ div.create-habit-div {
 
 button.create-habit {
 	border: none;
-	background: var(--add-button-bg);
+	background: var(--timer-bg);
 	padding: 0.2rem 1rem;
 	box-shadow: 2px 3px 2px 2px rgb(69, 90, 100, 0.08);
 	border-radius: 5px;

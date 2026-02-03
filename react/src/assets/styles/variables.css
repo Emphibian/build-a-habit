@@ -7,8 +7,8 @@
 	--habit-done-hover: #40455d;
 	--body-bg: #f4f7fa;
 	--timer-bg: #ff4081;
-	--add-button-bg: hsl(168 78% 50.2%);
-	--hover-add-button-bg: hsl(168 78% calc(50.2% - 3%));
+	--add-button-bg: hsl(340 100% 70.0%);
+	--hover-add-button-bg: hsl(340 100% calc(70.0% - 5%));
 	--gray: #9e9e9e;
 	--danger-red: #f44236;
 	--navbar-bg: hsl(0 0 92%);

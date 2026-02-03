@@ -1,6 +1,7 @@
 import { useEffect, useRef } from "react";
 import TodayIcon from "../../assets/svgs/white-balance-sunny.svg?react";
 import TrackIcon from "../../assets/svgs/star-four-points.svg?react";
+import UpcomingIcon from "../../assets/svgs/calendar-start.svg?react";
 
 function Tab({ name, handleClick }) {
 	return <button onClick={handleClick}>{name}</button>;
@@ -11,7 +12,7 @@ export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 	const tabs = [
 		{ name: "Today", icon: <TodayIcon fill={fill} /> },
 		{ name: "Tracks", icon: <TrackIcon fill={fill} /> },
-		{ name: "Upcoming Tasks", icon: <TrackIcon fill={fill} /> },
+		{ name: "Upcoming Tasks", icon: <UpcomingIcon fill={fill} /> },
 	];
 
 	const sidebarRef = useRef(null);
