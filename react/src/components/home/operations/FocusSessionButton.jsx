@@ -24,13 +24,6 @@ const InitialScreen = ({ duration, setDuration, start }) => {
 	);
 };
 
-const prettyPrintTime = (time) => {
-	const minutes = Math.floor(time / 60);
-	const seconds = time % 60 > 9 ? time % 60 : `0${time % 60}`;
-
-	return `${minutes}:${seconds}`;
-};
-
 const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	const [timeLeft, setTimeLeft] = useState(duration * 60);
 
@@ -76,7 +69,7 @@ const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	return (
 		<>
 			<div className="focus-time">
-				<TimerGauge time={prettyPrintTime(timeLeft)} />
+				<TimerGauge time={timeLeft} totalTime={duration * 60} />
 			</div>
 			<button className="button-blue" onClick={handleFinish}>
 				Finish Task
