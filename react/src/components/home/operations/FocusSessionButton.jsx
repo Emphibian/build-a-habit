@@ -3,6 +3,7 @@ import { createPortal } from "react-dom";
 import { useDispatch } from "react-redux";
 
 import { Dial } from "../Dial";
+import { TimerGauge } from "./TimerGauge";
 import { markComplete } from "../../../features/habits/habitsThunks";
 import { taskComplete } from "../../../features/tasks/tasksThunks";
 import { TimerContext } from "../../../contexts/TimerContext";
@@ -75,8 +76,7 @@ const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	return (
 		<>
 			<div className="focus-time">
-				<p>Time Left</p>
-				<span>{prettyPrintTime(timeLeft)}</span>
+				<TimerGauge time={prettyPrintTime(timeLeft)} />
 			</div>
 			<button className="button-blue" onClick={handleFinish}>
 				Finish Task
