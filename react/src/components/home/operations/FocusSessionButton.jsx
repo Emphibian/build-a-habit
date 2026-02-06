@@ -78,9 +78,18 @@ const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	);
 };
 
-const FocusModal = ({ closeModal, timerHabit, timerRef }) => {
+const FocusModal = ({ closeModal, timerHabit }) => {
 	const [duration, setDuration] = useState(25);
 	const [currentScreen, setCurrentScreen] = useState("initial");
+	const timerRef = useRef(null);
+
+	const closeTimer = () => {
+		if (timerRef.current) {
+			clearInterval(timerRef.current.timer);
+			clearInterval(timerRef.current.minute);
+			timerRef.current = null;
+		}
+	};
 
 	let modal = "";
 	if (currentScreen == "initial") {
@@ -95,7 +104,10 @@ const FocusModal = ({ closeModal, timerHabit, timerRef }) => {
 		modal = (
 			<TimerScreen
 				duration={duration}
-				closeModal={() => closeModal()}
+				closeModal={() => {
+					closeTimer();
+					closeModal();
+				}}
 				timerHabit={timerHabit}
 				timerRef={timerRef}
 			/>
@@ -114,17 +126,12 @@ const FocusModal = ({ closeModal, timerHabit, timerRef }) => {
 
 export const FocusSessionButton = ({ timerHabit }) => {
 	const [modalOpen, setModalOpen] = useState(false);
-	const timerRef = useRef(null);
 
 	const openModal = () => {
 		setModalOpen(true);
 	};
 
 	const closeModal = () => {
-		if (timerRef.current) {
-			clearInterval(timerRef.current.timer);
-			clearInterval(timerRef.current.minute);
-		}
 		setModalOpen(false);
 	};
 
@@ -136,7 +143,6 @@ export const FocusSessionButton = ({ timerHabit }) => {
 					closeModal();
 				}}
 				timerHabit={timerHabit}
-				timerRef={timerRef}
 			/>
 		);
 		modal = createPortal(domElement, document.getElementById("modal-root"));
