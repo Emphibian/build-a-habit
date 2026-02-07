@@ -26,9 +26,10 @@ const InitialScreen = ({ duration, setDuration, start }) => {
 
 const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 	const [timeLeft, setTimeLeft] = useState(duration * 60);
+	const [timeSinceLastMinute, setTimeSinceLastMinute] = useState(0);
+	const [running, setRunning] = useState(true);
 
 	const dispatch = useDispatch();
-	const ONE_MINUTE = 60000;
 
 	const { updateEntryDuration } = useContext(TimerContext);
 
@@ -37,12 +38,13 @@ const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 			timerRef.current = {};
 			timerRef.current.timer = setInterval(() => {
 				setTimeLeft((prev) => prev - 1);
+				if (timeSinceLastMinute == 59) {
+					setTimeSinceLastMinute(0);
+					updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit);
+				} else {
+					setTimeSinceLastMinute((prev) => prev + 1);
+				}
 			}, 1000);
-
-			timerRef.current.minute = setInterval(
-				() => updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit),
-				ONE_MINUTE,
-			);
 		}
 
 		return () => {
@@ -66,14 +68,46 @@ const TimerScreen = ({ duration, closeModal, timerHabit, timerRef }) => {
 		}
 	};
 
+	const handlePause = () => {
+		if (timerRef.current) {
+			clearInterval(timerRef.current.timer);
+			setRunning(false);
+		}
+	};
+
+	const handleStart = () => {
+		setRunning(true);
+		timerRef.current = {};
+		timerRef.current.timer = setInterval(() => {
+			setTimeLeft((prev) => prev - 1);
+			if (timeSinceLastMinute == 59) {
+				setTimeSinceLastMinute(0);
+				updateEntryDuration(timerHabit.id, 1, timerHabit.isHabit);
+			} else {
+				setTimeSinceLastMinute((prev) => prev + 1);
+			}
+		}, 1000);
+	};
+
 	return (
 		<>
 			<div className="focus-time">
 				<TimerGauge time={timeLeft} totalTime={duration * 60} />
 			</div>
-			<button className="button-blue" onClick={handleFinish}>
-				Finish Task
-			</button>
+			<div className="buttons">
+				{running ? (
+					<button className="button-blue" onClick={handlePause}>
+						Pause
+					</button>
+				) : (
+					<button className="button-blue" onClick={handleStart}>
+						Start
+					</button>
+				)}
+				<button className="button-blue" onClick={handleFinish}>
+					Finish Task
+				</button>
+			</div>
 		</>
 	);
 };
@@ -86,7 +120,6 @@ const FocusModal = ({ closeModal, timerHabit }) => {
 	const closeTimer = () => {
 		if (timerRef.current) {
 			clearInterval(timerRef.current.timer);
-			clearInterval(timerRef.current.minute);
 			timerRef.current = null;
 		}
 	};

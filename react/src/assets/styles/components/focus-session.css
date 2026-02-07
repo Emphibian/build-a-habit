@@ -40,3 +40,8 @@ button.focus-close:hover {
 button.focus-close svg {
 	width: 25px;
 }
+
+.focus-modal div.buttons {
+	display: flex;
+	gap: 1rem;
+}
