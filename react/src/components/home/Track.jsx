@@ -21,6 +21,7 @@ export function Track({
 	frequencyInfo,
 	openSidebar,
 	isSidebarOpen,
+	openOperationModal,
 }) {
 	let sidebarIcon;
 	if (isSidebarOpen) {
@@ -29,8 +30,15 @@ export function Track({
 		sidebarIcon = <SidebarClose />;
 	}
 
+	const handleRightClick = (e) => {
+		e.preventDefault();
+		const position = { x: e.clientX, y: e.clientY };
+
+		openOperationModal(position);
+	};
+
 	return (
-		<div className="entry">
+		<div className="entry" onContextMenu={handleRightClick}>
 			<p className="entry-name">{name}</p>
 			<p className="entry-frequency">
 				{descriptiveName(frequency, frequencyInfo)}

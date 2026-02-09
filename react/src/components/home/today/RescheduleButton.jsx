@@ -4,7 +4,7 @@ import { RescheduleModal } from "../upcomingTask/RescheduleModal.jsx";
 
 import CalendarIcon from "../../../assets/svgs/calendar-month.svg?react";
 
-export function RescheduleButton({ id, isHabit, currentDate }) {
+export function RescheduleButton({ id, isHabit = true, currentDate }) {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	if (isHabit) return null;

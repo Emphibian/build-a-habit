@@ -3,10 +3,13 @@ import { Track } from "./Track.jsx";
 import { TrackSidebar } from "./TrackSidebar.jsx";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchTracks } from "../../features/tracks/tracksThunks";
+import { OperationModalTrack } from "./operations/OperationModalTrack.jsx";
 
 export function TrackContainer() {
 	const [sidebarOpen, setSidebarOpen] = useState(false);
 	const [selectedTrack, setSelectedTrack] = useState();
+	const [operationModalOpen, setOperationModalOpen] = useState(false);
+	const [operationModalPos, setOperationModalPos] = useState(null);
 
 	const trackContainerRef = useRef(null);
 
@@ -43,6 +46,11 @@ export function TrackContainer() {
 							setSidebarOpen(true);
 						}}
 						isSidebarOpen={sidebarOpen && track._id === selectedTrack?.id}
+						openOperationModal={(position) => {
+							setSelectedTrack({ id: track._id });
+							setOperationModalOpen(true);
+							setOperationModalPos(position);
+						}}
 					/>
 				);
 			})}
@@ -50,6 +58,12 @@ export function TrackContainer() {
 				track={selectedTrack}
 				isOpen={sidebarOpen}
 				close={() => setSidebarOpen(false)}
+			/>
+			<OperationModalTrack
+				instance={selectedTrack}
+				open={operationModalOpen}
+				position={operationModalPos}
+				close={() => setOperationModalOpen(false)}
 			/>
 		</div>
 	);

@@ -160,6 +160,8 @@ const FocusModal = ({ closeModal, timerHabit }) => {
 export const FocusSessionButton = ({ timerHabit }) => {
 	const [modalOpen, setModalOpen] = useState(false);
 
+	if (!timerHabit?.isHabit) return null;
+
 	const openModal = () => {
 		setModalOpen(true);
 	};
