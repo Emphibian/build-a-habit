@@ -31,6 +31,18 @@ router.get("/tasks", verifyToken, async (req, res) => {
 	}
 });
 
+router.get("/tasks/completed", verifyToken, async (req, res) => {
+	try {
+		const userId = req.id;
+
+		const completedTasks = await Task.find({ userId, completed: true }).exec();
+		res.status(201).json({ tasks: completedTasks });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ message: "Internal Server Error" });
+	}
+});
+
 router.patch("/task/completed/:id", verifyToken, async (req, res) => {
 	try {
 		const taskId = req.params.id;
