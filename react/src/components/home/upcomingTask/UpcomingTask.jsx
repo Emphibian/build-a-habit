@@ -9,9 +9,21 @@ function prettyPrintDate(date) {
 	return `${dayOfMonth}/${month}`;
 }
 
-export function UpcomingTask({ name, scheduledOn, openModal }) {
+export function UpcomingTask({
+	name,
+	scheduledOn,
+	openModal,
+	openOperationModal,
+}) {
+	const handleRightClick = (e) => {
+		e.preventDefault();
+		const position = { x: e.clientX, y: e.clientY };
+
+		openOperationModal(position);
+	};
+
 	return (
-		<div className="entry">
+		<div className="entry" onContextMenu={handleRightClick}>
 			<p className="entry-name">{name}</p>
 			<button onClick={openModal}>
 				<CalendarMonth />

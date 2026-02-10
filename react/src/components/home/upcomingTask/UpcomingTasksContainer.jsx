@@ -4,10 +4,14 @@ import { fetchUpcomingTasks } from "../../../features/upcomingTasks/upcomingTask
 import { useEffect } from "react";
 import { UpcomingTask } from "./UpcomingTask";
 import { RescheduleModal } from "./RescheduleModal";
+import { OperationModal } from "../OperationModal";
 
 export function UpcomingTasksContainer() {
 	const [modalOpen, setModalOpen] = useState(false);
 	const [currentTask, setCurrentTask] = useState(null);
+	const [operationModalOpen, setOperationModalOpen] = useState(false);
+	const [operationModalPos, setOperationModalPos] = useState(null);
+
 	const upcomingTasks = useSelector((state) =>
 		state.upcomingTasks.allIds.map((id) => state.upcomingTasks.byId[id]),
 	);
@@ -30,6 +34,11 @@ export function UpcomingTasksContainer() {
 							setModalOpen(true);
 							setCurrentTask(task);
 						}}
+						openOperationModal={(position) => {
+							setCurrentTask({ id: task._id, isHabit: false });
+							setOperationModalPos(position);
+							setOperationModalOpen(true);
+						}}
 					/>
 				);
 			})}
@@ -38,6 +47,12 @@ export function UpcomingTasksContainer() {
 				setOpen={setModalOpen}
 				id={currentTask?._id}
 				curDate={currentTask?.scheduledOn}
+			/>
+			<OperationModal
+				instance={currentTask}
+				open={operationModalOpen}
+				position={operationModalPos}
+				close={() => setOperationModalOpen(false)}
 			/>
 		</div>
 	);
