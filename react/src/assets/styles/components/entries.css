@@ -1,9 +1,13 @@
-.entries-container {
+.entries-container,
+.date-container {
 	display: flex;
 	padding: 1rem;
 	flex-direction: column;
 	gap: 2px;
 	align-items: center;
+}
+
+.entries-container {
 	transition: margin 300ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
@@ -74,4 +78,8 @@
 	padding: 1px 2px;
 	line-height: 1;
 	font-size: 12px;
+}
+
+.date-container span {
+	margin-bottom: 0.8rem;
 }

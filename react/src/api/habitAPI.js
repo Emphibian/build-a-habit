@@ -195,6 +195,16 @@ async function rescheduleTask(id, date) {
 	return data.task;
 }
 
+const getCompletedTasks = async () => {
+	const path = `/api/tasks/completed`;
+	const response = await fetch(generateURL(path), {
+		credentials: "include",
+	});
+
+	const data = await response.json();
+	return data.tasks;
+};
+
 export default {
 	getHabits,
 	getTasks,
@@ -210,4 +220,5 @@ export default {
 	getTodayDuration,
 	updateName,
 	rescheduleTask,
+	getCompletedTasks,
 };

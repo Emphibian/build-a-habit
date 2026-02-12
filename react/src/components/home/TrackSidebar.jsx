@@ -1,3 +1,4 @@
+import { DeleteTrackButton } from "../../components/home/tracks/DeleteTrackButton";
 import CloseIcon from "../../assets/svgs/close.svg?react";
 
 export function TrackSidebar({ track, isOpen, close }) {
@@ -6,7 +7,7 @@ export function TrackSidebar({ track, isOpen, close }) {
 			<div className="sidebar sidebar-right">
 				<ul>
 					<li>
-						<DeleteButton id={track.id} closeSidebar={close} />
+						<DeleteTrackButton id={track.id} closeSidebar={close} />
 					</li>
 					<li>
 						<button onClick={close}>

@@ -8,6 +8,7 @@ import userAPI from "../api/userAPI.js";
 import { TimerProvider } from "../contexts/TimerContext.jsx";
 import { TrackContainer } from "../components/home/TrackContainer.jsx";
 import { UpcomingTasksContainer } from "../components/home/upcomingTask/UpcomingTasksContainer.jsx";
+import { ArchivedTaskContainer } from "../components/home/archivedTasks/ArchivedTaskContainer.jsx";
 
 import DehazeIcon from "../assets/svgs/dehaze.svg?react";
 
@@ -79,6 +80,8 @@ export function Home() {
 		innerComponent = <TrackContainer />;
 	} else if (tab == "Upcoming Tasks") {
 		innerComponent = <UpcomingTasksContainer />;
+	} else if (tab == "Archived Tasks") {
+		innerComponent = <ArchivedTaskContainer />;
 	}
 
 	return (

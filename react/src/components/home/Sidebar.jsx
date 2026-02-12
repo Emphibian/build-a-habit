@@ -13,6 +13,7 @@ export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 		{ name: "Today", icon: <TodayIcon fill={fill} /> },
 		{ name: "Tracks", icon: <TrackIcon fill={fill} /> },
 		{ name: "Upcoming Tasks", icon: <UpcomingIcon fill={fill} /> },
+		{ name: "Archived Tasks", icon: <UpcomingIcon fill={fill} /> },
 	];
 
 	const sidebarRef = useRef(null);
@@ -54,7 +55,7 @@ export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 						return (
 							<li key={curTab.name} className="selected">
 								<span className="icon">{curTab.icon}</span>
-								<Tab name={curTab.name} handleClick={() => { }} />
+								<Tab name={curTab.name} handleClick={() => {}} />
 							</li>
 						);
 					} else {

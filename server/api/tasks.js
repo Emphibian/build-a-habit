@@ -35,7 +35,9 @@ router.get("/tasks/completed", verifyToken, async (req, res) => {
 	try {
 		const userId = req.id;
 
-		const completedTasks = await Task.find({ userId, completed: true }).exec();
+		const completedTasks = await Task.find({ userId, completed: true })
+			.sort({ compledtedOn: "desc" })
+			.exec();
 		res.status(201).json({ tasks: completedTasks });
 	} catch (error) {
 		console.error(error);
