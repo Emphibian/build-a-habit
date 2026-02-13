@@ -16,9 +16,12 @@ export const DateContainer = ({ tasks, date }) => {
 
 	return (
 		<div className="date-container">
-			<span>{dateString}</span>
+			<div className="date-area">
+				<div className="date">{dateString}</div>
+				<div className="date-line"></div>
+			</div>
 			{tasks.map((task) => {
-				return <TaskName name={task.name} />;
+				return <TaskName name={task.name} id={task._id} />;
 			})}
 		</div>
 	);

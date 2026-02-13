@@ -1,0 +1,18 @@
+.date-area {
+	display: flex;
+	align-items: center;
+	width: 96%;
+	gap: 0.5rem;
+	margin-bottom: 0.1rem;
+}
+
+.date-line {
+	flex: 1 1 auto;
+	height: 0.1rem;
+	background: var(--gray);
+}
+
+.date-area .date {
+	font-size: 1rem;
+	font-weight: 700;
+}
