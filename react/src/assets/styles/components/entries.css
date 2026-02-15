@@ -21,12 +21,14 @@
 	}
 }
 
-.entries-container .entry:first-child {
+.entries-container .entry:first-child,
+.date-container .entry:nth-child(2) {
 	border-top-left-radius: 5px;
 	border-top-right-radius: 5px;
 }
 
-.entries-container .entry:last-child {
+.entries-container .entry:last-child,
+.date-container .entry:last-child {
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -63,7 +65,7 @@
 }
 
 .entry button svg {
-	width: 28px;
+	width: 24px;
 }
 
 .entry div.time-badge {
@@ -82,4 +84,12 @@
 
 .date-container span {
 	margin-bottom: 0.8rem;
+}
+
+.date-container {
+	margin-bottom: 3rem;
+}
+
+.date-container .entry button {
+	padding-right: 0;
 }
