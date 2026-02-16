@@ -1,11 +1,11 @@
 .navbar {
+	position: fixed;
+	top: 0;
+	bottom: 0;
 	width: max(200px, 15%);
-	height: 100vh;
-	flex: 0 0 auto;
 	background-color: var(--navbar-bg);
 	z-index: 1;
 	border-right: 1px solid var(--navbar-border);
-	position: absolute;
 	transition: transform 400ms cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 

@@ -85,17 +85,13 @@ div.exceeded-area-inner span {
 	margin-bottom: 0;
 }
 
-.exceed-enter-active {
+.exceed-enter-active,
+.exceed-exit {
 	max-height: 200px;
 	margin-bottom: 1rem;
 	transition:
 		max-height 500ms ease-in,
 		margin 500ms ease-in;
-}
-
-.exceed-exit {
-	max-height: 200px;
-	margin-bottom: 1rem;
 }
 
 .exceed-exit-active {
