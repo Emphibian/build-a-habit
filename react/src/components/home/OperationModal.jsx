@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { CSSTransition } from "react-transition-group";
 
 import { DeleteButton } from "./DeleteButton";
 import { UpdateEstimateButton } from "./UpdateEstimateButton";
@@ -7,6 +8,7 @@ import { FocusSessionButton } from "./operations/FocusSessionButton";
 
 export function OperationModal({ position, instance, open, close }) {
 	const menuRef = useRef(null);
+	const nodeRef = useRef(null);
 
 	if (!open) return null;
 
@@ -26,25 +28,34 @@ export function OperationModal({ position, instance, open, close }) {
 	today.setHours(0, 0, 0, 0);
 
 	return (
-		<div className="operation-modal-overlay" onClick={close}>
-			<div
-				className="operation-modal"
-				onClick={(e) => e.stopPropagation()}
-				style={{ left: `${left}px`, top: `${top}px` }}
-			>
-				<FocusSessionButton timerHabit={instance} />
-				<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
-				<RescheduleButton
-					id={instance.id}
-					isHabit={instance.isHabit}
-					currentDate={today.toString()}
-				/>
-				<DeleteButton
-					id={instance.id}
-					isHabit={instance.isHabit}
-					closeSidebar={close}
-				/>
+		<CSSTransition
+			nodeRef={nodeRef}
+			in={open}
+			timeout={500}
+			classNames="operation-modal"
+			unmountOnExit
+		>
+			<div className="operation-modal-overlay" onClick={close}>
+				<div
+					ref={nodeRef}
+					className="operation-modal"
+					onClick={(e) => e.stopPropagation()}
+					style={{ left: `${left}px`, top: `${top}px` }}
+				>
+					<FocusSessionButton timerHabit={instance} />
+					<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
+					<RescheduleButton
+						id={instance.id}
+						isHabit={instance.isHabit}
+						currentDate={today.toString()}
+					/>
+					<DeleteButton
+						id={instance.id}
+						isHabit={instance.isHabit}
+						closeSidebar={close}
+					/>
+				</div>
 			</div>
-		</div>
+		</CSSTransition>
 	);
 }

@@ -1,8 +1,10 @@
 import { useRef } from "react";
 import { DeleteTrackButton } from "../tracks/DeleteTrackButton";
+import { CSSTransition } from "react-transition-group";
 
 export function OperationModalTrack({ position, instance, open, close }) {
 	const menuRef = useRef(null);
+	const nodeRef = useRef(null);
 
 	if (!open) return null;
 
@@ -19,14 +21,23 @@ export function OperationModalTrack({ position, instance, open, close }) {
 		top = innerHeight - menuRect.height - 4;
 
 	return (
-		<div className="operation-modal-overlay" onClick={close}>
-			<div
-				className="operation-modal"
-				onClick={(e) => e.stopPropagation()}
-				style={{ left: `${left}px`, top: `${top}px` }}
-			>
-				<DeleteTrackButton id={instance.id} closeSidebar={close} />
+		<CSSTransition
+			nodeRef={nodeRef}
+			in={open}
+			timeout={500}
+			classNames="operation-modal"
+			unmountOnExit
+		>
+			<div className="operation-modal-overlay" onClick={close}>
+				<div
+					ref={nodeRef}
+					className="operation-modal"
+					onClick={(e) => e.stopPropagation()}
+					style={{ left: `${left}px`, top: `${top}px` }}
+				>
+					<DeleteTrackButton id={instance.id} closeSidebar={close} />
+				</div>
 			</div>
-		</div>
+		</CSSTransition>
 	);
 }

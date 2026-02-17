@@ -1,0 +1,13 @@
+.fade-enter,
+.operation-modal-enter {
+	opacity: 0;
+}
+
+.fade-enter-active,
+.operation-modal-enter-active {
+	opacity: 1;
+	transform: scale(2);
+	transition:
+		opacity 500ms ease-in,
+		transform 500ms ease-in;
+}

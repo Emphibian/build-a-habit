@@ -15,6 +15,8 @@
 @import "./components/notification-modal.css";
 @import "./components/today-metrics.css";
 @import "./classes.css";
+@import "./body.css";
+@import "./transitions.css";
 @import "./components/dial.css";
 @import "./components/operation-modal.css";
 @import "./components/focus-session.css";
