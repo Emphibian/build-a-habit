@@ -2,7 +2,7 @@ import { useRef } from "react";
 
 const prettyPrintTime = (time) => {
 	const minutes = Math.floor(time / 60);
-	const seconds = String(time).padStart(2, "0");
+	const seconds = String(time % 60).padStart(2, "0");
 
 	return `${minutes}:${seconds}`;
 };

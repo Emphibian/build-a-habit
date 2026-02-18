@@ -10,7 +10,12 @@ export function OperationModal({ position, instance, open, close }) {
 	const menuRef = useRef(null);
 	const nodeRef = useRef(null);
 
-	if (!open) return null;
+	if (!open && !position?.x && !position?.y) {
+		position = {
+			x: 0,
+			y: 0,
+		};
+	}
 
 	const { innerWidth, innerHeight } = window;
 	const menu = menuRef.current;
@@ -31,8 +36,8 @@ export function OperationModal({ position, instance, open, close }) {
 		<CSSTransition
 			nodeRef={nodeRef}
 			in={open}
-			timeout={500}
-			classNames="operation-modal"
+			timeout={0}
+			classNames="fade"
 			unmountOnExit
 		>
 			<div className="operation-modal-overlay" onClick={close}>
@@ -43,15 +48,15 @@ export function OperationModal({ position, instance, open, close }) {
 					style={{ left: `${left}px`, top: `${top}px` }}
 				>
 					<FocusSessionButton timerHabit={instance} />
-					<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
+					<UpdateEstimateButton id={instance?.id} isHabit={instance?.isHabit} />
 					<RescheduleButton
-						id={instance.id}
-						isHabit={instance.isHabit}
+						id={instance?.id}
+						isHabit={instance?.isHabit}
 						currentDate={today.toString()}
 					/>
 					<DeleteButton
-						id={instance.id}
-						isHabit={instance.isHabit}
+						id={instance?.id}
+						isHabit={instance?.isHabit}
 						closeSidebar={close}
 					/>
 				</div>

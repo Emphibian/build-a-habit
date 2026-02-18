@@ -1,13 +1,22 @@
 .fade-enter,
 .operation-modal-enter {
+	transform: scale(0.8);
 	opacity: 0;
 }
 
 .fade-enter-active,
 .operation-modal-enter-active {
+	transform: none;
 	opacity: 1;
-	transform: scale(2);
 	transition:
-		opacity 500ms ease-in,
-		transform 500ms ease-in;
+		transform 140ms cubic-bezier(0.18, 0.89, 0.32, 1.28),
+		opacity 140ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.fade-exit,
+.operation-modal-exit {
+}
+
+.fade-exit-active,
+.operation-modal-exit-active {
 }

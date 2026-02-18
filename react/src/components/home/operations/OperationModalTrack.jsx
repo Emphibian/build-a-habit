@@ -6,7 +6,12 @@ export function OperationModalTrack({ position, instance, open, close }) {
 	const menuRef = useRef(null);
 	const nodeRef = useRef(null);
 
-	if (!open) return null;
+	if (!open && !position?.x && !position?.y) {
+		position = {
+			x: 0,
+			y: 0,
+		};
+	}
 
 	const { innerWidth, innerHeight } = window;
 	const menu = menuRef.current;
@@ -24,8 +29,8 @@ export function OperationModalTrack({ position, instance, open, close }) {
 		<CSSTransition
 			nodeRef={nodeRef}
 			in={open}
-			timeout={500}
-			classNames="operation-modal"
+			timeout={0}
+			classNames="fade"
 			unmountOnExit
 		>
 			<div className="operation-modal-overlay" onClick={close}>
@@ -35,7 +40,7 @@ export function OperationModalTrack({ position, instance, open, close }) {
 					onClick={(e) => e.stopPropagation()}
 					style={{ left: `${left}px`, top: `${top}px` }}
 				>
-					<DeleteTrackButton id={instance.id} closeSidebar={close} />
+					<DeleteTrackButton id={instance?.id} closeSidebar={close} />
 				</div>
 			</div>
 		</CSSTransition>
