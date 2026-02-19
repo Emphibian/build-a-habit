@@ -1,19 +1,29 @@
-.ripple-button {
+[anim="ripple"] {
+	--ripple-background: rgba(0, 0, 0, 0.6);
+	--ripple-opacity: 0.3;
+	--ripple-duration: 400ms;
+	--ripple-easing: linear;
+
 	position: relative;
 	overflow: hidden;
 }
 
-.ripple {
+[anim="ripple"]:before {
+	content: "";
 	position: absolute;
-	background: rgba(0, 0, 0, 0.3);
+	display: block;
+	background: var(--ripple-background, white);
 	border-radius: 50%;
-	transform: scale(0);
-	animation: ripple-animation 0.7s linear;
-}
+	pointer-events: none;
 
-@keyframes ripple-animation {
-	to {
-		transform: scale(3);
-		opacity: 0;
-	}
+	top: calc(var(--y) * 1px);
+	left: calc(var(--x) * 1px);
+	width: calc(var(--d) * 1px);
+	height: calc(var(--d) * 1px);
+
+	opacity: calc(var(--o, 1) * var(--ripple-opacity, 0.3));
+	transition: calc(var(--t, 0) * var(--ripple-duration, 600ms))
+		var(--ripple-easing, linear);
+	transform: translate(-50%, -50%) scale(var(--s, 1));
+	transform-origin: center;
 }

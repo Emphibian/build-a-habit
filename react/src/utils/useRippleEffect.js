@@ -4,30 +4,12 @@ const useRippleEffect = () => {
 	const rippleRef = useRef(null);
 
 	const triggerRipple = (event) => {
-		const ripple = document.createElement("span");
-		ripple.className = "ripple";
-		const { offsetWidth, offsetHeight } = rippleRef.current;
-		const { clientX, clientY } = event;
-
-		const x =
-			clientX -
-			rippleRef.current.getBoundingClientRect().left -
-			offsetWidth / 2;
-		const y =
-			clientY -
-			rippleRef.current.getBoundingClientRect().top -
-			offsetHeight / 2;
-
-		ripple.style.left = `${x}px`;
-		ripple.style.top = `${y}px`;
-		ripple.style.height = `${Math.max(offsetWidth, offsetHeight)}px`;
-		ripple.style.width = `${Math.max(offsetWidth, offsetHeight)}px`;
-
-		rippleRef.current.appendChild(ripple);
-
-		setTimeout(() => {
-			ripple.remove();
-		}, 600);
+		event = event.touches ? event.touches[0] : event;
+		const r = rippleRef.current.getBoundingClientRect(),
+			d = Math.sqrt(Math.pow(r.width, 2) + Math.pow(r.height, 2)) * 2;
+		rippleRef.current.style.cssText = `--s: 0; --o: 1;`;
+		rippleRef.current.offsetTop;
+		rippleRef.current.style.cssText = `--t: 1; --o: 0; --d: ${d}; --x:${event.clientX - r.left}; --y:${event.clientY - r.top};`;
 	};
 
 	return [rippleRef, triggerRipple];

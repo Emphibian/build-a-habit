@@ -4,7 +4,7 @@ export const RippleButton = ({ children }) => {
 	const [ref, triggerRipple] = useRippleEffect();
 
 	return (
-		<div ref={ref} onClick={triggerRipple} className="ripple-button">
+		<div ref={ref} onClick={triggerRipple} anim="ripple">
 			{children}
 		</div>
 	);

@@ -46,10 +46,6 @@
 	width: 100%;
 }
 
-.navbar li:hover {
-	background-color: var(--navbar-li-hover-bg);
-}
-
 .navbar .icon {
 	display: flex;
 	align-items: center;
