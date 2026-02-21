@@ -73,10 +73,6 @@
 	width: 100%;
 }
 
-.sidebar li:hover {
-	background-color: var(--habit-bg-hover);
-}
-
 .sidebar .icon {
 	width: 1.5rem;
 	margin-left: 0.7rem;

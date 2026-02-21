@@ -54,16 +54,16 @@ export function Sidebar({ tab, setTab, sidebarOpen, setSidebarOpen }) {
 				{tabs.map((curTab) => {
 					if (tab === curTab.name) {
 						return (
-							<RippleButton>
-								<li key={curTab.name} className="selected">
+							<RippleButton key={curTab.name}>
+								<li className="selected">
 									<span className="icon">{curTab.icon}</span>
-									<Tab name={curTab.name} handleClick={() => {}} />
+									<Tab name={curTab.name} handleClick={() => { }} />
 								</li>
 							</RippleButton>
 						);
 					} else {
 						return (
-							<RippleButton>
+							<RippleButton key={curTab.name}>
 								<li key={curTab.name} onClick={() => setTab(curTab.name)}>
 									<span className="icon">{curTab.icon}</span>
 									<Tab
