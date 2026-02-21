@@ -1,6 +1,7 @@
 import { useRef } from "react";
 import { DeleteTrackButton } from "../tracks/DeleteTrackButton";
 import { CSSTransition } from "react-transition-group";
+import { RippleButton } from "../general/RippleButton";
 
 export function OperationModalTrack({ position, instance, open, close }) {
 	const menuRef = useRef(null);
@@ -40,7 +41,9 @@ export function OperationModalTrack({ position, instance, open, close }) {
 					onClick={(e) => e.stopPropagation()}
 					style={{ left: `${left}px`, top: `${top}px` }}
 				>
-					<DeleteTrackButton id={instance?.id} closeSidebar={close} />
+					<RippleButton>
+						<DeleteTrackButton id={instance?.id} closeSidebar={close} />
+					</RippleButton>
 				</div>
 			</div>
 		</CSSTransition>

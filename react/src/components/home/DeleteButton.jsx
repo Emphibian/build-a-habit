@@ -7,9 +7,12 @@ export function DeleteButton({ id, isHabit, closeSidebar }) {
 	const dispatch = useDispatch();
 
 	function handleClick() {
-		if (isHabit) dispatch(deleteHabit(id));
-		else dispatch(deleteTask(id));
-		closeSidebar();
+		const RIPPLE_EFFECT_LENGTH = 150;
+		setTimeout(() => {
+			if (isHabit) dispatch(deleteHabit(id));
+			else dispatch(deleteTask(id));
+			closeSidebar();
+		}, RIPPLE_EFFECT_LENGTH);
 	}
 
 	return (

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { RippleButton } from "./general/RippleButton.jsx";
 
 import {
 	updateEstimate,
@@ -34,27 +35,28 @@ export function UpdateEstimateButton({ id, isHabit }) {
 		setTimeSpent(initialTimeSpent);
 	}, []);
 
-	const handleUpdate = async function (event) {
+	const handleUpdate = function (event) {
 		event.preventDefault();
 		if (isHabit) {
 			if (initialEstimate != estimate) {
-				await dispatch(updateEstimate({ id, estimate }));
+				dispatch(updateEstimate({ id, estimate }));
 			}
 			if (initialTimeSpent != timeSpent) {
-				await dispatch(updateTimeSpent({ id, timeSpent }));
+				dispatch(updateTimeSpent({ id, timeSpent }));
 			}
 		} else {
 			if (initialEstimate != estimate)
-				await dispatch(setTaskEstimate({ id, estimate }));
+				dispatch(setTaskEstimate({ id, estimate }));
 			if (initialTimeSpent != timeSpent)
-				await dispatch(setTaskTime({ id, timeSpent }));
+				dispatch(setTaskTime({ id, timeSpent }));
 		}
 
 		closeModal();
 	};
 
 	const openModal = function () {
-		setModalOpen(true);
+		const RIPPLE_EFFECT_LENGTH = 150;
+		setTimeout(() => setModalOpen(true), RIPPLE_EFFECT_LENGTH);
 	};
 
 	const closeModal = function () {

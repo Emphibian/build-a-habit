@@ -5,6 +5,7 @@ import { DeleteButton } from "./DeleteButton";
 import { UpdateEstimateButton } from "./UpdateEstimateButton";
 import { RescheduleButton } from "./today/RescheduleButton";
 import { FocusSessionButton } from "./operations/FocusSessionButton";
+import { RippleButton } from "./general/RippleButton";
 
 export function OperationModal({ position, instance, open, close }) {
 	const menuRef = useRef(null);
@@ -47,18 +48,29 @@ export function OperationModal({ position, instance, open, close }) {
 					onClick={(e) => e.stopPropagation()}
 					style={{ left: `${left}px`, top: `${top}px` }}
 				>
-					<FocusSessionButton timerHabit={instance} />
-					<UpdateEstimateButton id={instance?.id} isHabit={instance?.isHabit} />
-					<RescheduleButton
-						id={instance?.id}
-						isHabit={instance?.isHabit}
-						currentDate={today.toString()}
-					/>
-					<DeleteButton
-						id={instance?.id}
-						isHabit={instance?.isHabit}
-						closeSidebar={close}
-					/>
+					<RippleButton>
+						<FocusSessionButton timerHabit={instance} />
+					</RippleButton>
+					<RippleButton>
+						<UpdateEstimateButton
+							id={instance?.id}
+							isHabit={instance?.isHabit}
+						/>
+					</RippleButton>
+					<RippleButton>
+						<RescheduleButton
+							id={instance?.id}
+							isHabit={instance?.isHabit}
+							currentDate={today.toString()}
+						/>
+					</RippleButton>
+					<RippleButton>
+						<DeleteButton
+							id={instance?.id}
+							isHabit={instance?.isHabit}
+							closeSidebar={close}
+						/>
+					</RippleButton>
 				</div>
 			</div>
 		</CSSTransition>

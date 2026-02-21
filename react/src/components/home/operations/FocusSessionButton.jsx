@@ -163,7 +163,8 @@ export const FocusSessionButton = ({ timerHabit }) => {
 	if (!timerHabit?.isHabit) return null;
 
 	const openModal = () => {
-		setModalOpen(true);
+		const RIPPLE_EFFECT_LENGTH = 150;
+		setTimeout(() => setModalOpen(true), RIPPLE_EFFECT_LENGTH);
 	};
 
 	const closeModal = () => {

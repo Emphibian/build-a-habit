@@ -5,8 +5,11 @@ import DeleteIcon from "../../../assets/svgs/delete.svg?react";
 export function DeleteTrackButton({ id, closeSidebar }) {
 	const dispatch = useDispatch();
 	async function handleClick() {
-		dispatch(deleteTrack(id));
-		closeSidebar();
+		const RIPPLE_EFFECT_LENGTH = 150;
+		setTimeout(() => {
+			dispatch(deleteTrack(id));
+			closeSidebar();
+		}, RIPPLE_EFFECT_LENGTH);
 	}
 
 	return (

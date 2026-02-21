@@ -8,6 +8,14 @@ export function RescheduleButton({ id, isHabit = true, currentDate }) {
 	const [modalOpen, setModalOpen] = useState(false);
 
 	if (isHabit) return null;
+
+	const handleClick = () => {
+		const RIPPLE_EFFECT_LENGTH = 150;
+		setTimeout(() => {
+			setModalOpen(true);
+		}, RIPPLE_EFFECT_LENGTH);
+	};
+
 	let modal = "";
 	if (modalOpen) {
 		const modalDiv = (
@@ -25,7 +33,7 @@ export function RescheduleButton({ id, isHabit = true, currentDate }) {
 	return (
 		<>
 			{modal}
-			<button onClick={() => setModalOpen(true)}>
+			<button onClick={handleClick}>
 				<CalendarIcon />
 				Reschedule
 			</button>

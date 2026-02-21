@@ -1,6 +1,7 @@
 import { DeleteButton } from "./DeleteButton.jsx";
 import { UpdateEstimateButton } from "./UpdateEstimateButton.jsx";
 import CloseIcon from "../../assets/svgs/close.svg?react";
+import { RippleButton } from "./general/RippleButton.jsx";
 
 function CloseButton({ close }) {
 	return (
@@ -16,19 +17,28 @@ export function HabitSidebar({ instance, open, close }) {
 		return (
 			<div className="sidebar sidebar-right">
 				<ul>
-					<li>
-						<UpdateEstimateButton id={instance.id} isHabit={instance.isHabit} />
-					</li>
-					<li>
-						<DeleteButton
-							id={instance.id}
-							isHabit={instance.isHabit}
-							closeSidebar={close}
-						/>
-					</li>
-					<li>
-						<CloseButton close={close} />
-					</li>
+					<RippleButton>
+						<li>
+							<UpdateEstimateButton
+								id={instance.id}
+								isHabit={instance.isHabit}
+							/>
+						</li>
+					</RippleButton>
+					<RippleButton>
+						<li>
+							<DeleteButton
+								id={instance.id}
+								isHabit={instance.isHabit}
+								closeSidebar={close}
+							/>
+						</li>
+					</RippleButton>
+					<RippleButton>
+						<li>
+							<CloseButton close={close} />
+						</li>
+					</RippleButton>
 				</ul>
 			</div>
 		);

@@ -14,7 +14,7 @@ div.operation-modal {
 		0px 5px 5px -3px rgba(0, 0, 0, 0.2);
 }
 
-.operation-modal > button {
+.operation-modal button {
 	display: flex;
 	width: 100%;
 	justify-content: flex-start;
@@ -28,11 +28,11 @@ div.operation-modal {
 	font-size: 0.8rem;
 	text-align: left;
 }
-
-.operation-modal button:hover {
-	background-color: rgba(0, 0, 0, 0.04);
-}
-
+/**/
+/* .operation-modal button:hover { */
+/* 	background-color: rgba(0, 0, 0, 0.04); */
+/* } */
+/**/
 .operation-modal button svg {
 	margin-right: 10px;
 	width: 20px;
